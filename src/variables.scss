@@ -1,0 +1,66 @@
+:root {
+  --color-primary-a0: #ffffff;
+  --color-primary-a10: #d0cfd1;
+  --color-primary-a20: #b093fb;
+  --color-primary-a30: #8060f6;
+  --color-primary-a40: #007bff;
+  --color-primary-a50: #0059ff;
+  --color-primary-a60: #3223ae;
+  --color-primary-a70: #291b71;
+  --color-primary-a80: #1b1239;
+  --color-primary-a90: #000000;
+
+  --color-primary-b10: #dc3545;
+  --color-primary-b20: #ffd700;
+  --color-primary-b30: #4caf50;
+  --color-primary-b40: #2196f3;
+
+  --color-secondary-a0: #ffffff;
+  --color-secondary-a10: #dcdcdd;
+  --color-secondary-a20: #bababc;
+  --color-secondary-a30: #99999c;
+  --color-secondary-a50: #79797d;
+  --color-secondary-a60: #5a5a5d;
+  --color-secondary-a70: #3c3c3e;
+  --color-secondary-a80: #212122;
+  --color-secondary-a90: #000000;
+
+  --primary-button-color: var(--color-primary-a40);
+  --primary-button-hover-color: var(--color-primary-a50);
+  --primary-button-text-color: var(--color-primary-a0);
+  --primary-background-color: var(--color-primary-a10);
+  --primary-text-color: var(--color-primary-a90);
+  --primary-border-color: var(--color-primary-a10);
+  --primary-shadow-color: rgba(0, 0, 0, 0.1);
+  --primary-error-color: var(--color-primary-b10);
+  --primary-error-border-color: var(--color-primary-b10);
+  --primary-success-border-color: var(--color-primary-b30);
+  --primary-box-shadow: 0 45px 65px var(--primary-shadow-color), 0 35px 22px;
+
+  --secondary-shadow-color: rgba(0, 0, 0, 0.45);
+  --secondary-text-color: var(--color-secondary-a60);
+  --secondary-background-color: var(--color-secondary-a0);
+  --secondary-box-shadow: 0 0 10px 0 var(--secondary-shadow-color) inset;
+
+  --primary-font-family: 'Georgia', sans-serif;
+  --secondary-font-family: 'Open Sans', sans-serif;
+
+  --primary-sm-font-size: 1.25rem;
+  --primary-md-font-size: 1.3rem;
+  --primary-lg-font-size: 1.4rem;
+
+  --primary-sm-font-weight: 400;
+  --primary-md-font-weight: 500;
+  --primary-lg-font-weight: 700;
+
+  --primary-sm-font-height: 1.1;
+  --primary-md-font-height: 1.3;
+  --primary-lg-font-height: 1.5;
+
+  --primary-sm-font: var(--primary-sm-font-weight) var(--primary-sm-font-size) /
+    var(--primary-sm-font-height) var(--primary-font-family);
+  --primary-md-font: var(--primary-md-font-weight) var(--primary-md-font-size) /
+    var(--primary-md-font-height) var(--primary-font-family);
+  --primary-lg-font: var(--primary-lg-font-weight) var(--primary-lg-font-size) /
+    var(--primary-lg-font-height) var(--primary-font-family);
+}
