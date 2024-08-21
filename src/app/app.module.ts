@@ -7,6 +7,7 @@ import { StoreModule } from '@ngrx/store';
 // eslint-disable-next-line import/extensions
 import { environment } from '../environments/environment';
 
+import { SearchModule } from './features/search/search.module';
 import { ENVIRONMENT } from './shared/services/environment.service';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -19,6 +20,7 @@ import { AppRoutingModule } from './app-routing.module';
     AppRoutingModule,
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([]),
+    SearchModule,
   ],
   providers: [{ provide: ENVIRONMENT, useValue: environment }],
   bootstrap: [AppComponent],
