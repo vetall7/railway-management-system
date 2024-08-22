@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SearchTripModule } from '@features/search-trip/search-trip.module';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 // eslint-disable-next-line import/extensions
 import { environment } from '../environments/environment';
 
-import { SearchModule } from './features/search/search.module';
 import { ENVIRONMENT } from './shared/services/environment.service';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -20,7 +20,7 @@ import { AppRoutingModule } from './app-routing.module';
     AppRoutingModule,
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([]),
-    SearchModule,
+    SearchTripModule,
   ],
   providers: [{ provide: ENVIRONMENT, useValue: environment }],
   bootstrap: [AppComponent],
