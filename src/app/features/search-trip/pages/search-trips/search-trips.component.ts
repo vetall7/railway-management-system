@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { SearchAutocompleteService } from '@features/search-trip/services';
+import { FetchTripsService } from '@features/search-trip/services/fetch-trips.service';
 import { dateValidator } from '@features/search-trip/validators/date-validator.directive';
 
 @Component({
@@ -18,7 +19,9 @@ import { dateValidator } from '@features/search-trip/validators/date-validator.d
 export class SearchTripsComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
 
-  protected readonly autoCompleteService = inject(SearchAutocompleteService);
+  private readonly autoCompleteService = inject(SearchAutocompleteService);
+
+  protected readonly fetchTripsService = inject(FetchTripsService);
 
   protected readonly form = this.formBuilder.group({
     from: ['', Validators.required],
@@ -34,14 +37,21 @@ export class SearchTripsComponent implements OnInit {
   }
 
   protected onSubmit(): void {
-    const { from } = this.form.value;
-    const { to } = this.form.value;
-    if (from && to) {
+    const { from, to, date, time } = this.form.value;
+    if (from && to && date) {
       const cityFrom = this.autoCompleteService.getCityByName(from);
       const cityTo = this.autoCompleteService.getCityByName(to);
 
-      console.log('City from:', cityFrom);
-      console.log('City to:', cityTo);
+      const mergedTime = time ? `${date} ${time}` : date;
+      const unixTime = new Date(mergedTime).valueOf();
+
+      if (cityFrom && cityTo) {
+        this.fetchTripsService.fetchTrips(
+          cityFrom,
+          cityTo,
+          unixTime.toString(),
+        );
+      }
     }
   }
 
@@ -51,5 +61,9 @@ export class SearchTripsComponent implements OnInit {
     this.filteredCities = this.filteredCities.filter((city) =>
       city.toLowerCase().includes(query.toLowerCase()),
     );
+  }
+
+  public getFilteredCities(): string[] {
+    return this.filteredCities;
   }
 }

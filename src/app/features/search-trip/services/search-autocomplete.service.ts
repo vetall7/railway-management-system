@@ -1,16 +1,11 @@
 /* eslint-disable no-console */
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
+import { City } from '@features/search-trip/models/city';
 
 interface Station {
   id: number;
   city: string;
-  latitude: number;
-  longitude: number;
-}
-
-export interface City {
-  name: string;
   latitude: number;
   longitude: number;
 }

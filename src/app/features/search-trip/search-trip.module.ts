@@ -7,8 +7,11 @@ import { SearchAutocompleteService } from '@features/search-trip/services';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CalendarModule } from 'primeng/calendar';
 
+import { SingleTripComponent } from './components/single-trip/single-trip.component';
+import { FetchTripsService } from './services/fetch-trips.service';
+
 @NgModule({
-  declarations: [SearchTripsComponent],
+  declarations: [SearchTripsComponent, SingleTripComponent],
   imports: [
     CommonModule,
     CalendarModule,
@@ -17,6 +20,10 @@ import { CalendarModule } from 'primeng/calendar';
     FormsModule,
   ],
   exports: [SearchTripsComponent],
-  providers: [SearchAutocompleteService, provideHttpClient()],
+  providers: [
+    SearchAutocompleteService,
+    FetchTripsService,
+    provideHttpClient(),
+  ],
 })
 export class SearchTripModule {}
