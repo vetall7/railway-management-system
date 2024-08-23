@@ -1,5 +1,8 @@
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { GoogleMapsModule } from '@angular/google-maps';
 import { NavigationComponent } from '@features/admin/components';
 import {
   AdminComponent,
@@ -18,7 +21,13 @@ import { AdminRoutingModule } from './admin-routing.module';
     RoutesComponent,
     StationsComponent,
   ],
-  imports: [CommonModule, AdminRoutingModule],
+  imports: [
+    CommonModule,
+    AdminRoutingModule,
+    GoogleMapsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+  ],
   exports: [],
   providers: [],
 })
