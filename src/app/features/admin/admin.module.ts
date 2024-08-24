@@ -4,7 +4,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
 import {
   FormStationComponent,
+  LoaderComponent,
   NavigationComponent,
+  StationInfoComponent,
 } from '@features/admin/components';
 import {
   AdminComponent,
@@ -27,6 +29,8 @@ import { AdminRoutingModule } from './admin-routing.module';
     RoutesComponent,
     StationsComponent,
     FormStationComponent,
+    StationInfoComponent,
+    LoaderComponent,
   ],
   imports: [
     CommonModule,

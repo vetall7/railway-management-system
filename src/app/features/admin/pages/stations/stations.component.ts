@@ -1,23 +1,18 @@
 /* eslint-disable no-undef */
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  inject,
   OnInit,
   signal,
   ViewChild,
 } from '@angular/core';
 import { MapAdvancedMarker, MapInfoWindow } from '@angular/google-maps';
-import {
-  IDataFormStation,
-  IDataStation,
-  ILocation,
-  IUserMark,
-} from '@features/admin/models';
-import { StationService } from '@features/admin/services/station.service';
+import { IUserMark } from '@features/admin/models';
 import { Store } from '@ngrx/store';
 
 import * as AdminActions from '../../store/actions/admin.actions';
+import * as AdminSelectors from '../../store/selectors/admin.selector';
 
 @Component({
   selector: 'app-stations',
@@ -26,16 +21,20 @@ import * as AdminActions from '../../store/actions/admin.actions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StationsComponent implements OnInit {
+  private store = inject(Store);
+
   options: google.maps.MapOptions = {
     mapId: 'faab40f8d46a15b8',
     zoom: 4,
   };
 
-  nzLocations: ILocation[] = [];
+  nzLocations$ = this.store.select(AdminSelectors.selectGetStationLocations);
 
   @ViewChild(MapInfoWindow) infoWindow!: MapInfoWindow;
 
-  data: IDataFormStation[] = [];
+  data$ = this.store.select(AdminSelectors.selectGetStationData);
+
+  allStation$ = this.store.select(AdminSelectors.selectGetStations);
 
   userMark = signal<IUserMark>({
     show: false,
@@ -43,31 +42,6 @@ export class StationsComponent implements OnInit {
     lng: NaN,
     city: '',
   });
-
-  constructor(
-    private stationService: StationService,
-    private store: Store,
-    private cd: ChangeDetectorRef,
-  ) {
-    this.stationService.getStations().subscribe({
-      next: (data) => {
-        this.nzLocations = (data as IDataStation[]).map((el) => ({
-          lat: el.latitude,
-          lng: el.longitude,
-          city: el.city,
-        }));
-        this.data = (data as IDataStation[]).map((el) => ({
-          id: el.id,
-          city: el.city,
-          connectedTo: el.connectedTo,
-        }));
-        this.cd.markForCheck();
-      },
-      error: (error) => {
-        throw new Error(error);
-      },
-    });
-  }
 
   ngOnInit(): void {
     this.store.dispatch(AdminActions.getStations());

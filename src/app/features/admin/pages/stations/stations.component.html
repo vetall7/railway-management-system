@@ -15,7 +15,7 @@
               [position]="{ lat: userMark().lat, lng: userMark().lng }"
             />
           }
-          @for (location of nzLocations; track location) {
+          @for (location of nzLocations$ | async; track location) {
             <map-advanced-marker
               #marker="mapAdvancedMarker"
               [position]="{ lat: location.lat, lng: location.lng }"
@@ -30,14 +30,14 @@
       </div>
       <app-form-station
         [userMarkInput]="userMark()"
-        [dataInput]="data"
+        [dataInput]="data$ | async"
         (changed)="onChanged($event)"
       />
     </div>
-    <!-- <div class="stations">
-      @for (val of data; track val.id) {
-        <app-station></app-station>
+    <div class="stations">
+      @for (val of allStation$ | async; track val.id) {
+        <app-station-info [data]="val" />
       }
-    </div> -->
+    </div>
   </div>
 </div>

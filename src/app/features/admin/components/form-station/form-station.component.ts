@@ -20,7 +20,7 @@ import {
   styleUrl: './form-station.component.scss',
 })
 export class FormStationComponent implements DoCheck {
-  @Input() dataInput: IDataFormStation[] = [];
+  @Input() dataInput: IDataFormStation[] | null = [];
 
   @Input() userMarkInput: IUserMark = {
     show: false,
