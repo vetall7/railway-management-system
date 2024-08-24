@@ -36,6 +36,8 @@ export class StationsComponent implements OnInit {
 
   allStation$ = this.store.select(AdminSelectors.selectGetStations);
 
+  loading$ = this.store.select(AdminSelectors.selectGetIsLoading);
+
   userMark = signal<IUserMark>({
     show: false,
     lat: NaN,

@@ -120,6 +120,8 @@ export class FormStationComponent implements DoCheck {
   handleSubmit() {
     if (this.form.valid) {
       /* console.log(1); */
+    } else {
+      this.form.markAllAsTouched();
     }
   }
 

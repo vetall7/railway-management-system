@@ -73,5 +73,13 @@
       }
     </div>
   </div>
-  <button type="submit">Save</button>
+  <button
+    type="submit"
+    class="button"
+    [ngClass]="{
+      disabled: form.invalid,
+    }"
+  >
+    Save
+  </button>
 </form>
