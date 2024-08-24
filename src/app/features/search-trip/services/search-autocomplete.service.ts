@@ -1,40 +1,60 @@
 /* eslint-disable no-console */
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { City } from '@features/search-trip/models/city';
+import { Station } from '@features/search-trip/models/trips.model';
 
-interface Station {
+interface ConnectedStation {
+  id: number;
+  distance: number;
+}
+
+interface StationResponse {
   id: number;
   city: string;
   latitude: number;
   longitude: number;
+  connectedTo: ConnectedStation[];
 }
 
 @Injectable()
 export class SearchAutocompleteService {
-  private cities: WritableSignal<City[]> = signal([]);
+  private stations: WritableSignal<Station[]> = signal([]);
 
   private readonly httpClient = inject(HttpClient);
 
   public fetchCities(): void {
     const url = '/api/station';
 
-    this.httpClient.get<Station[]>(url).subscribe((stations) => {
-      this.cities.set(
-        stations.map((station) => ({
-          name: station.city,
-          latitude: station.latitude,
-          longitude: station.longitude,
-        })),
+    this.httpClient.get<StationResponse[]>(url).subscribe((stations) => {
+      const allStations = stations.map(
+        (station) =>
+          new Station({
+            stationId: station.id,
+            city: station.city,
+            geolocation: {
+              latitude: station.latitude,
+              longitude: station.longitude,
+            },
+          }),
       );
+
+      this.stations.set(allStations);
     });
   }
 
   public getCitiesNames(): string[] {
-    return this.cities().map((city) => city.name);
+    return this.stations().map((station) => station.city);
   }
 
-  public getCityByName(name: string): City | undefined {
-    return this.cities().find((city) => city.name === name);
+  public getCityByName(name: string): Station | undefined {
+    return this.stations().find((station) => station.city === name);
+  }
+
+  public getCityById(id: number): Station | undefined {
+    return this.stations().find((station) => station.stationId === id);
+  }
+
+  public getCities(): Station[] {
+    return this.stations();
   }
 }

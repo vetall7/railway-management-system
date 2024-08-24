@@ -51,14 +51,10 @@
   <p-button label="Submit" type="submit" [disabled]="form.invalid" />
 </form>
 
-<div>
-  @let trips = fetchTripsService.tripsSignal;
-  @if (trips) {
-    @for (trip of trips.routes; track $index) {
-      <app-single-trip
-        [trip]="trip"
-        [cityNames]="{ from: trips.from.city, to: trips.to.city }"
-      ></app-single-trip>
-    }
-  }
-</div>
+@if (this.fetchTripsService.getIsNotFound() === true) {
+  <div>
+    <small class="p-error">No trips found</small>
+  </div>
+} @else if (this.fetchTripsService.getIsAlreadyRequested() === true) {
+  <app-date-selector></app-date-selector>
+}

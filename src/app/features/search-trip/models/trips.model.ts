@@ -27,7 +27,7 @@ const StationSchema = z.object({
   geolocation: GeolocationSchema,
 });
 
-class Station {
+export class Station {
   stationId: number;
 
   city: string;
@@ -42,31 +42,14 @@ class Station {
   }
 }
 
-const SegmentTimeSchema = z.object({
-  departureFromPrevStation: z.string(),
-  arrivalAtNextStation: z.string(),
-});
-
-class SegmentTime {
-  departureFromPrevStation: string;
-
-  arrivalAtNextStation: string;
-
-  constructor(data: z.infer<typeof SegmentTimeSchema>) {
-    const validatedData = SegmentTimeSchema.parse(data);
-    this.departureFromPrevStation = validatedData.departureFromPrevStation;
-    this.arrivalAtNextStation = validatedData.arrivalAtNextStation;
-  }
-}
-
 const SegmentSchema = z.object({
-  time: SegmentTimeSchema,
+  time: z.array(z.string()).length(2),
   price: z.record(z.number()),
   occupiedSeats: z.array(z.number()),
 });
 
 class Segment {
-  time: SegmentTime;
+  time: string[];
 
   price: Record<string, number>;
 
@@ -74,7 +57,7 @@ class Segment {
 
   constructor(data: z.infer<typeof SegmentSchema>) {
     const validatedData = SegmentSchema.parse(data);
-    this.time = new SegmentTime(validatedData.time);
+    this.time = validatedData.time;
     this.price = validatedData.price;
     this.occupiedSeats = validatedData.occupiedSeats;
   }
@@ -126,13 +109,42 @@ export class Route {
   }
 }
 
+const SingleTripSchema = z.object({
+  path: z.array(StationSchema),
+  carriages: z.array(z.string()),
+  from: StationSchema,
+  to: StationSchema,
+  schedule: ScheduleSchema,
+});
+
+export class SingleTrip {
+  path: Station[];
+
+  carriages: string[];
+
+  from: Station;
+
+  to: Station;
+
+  schedule: Schedule;
+
+  constructor(data: z.infer<typeof SingleTripSchema>) {
+    const validatedData = SingleTripSchema.parse(data);
+    this.path = validatedData.path;
+    this.carriages = validatedData.carriages;
+    this.from = new Station(validatedData.from);
+    this.to = new Station(validatedData.to);
+    this.schedule = new Schedule(validatedData.schedule);
+  }
+}
+
 const TripDataSchema = z.object({
   from: StationSchema,
   to: StationSchema,
   routes: z.array(RouteSchema),
 });
 
-export class TripData {
+export class RoutesData {
   from: Station;
 
   to: Station;

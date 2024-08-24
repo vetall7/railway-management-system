@@ -1,2 +1,22 @@
-{{ cityNames().from }}
-{{ cityNames().to }}
+<div>
+  @let currentTrip = trip();
+  @if (currentTrip) {
+    from {{ currentTrip.from.city }} to {{ currentTrip.to.city }}
+    <div>
+      start {{ startTime | date: 'fullDate' }} end
+      {{ endTime | date: 'fullDate' }} duration {{ duration }}
+    </div>
+    route starts at {{ startCity }} and ends at {{ endCity }}
+
+    @for (
+      carriage of carriagesWithNumberOfAvailableSeats | keyvalue;
+      track $index
+    ) {
+      <p-divider type="solid" />
+      <div class="col flex align-items-center justify-content-center">
+        {{ carriage.key }}
+        available seats {{ carriage.value }} price: {{ getPrice(carriage.key) }}
+      </div>
+    }
+  }
+</div>

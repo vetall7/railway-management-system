@@ -42,14 +42,15 @@ export class SearchTripsComponent implements OnInit {
       const cityFrom = this.autoCompleteService.getCityByName(from);
       const cityTo = this.autoCompleteService.getCityByName(to);
 
-      const mergedTime = time ? `${date} ${time}` : date;
-      const unixTime = new Date(mergedTime).valueOf();
+      const mergedTime = time
+        ? new Date(date).getTime() + new Date(time).getTime()
+        : new Date(date).getTime();
 
       if (cityFrom && cityTo) {
         this.fetchTripsService.fetchTrips(
           cityFrom,
           cityTo,
-          unixTime.toString(),
+          mergedTime.toString(),
         );
       }
     }
