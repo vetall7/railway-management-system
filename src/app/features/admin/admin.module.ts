@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
@@ -13,7 +12,11 @@ import {
   RoutesComponent,
   StationsComponent,
 } from '@features/admin/pages';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 
+import { AdminEffects } from './store/effects/admin.effects';
+import { adminReducer } from './store/reducers/admin.reducer';
 import { AdminRoutingModule } from './admin-routing.module';
 
 @NgModule({
@@ -30,7 +33,8 @@ import { AdminRoutingModule } from './admin-routing.module';
     AdminRoutingModule,
     GoogleMapsModule,
     ReactiveFormsModule,
-    HttpClientModule,
+    StoreModule.forFeature('admin', adminReducer),
+    EffectsModule.forFeature([AdminEffects]),
   ],
   exports: [],
   providers: [],

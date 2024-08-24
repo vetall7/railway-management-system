@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
-import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnInit,
   signal,
   ViewChild,
 } from '@angular/core';
@@ -14,6 +14,10 @@ import {
   ILocation,
   IUserMark,
 } from '@features/admin/models';
+import { StationService } from '@features/admin/services/station.service';
+import { Store } from '@ngrx/store';
+
+import * as AdminActions from '../../store/actions/admin.actions';
 
 @Component({
   selector: 'app-stations',
@@ -21,7 +25,7 @@ import {
   styleUrl: './stations.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StationsComponent {
+export class StationsComponent implements OnInit {
   options: google.maps.MapOptions = {
     mapId: 'faab40f8d46a15b8',
     zoom: 4,
@@ -41,10 +45,11 @@ export class StationsComponent {
   });
 
   constructor(
-    private http: HttpClient,
+    private stationService: StationService,
+    private store: Store,
     private cd: ChangeDetectorRef,
   ) {
-    this.http.get('/api/station').subscribe({
+    this.stationService.getStations().subscribe({
       next: (data) => {
         this.nzLocations = (data as IDataStation[]).map((el) => ({
           lat: el.latitude,
@@ -62,6 +67,10 @@ export class StationsComponent {
         throw new Error(error);
       },
     });
+  }
+
+  ngOnInit(): void {
+    this.store.dispatch(AdminActions.getStations());
   }
 
   onMarkerClick(marker: MapAdvancedMarker) {
