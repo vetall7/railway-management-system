@@ -4,15 +4,16 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  inject,
+  signal,
   ViewChild,
 } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { MapAdvancedMarker, MapInfoWindow } from '@angular/google-maps';
 import {
-  latitudeNumberValidator,
-  longitudeNumberValidator,
-} from '@features/admin/validators';
+  IDataFormStation,
+  IDataStation,
+  ILocation,
+  IUserMark,
+} from '@features/admin/models';
 
 @Component({
   selector: 'app-stations',
@@ -26,126 +27,41 @@ export class StationsComponent {
     zoom: 4,
   };
 
-  nzLocations: { lat: number; lng: number; city: string }[] = [];
+  nzLocations: ILocation[] = [];
 
   @ViewChild(MapInfoWindow) infoWindow!: MapInfoWindow;
 
-  formBuilder = inject(FormBuilder);
+  data: IDataFormStation[] = [];
 
-  form = this.formBuilder.group({
-    cityName: [
-      '',
-      {
-        validators: [Validators.required],
-        updateOn: 'blur',
-      },
-    ],
-    latitude: [
-      '',
-      {
-        validators: [Validators.required, latitudeNumberValidator],
-        updateOn: 'blur',
-      },
-    ],
-    longitude: [
-      '',
-      {
-        validators: [Validators.required, longitudeNumberValidator],
-        updateOn: 'blur',
-      },
-    ],
-    connected: this.formBuilder.array([
-      this.formBuilder.control('', {
-        validators: [Validators.required],
-        updateOn: 'change',
-      }),
-    ]),
-  });
-
-  data: {
-    id: number;
-    city: string;
-    connectedTo: { id: number; distance: number }[];
-    show: boolean;
-  }[] = [];
-
-  userMark = {
+  userMark = signal<IUserMark>({
     show: false,
     lat: NaN,
     lng: NaN,
     city: '',
-  };
-
-  latitudeUser = NaN;
-
-  longitudeUser = NaN;
+  });
 
   constructor(
     private http: HttpClient,
     private cd: ChangeDetectorRef,
   ) {
-    this.formBuilder = new FormBuilder();
     this.http.get('/api/station').subscribe({
       next: (data) => {
-        this.nzLocations = (
-          data as {
-            city: string;
-            id: number;
-            latitude: number;
-            longitude: number;
-          }[]
-        ).map((el) => ({ lat: el.latitude, lng: el.longitude, city: el.city }));
-        this.data = (
-          data as {
-            city: string;
-            id: number;
-            connectedTo: { id: number; distance: number }[];
-          }[]
-        ).map((el) => ({
+        this.nzLocations = (data as IDataStation[]).map((el) => ({
+          lat: el.latitude,
+          lng: el.longitude,
+          city: el.city,
+        }));
+        this.data = (data as IDataStation[]).map((el) => ({
           id: el.id,
           city: el.city,
           connectedTo: el.connectedTo,
-          show: false,
         }));
+        this.cd.markForCheck();
       },
       error: (error) => {
         throw new Error(error);
       },
     });
-  }
-
-  getFormsControls(): FormArray {
-    return this.form.controls.connected as FormArray;
-  }
-
-  changeSelect() {
-    if (!this.form.controls.connected.value.includes('')) {
-      (this.form.controls.connected as FormArray).push(
-        this.formBuilder.control('', {
-          updateOn: 'change',
-        }),
-      );
-    }
-  }
-
-  changeLatitude() {
-    this.userMark = {
-      ...this.userMark,
-      lat: Number(this.form.value.latitude!),
-    };
-    this.cd.detectChanges();
-  }
-
-  changeLongitude() {
-    this.userMark = {
-      ...this.userMark,
-      lng: Number(this.form.value.longitude!),
-    };
-    this.cd.detectChanges();
-  }
-
-  checkSelect(id: number) {
-    return this.form.controls.connected.value.includes(String(id));
   }
 
   onMarkerClick(marker: MapAdvancedMarker) {
@@ -156,28 +72,17 @@ export class StationsComponent {
   }
 
   moveMap(event: google.maps.MapMouseEvent) {
-    this.userMark = {
+    this.userMark.update((val) => ({
+      ...val,
       show: true,
       lat: event.latLng!.lat(),
       lng: event.latLng!.lng(),
-      city: this.form.value.cityName!,
-    };
-    this.latitudeUser = event.latLng!.lat();
-    this.longitudeUser = event.latLng!.lng();
+    }));
   }
 
-  changeCityName() {
-    this.userMark = {
-      ...this.userMark,
-      city: this.form.value.cityName!,
-    };
-
-    this.infoWindow.close();
-  }
-
-  handleSubmit() {
-    if (this.form.valid) {
-      // console.log(1);
-    }
+  onChanged(model: IUserMark) {
+    this.userMark.set({
+      ...model,
+    });
   }
 }

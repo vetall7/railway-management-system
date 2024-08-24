@@ -1,0 +1,77 @@
+<form [formGroup]="form" class="form" (submit)="handleSubmit()">
+  <div class="form__line">
+    <label for="cityName" class="line__label">City Name</label>
+    <input
+      type="text"
+      id="cityName"
+      class="line__input"
+      formControlName="cityName"
+      (input)="changeCityName()"
+    />
+    @if (form.controls['cityName'].value?.length === 0) {
+      <div class="start">Please enter a city name</div>
+    }
+  </div>
+  <div class="form__line">
+    <label for="latitude" class="line__label">Latitude</label>
+    <input
+      #latitude
+      type="number"
+      id="latitude"
+      class="line__input"
+      formControlName="latitude"
+      [value]="userMarkInput.lat"
+      (input)="changeLatitude(latitude.value)"
+    />
+    @if (form.controls['latitude'].value?.length === 0) {
+      <div class="start">Please enter a latitude</div>
+    }
+    @if (form.controls['latitude'].errors?.['latitudeNumberValidator']) {
+      <div class="alert">Enter a number between -90 and 90</div>
+    }
+  </div>
+  <div class="form__line">
+    <label for="longitude" class="line__label">Longitude</label>
+    <input
+      #longitude
+      type="number"
+      id="longitude"
+      class="line__input"
+      formControlName="longitude"
+      [value]="userMarkInput.lng"
+      (input)="changeLongitude(longitude.value)"
+    />
+    @if (form.controls['longitude'].value?.length === 0) {
+      <div class="start">Please enter a longitude</div>
+    }
+    @if (form.controls['longitude'].errors?.['longitudeNumberValidator']) {
+      <div class="alert">Enter a number between -180 and 180</div>
+    }
+  </div>
+  <div class="form__line">
+    <p class="line__label">Connected</p>
+    <div formArrayName="connected">
+      @for (connect of getFormsControls()['controls']; track $index) {
+        <div class="content_input">
+          <select
+            id="connected"
+            name="connected"
+            class="line__input"
+            formControlName="{{ $index }}"
+            (change)="changeSelect()"
+          >
+            @for (val of dataInput; track val.id) {
+              <option [value]="val.id" [disabled]="checkSelect(val.id)">
+                {{ val.city }}
+              </option>
+            }
+          </select>
+        </div>
+        @if (form.controls.connected.controls[0].value?.length === 0) {
+          <div class="start">Please enter a connect</div>
+        }
+      }
+    </div>
+  </div>
+  <button type="submit">Save</button>
+</form>

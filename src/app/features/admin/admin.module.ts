@@ -3,7 +3,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
-import { NavigationComponent } from '@features/admin/components';
+import {
+  FormStationComponent,
+  NavigationComponent,
+} from '@features/admin/components';
 import {
   AdminComponent,
   CarriagesComponent,
@@ -20,6 +23,7 @@ import { AdminRoutingModule } from './admin-routing.module';
     CarriagesComponent,
     RoutesComponent,
     StationsComponent,
+    FormStationComponent,
   ],
   imports: [
     CommonModule,
