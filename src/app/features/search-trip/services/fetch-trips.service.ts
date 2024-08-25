@@ -19,16 +19,10 @@ export class FetchTripsService {
 
   private readonly trips: WritableSignal<SingleTrip[] | null> = signal(null);
 
-  private isNotFound = false;
+  private isNotFound: WritableSignal<boolean> = signal(false);
 
-  private isAlreadyRequested = false;
-
-  public getIsNotFound(): boolean {
+  public get isNotFoundSig(): WritableSignal<boolean> {
     return this.isNotFound;
-  }
-
-  public getIsAlreadyRequested(): boolean {
-    return this.isAlreadyRequested;
   }
 
   public get tripsSignal(): SingleTrip[] | null {
@@ -51,11 +45,10 @@ export class FetchTripsService {
       try {
         const tripsData = new RoutesData(trips as RoutesData);
         if (tripsData.routes.length === 0) {
-          this.isNotFound = true;
+          this.isNotFound.set(true);
           return;
         }
-        this.isNotFound = false;
-        this.isAlreadyRequested = true;
+        this.isNotFound.set(false);
         this.trips.set(this.getAllSingleTrips(tripsData));
       } catch (error) {
         if (error instanceof ZodError) {

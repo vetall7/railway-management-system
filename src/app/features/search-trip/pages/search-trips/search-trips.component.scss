@@ -1,0 +1,45 @@
+form {
+  margin-top: 5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font: var(--primary-md-font);
+}
+
+.input {
+  ::ng-deep .p-autocomplete-input {
+    width: 20rem;
+    height: 5rem;
+    border-radius: 10% 25%;
+    padding: 2%;
+    font: var(--primary-lg-font);
+  }
+}
+
+::ng-deep .p-autocomplete-panel {
+  width: 85%;
+  border-radius: 15%;
+  margin-top: 0.5em;
+}
+
+::ng-deep .p-autocomplete-item {
+  display: block;
+  font: var(--primary-md-font);
+  padding: 0.2em 0.5em;
+  text-align: left;
+}
+
+::ng-deep .p-autocomplete-dropdown {
+  border-radius: 15%;
+}
+
+.circle-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid #007bff;
+  width: 2rem;
+  text-align: center;
+}

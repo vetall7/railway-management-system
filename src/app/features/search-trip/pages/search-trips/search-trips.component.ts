@@ -23,6 +23,8 @@ export class SearchTripsComponent implements OnInit {
 
   protected readonly fetchTripsService = inject(FetchTripsService);
 
+  protected isSubmitted = false;
+
   protected readonly form = this.formBuilder.group({
     from: ['', Validators.required],
     to: ['', Validators.required],
@@ -37,6 +39,7 @@ export class SearchTripsComponent implements OnInit {
   }
 
   protected onSubmit(): void {
+    this.isSubmitted = true;
     const { from, to, date, time } = this.form.value;
     if (from && to && date) {
       const cityFrom = this.autoCompleteService.getCityByName(from);

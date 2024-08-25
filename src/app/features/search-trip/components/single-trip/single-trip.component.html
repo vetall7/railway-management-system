@@ -18,5 +18,7 @@
         available seats {{ carriage.value }} price: {{ getPrice(carriage.key) }}
       </div>
     }
+
+    <app-trip-details-dialog [trip]="currentTrip"></app-trip-details-dialog>
   }
 </div>

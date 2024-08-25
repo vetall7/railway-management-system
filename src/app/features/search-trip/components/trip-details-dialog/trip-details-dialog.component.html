@@ -1,0 +1,26 @@
+<p-button (onClick)="openDialog()" label="Route" />
+<p-dialog
+  header="Edit Profile"
+  [modal]="true"
+  [(visible)]="isVisibleDialog"
+  [dismissableMask]="true"
+  [style]="{ width: '25rem' }"
+>
+  @let currentTrip = trip();
+  @if (currentTrip) {
+    from {{ currentTrip.from.city }} to {{ currentTrip.to.city }}
+    <br />
+    @for (station of currentTrip.path; track $index) {
+      cityname {{ station.city }}
+      <br />
+      @if ($index !== 0) {
+        comes at {{ currentTrip.schedule.segments[$index - 1].time[1] }}
+      }
+      <br />
+      @if ($index < currentTrip.path.length - 1) {
+        departure at {{ currentTrip.schedule.segments[$index].time[0] }}
+      }
+      <p-divider type="solid" />
+    }
+  }
+</p-dialog>

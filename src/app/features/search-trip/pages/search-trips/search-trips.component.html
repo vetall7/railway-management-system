@@ -1,34 +1,38 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <p-autoComplete
+    class="input"
     formControlName="from"
     [suggestions]="filteredCities"
     (completeMethod)="filterCities($event)"
-    [dropdown]="true"
+    inputId="float-label"
+    [placeholder]="'City from'"
   />
-  @let from = form.get('from');
+  <span class="circle-icon">&#8644;</span>
+  <!-- @let from = form.get('from');
   @if (from && (from.dirty || from.touched)) {
     @if (from.hasError('required')) {
       <div>
         <small class="p-error">From is required</small>
       </div>
     }
-  }
+  } -->
   <p-autoComplete
+    class="input"
     formControlName="to"
     [suggestions]="filteredCities"
     (completeMethod)="filterCities($event)"
-    [dropdown]="true"
+    [placeholder]="'City to'"
   />
-  @let to = form.get('to');
+  <!-- @let to = form.get('to');
   @if (to && (to.dirty || to.touched)) {
     @if (to.hasError('required')) {
       <div>
         <small class="p-error">To is required</small>
       </div>
     }
-  }
+  } -->
   <p-calendar formControlName="date" />
-  @let date = form.get('date');
+  <!-- @let date = form.get('date');
   @if (date && (date.dirty || date.touched)) {
     @if (date.hasError('required')) {
       <div>
@@ -47,14 +51,16 @@
         [timeOnly]="true"
       />
     }
-  }
+  } -->
   <p-button label="Submit" type="submit" [disabled]="form.invalid" />
 </form>
 
-@if (this.fetchTripsService.getIsNotFound() === true) {
-  <div>
-    <small class="p-error">No trips found</small>
-  </div>
-} @else if (this.fetchTripsService.getIsAlreadyRequested() === true) {
-  <app-date-selector></app-date-selector>
+@if (isSubmitted) {
+  @if (this.fetchTripsService.isNotFoundSig() === true) {
+    <div>
+      <small class="p-error">No trips found</small>
+    </div>
+  } @else {
+    <app-date-selector></app-date-selector>
+  }
 }
