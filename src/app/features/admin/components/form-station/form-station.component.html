@@ -11,6 +11,9 @@
     @if (form.controls['cityName'].value?.length === 0) {
       <div class="start">Please enter a city name</div>
     }
+    @if (form.controls['cityName'].errors?.['uniqNameValid']) {
+      <div class="alert">The name should be unique</div>
+    }
   </div>
   <div class="form__line">
     <label for="latitude" class="line__label">Latitude</label>
@@ -60,7 +63,7 @@
             formControlName="{{ $index }}"
             (change)="changeSelect()"
           >
-            @for (val of dataInput; track val.id) {
+            @for (val of dataInput; track $index) {
               <option [value]="val.id" [disabled]="checkSelect(val.id)">
                 {{ val.city }}
               </option>

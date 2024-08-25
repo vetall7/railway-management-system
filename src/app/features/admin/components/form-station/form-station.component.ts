@@ -7,12 +7,25 @@ import {
   Output,
   signal,
 } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
-import { IDataFormStation, IUserMark } from '@features/admin/models';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
+import {
+  IDataFormStation,
+  IDataPostStation,
+  IUserMark,
+} from '@features/admin/models';
 import {
   latitudeNumberValidator,
   longitudeNumberValidator,
 } from '@features/admin/validators';
+import { Store } from '@ngrx/store';
+
+import * as AdminActions from '../../store/actions/admin.actions';
 
 @Component({
   selector: 'app-form-station',
@@ -33,11 +46,13 @@ export class FormStationComponent implements DoCheck {
 
   formBuilder = inject(FormBuilder);
 
+  store = inject(Store);
+
   form = this.formBuilder.group({
     cityName: [
       '',
       {
-        validators: [Validators.required],
+        validators: [Validators.required, this.uniqNameValid.bind(this)],
         updateOn: 'blur',
       },
     ],
@@ -69,6 +84,13 @@ export class FormStationComponent implements DoCheck {
     lng: NaN,
     city: '',
   });
+
+  uniqNameValid(control: AbstractControl): ValidationErrors | null {
+    if (!this.dataInput?.map((el) => el.city).includes(control.value.trim())) {
+      return null;
+    }
+    return { uniqNameValid: true };
+  }
 
   getFormsControls(): FormArray {
     return this.form.controls.connected as FormArray;
@@ -119,7 +141,15 @@ export class FormStationComponent implements DoCheck {
 
   handleSubmit() {
     if (this.form.valid) {
-      /* console.log(1); */
+      const data: IDataPostStation = {
+        city: String(this.form.value.cityName).trim(),
+        latitude: Number(this.form.value.latitude),
+        longitude: Number(this.form.value.longitude),
+        relations: this.form.value
+          .connected!.filter((el) => el !== '')
+          .map((el) => Number(el)),
+      };
+      this.store.dispatch(AdminActions.addStation({ station: data }));
     } else {
       this.form.markAllAsTouched();
     }
@@ -129,6 +159,8 @@ export class FormStationComponent implements DoCheck {
     if (this.userMarkInput.show) {
       this.form.controls.latitude.setValue(String(this.userMarkInput.lat));
       this.form.controls.longitude.setValue(String(this.userMarkInput.lng));
+      this.form.controls.longitude.markAsTouched();
+      this.form.controls.latitude.markAsTouched();
     }
     this.userMark.update((val) => ({
       ...val,

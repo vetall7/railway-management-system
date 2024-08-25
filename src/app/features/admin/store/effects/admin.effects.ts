@@ -1,6 +1,6 @@
 /* eslint-disable arrow-body-style */
 import { inject, Injectable } from '@angular/core';
-import { IDataStation } from '@features/admin/models';
+import { IDataStation, IResponseCreateStation } from '@features/admin/models';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, finalize, map, of, switchMap } from 'rxjs';
 
@@ -16,6 +16,7 @@ export class AdminEffects {
   getAllStations$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AdminActions.getStations),
+      switchMap(() => this.stationService.login()),
       switchMap(() =>
         this.stationService.getStations().pipe(
           map((res) =>
@@ -32,16 +33,36 @@ export class AdminEffects {
     );
   });
 
+  addStation$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AdminActions.addStation),
+      switchMap((req) =>
+        this.stationService.createStation(req.station).pipe(
+          map((res) =>
+            AdminActions.addStationInStore({
+              station: req.station,
+              id: res as IResponseCreateStation,
+            }),
+          ),
+          catchError(() => of(AdminActions.failed())),
+          finalize(() =>
+            of(AdminActions.setLoadingState({ isLoading: false })),
+          ),
+        ),
+      ),
+    );
+  });
+
   startLoading$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(AdminActions.getStations),
+      ofType(AdminActions.getStations, AdminActions.addStation),
       map(() => AdminActions.setLoadingState({ isLoading: true })),
     );
   });
 
   finishLoading$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(AdminActions.updateStations),
+      ofType(AdminActions.updateStations, AdminActions.addStationInStore),
       map(() => AdminActions.setLoadingState({ isLoading: false })),
     );
   });

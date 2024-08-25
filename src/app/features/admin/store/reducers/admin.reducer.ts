@@ -29,4 +29,20 @@ export const adminReducer = createReducer(
       stations: [...stations],
     }),
   ),
+  on(
+    AdminActions.addStationInStore,
+    (state, { station, id }): AdminState => ({
+      ...state,
+      stations: [
+        ...state.stations,
+        {
+          city: station.city,
+          id: id.id,
+          latitude: station.latitude,
+          longitude: station.longitude,
+          connectedTo: station.relations.map((el) => ({ id: el })),
+        },
+      ],
+    }),
+  ),
 );

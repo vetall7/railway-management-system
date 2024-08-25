@@ -1,3 +1,4 @@
+import { IDataFormStation } from '@features/admin/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { AdminState } from '../reducers/admin.reducer';
@@ -14,12 +15,14 @@ export const selectGetStations = createSelector(
   (state) => state.stations,
 );
 
-export const selectGetStationData = createSelector(selectGetAppState, (state) =>
-  [...state.stations].map((el) => ({
-    id: el.id,
-    city: el.city,
-    connectedTo: el.connectedTo,
-  })),
+export const selectGetStationData = createSelector(
+  selectGetAppState,
+  (state): IDataFormStation[] =>
+    [...state.stations].map((el) => ({
+      id: el.id,
+      city: el.city,
+      connectedTo: el.connectedTo,
+    })),
 );
 
 export const selectGetStationLocations = createSelector(
