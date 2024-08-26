@@ -26,10 +26,10 @@ export class SearchTripsComponent implements OnInit {
   protected isSubmitted = false;
 
   protected readonly form = this.formBuilder.group({
-    from: ['', Validators.required],
-    to: ['', Validators.required],
-    date: ['', [Validators.required, dateValidator()]],
-    time: '',
+    from: ['city1', Validators.required],
+    to: ['city56', Validators.required],
+    date: [new Date(), [Validators.required, dateValidator()]],
+    time: new Date(),
   });
 
   protected filteredCities: string[] = [];
@@ -46,8 +46,8 @@ export class SearchTripsComponent implements OnInit {
       const cityTo = this.autoCompleteService.getCityByName(to);
 
       const mergedTime = time
-        ? new Date(date).getTime() + new Date(time).getTime()
-        : new Date(date).getTime();
+        ? date.getTime() + new Date(time).getTime()
+        : date.getTime();
 
       if (cityFrom && cityTo) {
         this.fetchTripsService.fetchTrips(
@@ -69,5 +69,13 @@ export class SearchTripsComponent implements OnInit {
 
   public getFilteredCities(): string[] {
     return this.filteredCities;
+  }
+
+  protected swapCities(): void {
+    const { from, to } = this.form.value;
+    if (from && to) {
+      this.form.get('from')?.setValue(to);
+      this.form.get('to')?.setValue(from);
+    }
   }
 }

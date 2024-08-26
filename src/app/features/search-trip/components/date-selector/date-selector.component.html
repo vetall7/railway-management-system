@@ -1,6 +1,10 @@
-<p-tabView [(activeIndex)]="activeTabIndex" [scrollable]="true">
+<p-tabView
+  class="custom-tabview"
+  [(activeIndex)]="activeTabIndex"
+  [scrollable]="true"
+>
   @for (date of getAvailableDates(); track $index) {
-    @let currentDate = date | date: 'fullDate';
+    @let currentDate = date | date: 'EEEE, MMM d';
     @if (currentDate) {
       <p-tabPanel [header]="currentDate">
         @if (activeTabIndex === $index) {

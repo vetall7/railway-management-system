@@ -1,12 +1,20 @@
-<div>
+<div class="wrapper">
   @let currentTrip = trip();
   @if (currentTrip) {
-    from {{ currentTrip.from.city }} to {{ currentTrip.to.city }}
-    <div>
-      start {{ startTime | date: 'fullDate' }} end
-      {{ endTime | date: 'fullDate' }} duration {{ duration }}
+    <div class="path">
+      <div class="start-point">
+        <div class="start-time">{{ startTime | date: 'MMM, d' }}</div>
+        <div class="start-city">{{ currentTrip.from.city }}</div>
+      </div>
+      <div class="path-line">{{ duration }}</div>
+      <div class="end-point">
+        <div class="end-time">{{ endTime | date: 'MMM, d' }}</div>
+        <div class="end-city">{{ currentTrip.to.city }}</div>
+      </div>
     </div>
-    route starts at {{ startCity }} and ends at {{ endCity }}
+
+    from {{ currentTrip.from.city }} to {{ currentTrip.to.city }} route starts
+    at {{ startCity }} and ends at {{ endCity }}
 
     @for (
       carriage of carriagesWithNumberOfAvailableSeats | keyvalue;

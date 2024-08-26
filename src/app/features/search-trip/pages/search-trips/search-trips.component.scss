@@ -2,8 +2,25 @@ form {
   margin-top: 5%;
   display: flex;
   align-items: center;
+  flex-direction: column;
   justify-content: center;
   gap: 1rem;
+  font: var(--primary-md-font);
+}
+
+.inputs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.errors {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.1rem;
   font: var(--primary-md-font);
 }
 
@@ -42,4 +59,26 @@ form {
   border: 2px solid #007bff;
   width: 2rem;
   text-align: center;
+  cursor: pointer;
+}
+
+.calendar {
+  ::ng-deep .p-inputtext {
+    width: 20rem;
+    height: 5rem;
+    border-radius: 10% 25%;
+    padding: 2%;
+    font: var(--primary-lg-font);
+  }
+}
+
+.dates-board {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0 auto;
+  width: 50%;
+  font: var(--primary-lg-font);
+  padding: 2%;
 }

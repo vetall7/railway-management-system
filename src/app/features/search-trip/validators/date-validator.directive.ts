@@ -7,7 +7,10 @@ export function dateValidator(): ValidatorFn {
       return null;
     }
 
-    const isValid = new Date(date) > new Date();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const isValid = date >= today;
     if (!isValid) {
       return { pastDate: 'Date can not be in the past' };
     }

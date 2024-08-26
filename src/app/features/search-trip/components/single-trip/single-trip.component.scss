@@ -1,0 +1,54 @@
+.wrapper {
+  margin-top: 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 10px;
+  border-radius: 10%;
+  border: 1px solid #ccc;
+}
+
+.path {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.start-point {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.end-point {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.path-line {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.path-line::before,
+.path-line::after {
+  content: '';
+  flex: 1;
+  border-bottom: 4px solid #6d3493;
+}
+
+.path-line:not(:empty)::before {
+  margin-right: 0.25em;
+}
+
+.path-line:not(:empty)::after {
+  margin-left: 0.25em;
+}
