@@ -32,6 +32,9 @@
     @if (form.controls['latitude'].errors?.['latitudeNumberValidator']) {
       <div class="alert">Enter a number between -90 and 90</div>
     }
+    @if (form.controls['latitude'].errors?.['uniqCordValid']) {
+      <div class="alert">The station with such coordinates exists</div>
+    }
   </div>
   <div class="form__line">
     <label for="longitude" class="line__label">Longitude</label>
@@ -49,6 +52,9 @@
     }
     @if (form.controls['longitude'].errors?.['longitudeNumberValidator']) {
       <div class="alert">Enter a number between -180 and 180</div>
+    }
+    @if (form.controls['longitude'].errors?.['uniqCordValid']) {
+      <div class="alert">The station with such coordinates exists</div>
     }
   </div>
   <div class="form__line">

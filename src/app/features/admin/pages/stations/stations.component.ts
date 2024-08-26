@@ -3,7 +3,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  OnDestroy,
   OnInit,
+  Renderer2,
   signal,
   ViewChild,
 } from '@angular/core';
@@ -20,8 +22,12 @@ import * as AdminSelectors from '../../store/selectors/admin.selector';
   styleUrl: './stations.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StationsComponent implements OnInit {
+export class StationsComponent implements OnInit, OnDestroy {
   private store = inject(Store);
+
+  private renderer = inject(Renderer2);
+
+  private bodyClickListener?: () => void;
 
   options: google.maps.MapOptions = {
     mapId: 'faab40f8d46a15b8',
@@ -38,6 +44,8 @@ export class StationsComponent implements OnInit {
 
   loading$ = this.store.select(AdminSelectors.selectGetIsLoading);
 
+  alert$ = this.store.select(AdminSelectors.selectGetIsAlert);
+
   userMark = signal<IUserMark>({
     show: false,
     lat: NaN,
@@ -47,6 +55,21 @@ export class StationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(AdminActions.getStations());
+    this.bodyClickListener = this.renderer.listen(
+      document.body,
+      'click',
+      (event) => {
+        if (!event.target.classList.contains('trash')) {
+          this.store.dispatch(AdminActions.setAlertState({ isAlert: false }));
+        }
+      },
+    );
+  }
+
+  ngOnDestroy() {
+    if (this.bodyClickListener) {
+      this.bodyClickListener();
+    }
   }
 
   onMarkerClick(marker: MapAdvancedMarker) {

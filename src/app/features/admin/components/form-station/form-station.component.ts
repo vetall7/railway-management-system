@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 import {
   Component,
   DoCheck,
@@ -59,14 +60,22 @@ export class FormStationComponent implements DoCheck {
     latitude: [
       '',
       {
-        validators: [Validators.required, latitudeNumberValidator],
+        validators: [
+          Validators.required,
+          latitudeNumberValidator,
+          this.uniqCordValid.bind(this),
+        ],
         updateOn: 'blur',
       },
     ],
     longitude: [
       '',
       {
-        validators: [Validators.required, longitudeNumberValidator],
+        validators: [
+          Validators.required,
+          longitudeNumberValidator,
+          this.uniqCordValid.bind(this),
+        ],
         updateOn: 'blur',
       },
     ],
@@ -90,6 +99,23 @@ export class FormStationComponent implements DoCheck {
       return null;
     }
     return { uniqNameValid: true };
+  }
+
+  uniqCordValid(): ValidationErrors | null {
+    if (
+      this.form &&
+      !(
+        this.dataInput
+          ?.map((el) => el.lat)
+          .includes(Number(this.form.value.latitude)) &&
+        this.dataInput
+          ?.map((el) => el.lon)
+          .includes(Number(this.form.value.longitude))
+      )
+    ) {
+      return null;
+    }
+    return { uniqCordValid: true };
   }
 
   getFormsControls(): FormArray {

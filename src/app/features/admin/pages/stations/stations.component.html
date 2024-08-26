@@ -1,3 +1,9 @@
+@if (alert$ | async) {
+  <app-message
+    [error]="true"
+    [text]="'Cannot delete station with active rides'"
+  />
+}
 @if (loading$ | async) {
   <app-loader />
 }

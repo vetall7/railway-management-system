@@ -25,6 +25,19 @@ export class StationService {
     );
   }
 
+  deleteStations(id: number): Observable<IDataStation[] | string> {
+    return this.http
+      .delete<IDataStation[]>(`/api/station/${id}`, {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem('token')!)}`,
+        },
+      })
+      .pipe(
+        retry(2),
+        catchError((e: HttpErrorResponse) => of(`Bad Promise: ${e}`)),
+      );
+  }
+
   createStation(
     data: IDataPostStation,
   ): Observable<IResponseCreateStation | string> {

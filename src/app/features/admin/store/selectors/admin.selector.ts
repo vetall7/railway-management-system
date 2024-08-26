@@ -10,6 +10,11 @@ export const selectGetIsLoading = createSelector(
   (state) => state.isLoading,
 );
 
+export const selectGetIsAlert = createSelector(
+  selectGetAppState,
+  (state) => state.isAlert,
+);
+
 export const selectGetStations = createSelector(
   selectGetAppState,
   (state) => state.stations,
@@ -22,6 +27,8 @@ export const selectGetStationData = createSelector(
       id: el.id,
       city: el.city,
       connectedTo: el.connectedTo,
+      lat: el.latitude,
+      lon: el.longitude,
     })),
 );
 
@@ -41,4 +48,9 @@ export const selectGetStationName = (id: number[]) =>
       .filter((el) => id.includes(el.id))
       .map((el) => el.city)
       .join(' '),
+  );
+
+export const selectCheckRouterActive = (id: number) =>
+  createSelector(selectGetAppState, (state: AdminState) =>
+    new Set([...state.routes].map((el) => el.path).flat()).has(id),
   );

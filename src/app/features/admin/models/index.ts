@@ -5,3 +5,4 @@ export * from './DataStation';
 export * from './UserMark';
 export * from './DataPostStation';
 export * from './ResponseCreateStation';
+export * from './RoutesData';

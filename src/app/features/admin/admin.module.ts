@@ -5,6 +5,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import {
   FormStationComponent,
   LoaderComponent,
+  MessageComponent,
   NavigationComponent,
   StationInfoComponent,
 } from '@features/admin/components';
@@ -31,6 +32,7 @@ import { AdminRoutingModule } from './admin-routing.module';
     FormStationComponent,
     StationInfoComponent,
     LoaderComponent,
+    MessageComponent,
   ],
   imports: [
     CommonModule,

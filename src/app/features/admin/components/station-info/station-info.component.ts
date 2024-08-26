@@ -6,8 +6,9 @@ import {
 } from '@angular/core';
 import { IDataStation } from '@features/admin/models';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 
+import * as AdminActions from '../../store/actions/admin.actions';
 import * as AdminSelectors from '../../store/selectors/admin.selector';
 
 @Component({
@@ -27,6 +28,8 @@ export class StationInfoComponent implements OnInit {
 
   connects$ = new Observable<string | undefined>();
 
+  active$ = new Observable<boolean | undefined>();
+
   constructor(private store: Store) {}
 
   ngOnInit(): void {
@@ -35,6 +38,19 @@ export class StationInfoComponent implements OnInit {
       this.connects$ = this.store.select(
         AdminSelectors.selectGetStationName(id),
       );
+      this.active$ = this.store.select(
+        AdminSelectors.selectCheckRouterActive(this.data!.id),
+      );
     }
+  }
+
+  handleClickDelete() {
+    this.active$.pipe(take(1)).subscribe((res) => {
+      if (res) {
+        this.store.dispatch(AdminActions.setAlertState({ isAlert: true }));
+      } else if (this.data?.id) {
+        this.store.dispatch(AdminActions.deleteStation({ id: this.data?.id }));
+      }
+    });
   }
 }
