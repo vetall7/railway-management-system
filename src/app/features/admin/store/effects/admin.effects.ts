@@ -1,6 +1,7 @@
 /* eslint-disable arrow-body-style */
 import { inject, Injectable } from '@angular/core';
 import {
+  ICarriagesData,
   IDataStation,
   IResponseCreateStation,
   IRoutesData,
@@ -60,6 +61,25 @@ export class AdminEffects {
     );
   });
 
+  getAllCarriages$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AdminActions.updateRoutes, AdminActions.getCarriages),
+      switchMap(() =>
+        this.routeService.geCarriages().pipe(
+          map((res) =>
+            AdminActions.updateCarriages({
+              carriages: [...(res as ICarriagesData[])],
+            }),
+          ),
+          catchError(() => of(AdminActions.failed())),
+          finalize(() =>
+            of(AdminActions.setLoadingState({ isLoading: false })),
+          ),
+        ),
+      ),
+    );
+  });
+
   addStation$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AdminActions.addStation),
@@ -106,6 +126,7 @@ export class AdminEffects {
         AdminActions.addStation,
         AdminActions.getRoutes,
         AdminActions.deleteStation,
+        AdminActions.getCarriages,
       ),
       map(() => AdminActions.setLoadingState({ isLoading: true })),
     );
@@ -117,6 +138,7 @@ export class AdminEffects {
         AdminActions.addStationInStore,
         AdminActions.updateRoutes,
         AdminActions.deleteStationInStore,
+        AdminActions.updateCarriages,
       ),
       map(() => AdminActions.setLoadingState({ isLoading: false })),
     );

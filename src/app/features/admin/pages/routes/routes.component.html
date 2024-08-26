@@ -1,3 +1,14 @@
+@if (loading$ | async) {
+  <app-loader />
+}
 <div class="wrapper">
   <app-navigation />
+  <div class="router_content">
+    @if (!showCreate$()) {
+      <button (click)="handleClickCreate()">Create</button>
+    } @else {
+      <app-form-router />
+    }
+    <app-router-info />
+  </div>
 </div>

@@ -1,4 +1,5 @@
 import {
+  ICarriagesData,
   IDataPostStation,
   IDataStation,
   IResponseCreateStation,
@@ -19,6 +20,8 @@ export const setAlertState = createAction(
 export const getStations = createAction('[Admin Page] Get Stations');
 
 export const getRoutes = createAction('[Admin Page] Get Routes');
+
+export const getCarriages = createAction('[Admin Page] Get Carriages');
 
 export const failed = createAction('[Admin Page] Failed');
 
@@ -50,4 +53,19 @@ export const deleteStation = createAction(
 export const deleteStationInStore = createAction(
   '[Admin Page] Delete Station In Store',
   props<{ id: number }>(),
+);
+
+export const setShowData = createAction(
+  '[Admin Page] Set Show Data',
+  props<{ id: number; valueForm: string[] }>(),
+);
+
+export const updateShowData = createAction(
+  '[Admin Page] Update Show Data',
+  props<{ id: number }>(),
+);
+
+export const updateCarriages = createAction(
+  '[Admin Page] Update Carriages Data',
+  props<{ carriages: ICarriagesData[] }>(),
 );

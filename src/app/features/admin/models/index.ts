@@ -6,3 +6,4 @@ export * from './UserMark';
 export * from './DataPostStation';
 export * from './ResponseCreateStation';
 export * from './RoutesData';
+export * from './CarriagesData';

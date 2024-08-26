@@ -1,4 +1,9 @@
-import { IDataStation, IRoutesData } from '@features/admin/models';
+/* eslint-disable indent */
+import {
+  ICarriagesData,
+  IDataStation,
+  IRoutesData,
+} from '@features/admin/models';
 import { createReducer, on } from '@ngrx/store';
 
 import * as AdminActions from '../actions/admin.actions';
@@ -7,7 +12,9 @@ export interface AdminState {
   isLoading: boolean;
   isAlert: boolean;
   stations: IDataStation[];
+  showData: IDataStation[][];
   routes: IRoutesData[];
+  carriages: ICarriagesData[];
 }
 
 export const initialState: AdminState = {
@@ -15,6 +22,8 @@ export const initialState: AdminState = {
   isAlert: false,
   stations: [],
   routes: [],
+  showData: [],
+  carriages: [],
 };
 
 export const adminReducer = createReducer(
@@ -76,6 +85,39 @@ export const adminReducer = createReducer(
     (state, { routes }): AdminState => ({
       ...state,
       routes: [...routes],
+    }),
+  ),
+  on(
+    AdminActions.setShowData,
+    (state, { id, valueForm }): AdminState => ({
+      ...state,
+      showData:
+        id === 0
+          ? [[...state.stations]]
+          : [
+              ...state.showData,
+              (state.stations
+                .find((el) => el.id === Number(valueForm?.at(-2)))!
+                .connectedTo.map((el) => el.id)
+                .map((el) => state.stations.find((a) => a.id === el))
+                .filter(
+                  (el) => !valueForm?.includes(String(el?.id)),
+                ) as IDataStation[])!,
+            ],
+    }),
+  ),
+  on(
+    AdminActions.updateShowData,
+    (state, { id }): AdminState => ({
+      ...state,
+      showData: state.showData.slice(0, id + 1),
+    }),
+  ),
+  on(
+    AdminActions.updateCarriages,
+    (state, { carriages }): AdminState => ({
+      ...state,
+      carriages: [...carriages],
     }),
   ),
 );

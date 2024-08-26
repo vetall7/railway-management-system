@@ -14,14 +14,17 @@ const routes: Routes = [
   },
   {
     path: 'stations',
+    title: 'StationsPage',
     component: StationsComponent,
   },
   {
     path: 'carriages',
+    title: 'CarriagesPage',
     component: CarriagesComponent,
   },
   {
     path: 'routes',
+    title: 'RoutesPage',
     component: RoutesComponent,
   },
 ];

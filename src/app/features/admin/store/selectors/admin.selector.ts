@@ -20,6 +20,21 @@ export const selectGetStations = createSelector(
   (state) => state.stations,
 );
 
+export const selectGetRoutes = createSelector(
+  selectGetAppState,
+  (state) => state.routes,
+);
+
+export const selectGetShowData = createSelector(
+  selectGetAppState,
+  (state) => state.showData,
+);
+
+export const selectGetCarriagesData = createSelector(
+  selectGetAppState,
+  (state) => state.carriages,
+);
+
 export const selectGetStationData = createSelector(
   selectGetAppState,
   (state): IDataFormStation[] =>
