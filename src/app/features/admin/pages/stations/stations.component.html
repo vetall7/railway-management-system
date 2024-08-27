@@ -1,3 +1,52 @@
+@if (alert$ | async) {
+  <app-message
+    [error]="true"
+    [text]="'Cannot delete station with active rides'"
+  />
+}
+@if (loading$ | async) {
+  <app-loader />
+}
 <div class="wrapper">
   <app-navigation />
+  <div class="station_content">
+    <div class="add_station">
+      <div class="map">
+        <google-map
+          width="100%"
+          height="100%"
+          [options]="options"
+          (mapClick)="moveMap($event)"
+        >
+          @if (userMark().show) {
+            <map-advanced-marker
+              #marker="mapAdvancedMarker"
+              [position]="{ lat: userMark().lat, lng: userMark().lng }"
+            />
+          }
+          @for (location of nzLocations$ | async; track $index) {
+            <map-advanced-marker
+              #marker="mapAdvancedMarker"
+              [position]="{ lat: location.lat, lng: location.lng }"
+              [title]="location.city"
+              (mapClick)="window.open(marker)"
+            />
+            <map-info-window #window="mapInfoWindow">{{
+              location.city
+            }}</map-info-window>
+          }
+        </google-map>
+      </div>
+      <app-form-station
+        [userMarkInput]="userMark()"
+        [dataInput]="data$ | async"
+        (changed)="onChanged($event)"
+      />
+    </div>
+    <div class="stations">
+      @for (val of allStation$ | async; track val) {
+        <app-station-info [data]="val" />
+      }
+    </div>
+  </div>
 </div>
