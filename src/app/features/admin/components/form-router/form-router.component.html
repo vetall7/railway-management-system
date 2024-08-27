@@ -1,4 +1,4 @@
-<form [formGroup]="form" class="form">
+<form [formGroup]="form" class="form" (submit)="handleSubmit()">
   <div class="form__line">
     <p class="line__label">Stations</p>
     <div formArrayName="stations">
@@ -12,7 +12,7 @@
             (change)="changeSelectStation($index)"
           >
             @for (val of ((showData$ | async) || [])[$index]; track val.id) {
-              <option [value]="val.id">
+              <option [value]="val.id" [disabled]="checkSelectStation(val.id)">
                 {{ val.city }}
               </option>
             }
@@ -43,11 +43,12 @@
             (form.value.carriages || []).length > 2 &&
             $index !== getFormsControlsCarriages()['controls'].length - 1
           ) {
-            <button (click)="changeDelete($index)">x</button>
+            <button type="button" (click)="changeDelete($index)">x</button>
           }
         </div>
       }
     </div>
   </div>
-  <button type="submit">Save</button>
+  <button type="button" (click)="handleSubmit()">Save</button>
+  <button type="button" (click)="handleUpdate()">Update</button>
 </form>

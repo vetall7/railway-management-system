@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   inject,
   OnInit,
@@ -20,6 +21,8 @@ export class FormRouterComponent implements OnInit {
   formBuilder = inject(FormBuilder);
 
   store = inject(Store);
+
+  ref = inject(ChangeDetectorRef);
 
   form = this.formBuilder.group({
     stations: this.formBuilder.array([
@@ -92,6 +95,10 @@ export class FormRouterComponent implements OnInit {
     return this.form.controls.carriages.value.includes(String(id));
   }
 
+  checkSelectStation(id: number) {
+    return this.form.controls.stations.value.includes(String(id));
+  }
+
   changeDelete(id: number) {
     const a = [
       ...(this.form.value.carriages?.filter((el, i) => i !== id) as []),
@@ -105,6 +112,61 @@ export class FormRouterComponent implements OnInit {
     if (this.form.valid) {
       // console.log(1);
     }
+  }
+
+  handleUpdate() {
+    this.store.dispatch(AdminActions.clearShowData());
+    const car = ['carriage2', 'carriage5', ''];
+    const st = ['2', '17', '32', ''];
+    this.form.controls.carriages.reset(car);
+    this.form.controls.stations.reset(st);
+    this.form.controls.carriages.clear();
+    this.form.controls.stations.clear();
+    car.forEach((el, i) => {
+      if (i === 0) {
+        this.form.controls.carriages.push(
+          this.formBuilder.control('', {
+            validators: [Validators.required],
+            updateOn: 'change',
+          }),
+        );
+      } else {
+        this.form.controls.carriages.push(
+          this.formBuilder.control('', {
+            updateOn: 'change',
+          }),
+        );
+      }
+    });
+    st.forEach((el, i) => {
+      if (i === 0) {
+        this.form.controls.stations.push(
+          this.formBuilder.control('', {
+            validators: [Validators.required],
+            updateOn: 'change',
+          }),
+        );
+      } else {
+        this.form.controls.stations.push(
+          this.formBuilder.control('', {
+            updateOn: 'change',
+          }),
+        );
+      }
+    });
+
+    this.form.controls.carriages.reset(car);
+
+    st?.slice(0, -1).forEach((el, i) => {
+      this.store.dispatch(
+        AdminActions.setShowData({
+          id: i + 1,
+          valueForm: st as string[],
+        }),
+      );
+    });
+    this.form.controls.stations.reset(st);
+    this.ref.markForCheck();
   }
 
   ngOnInit(): void {

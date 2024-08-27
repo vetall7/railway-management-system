@@ -97,11 +97,14 @@ export const adminReducer = createReducer(
           : [
               ...state.showData,
               (state.stations
-                .find((el) => el.id === Number(valueForm?.at(-2)))!
+                .find((el) => el.id === Number(valueForm![id - 1]))!
                 .connectedTo.map((el) => el.id)
                 .map((el) => state.stations.find((a) => a.id === el))
                 .filter(
-                  (el) => !valueForm?.includes(String(el?.id)),
+                  (el) =>
+                    // eslint-disable-next-line operator-linebreak
+                    !valueForm?.includes(String(el?.id)) ||
+                    el?.id === Number(valueForm![id]),
                 ) as IDataStation[])!,
             ],
     }),
@@ -111,6 +114,13 @@ export const adminReducer = createReducer(
     (state, { id }): AdminState => ({
       ...state,
       showData: state.showData.slice(0, id + 1),
+    }),
+  ),
+  on(
+    AdminActions.clearShowData,
+    (state): AdminState => ({
+      ...state,
+      showData: [],
     }),
   ),
   on(

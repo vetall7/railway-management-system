@@ -69,3 +69,5 @@ export const updateCarriages = createAction(
   '[Admin Page] Update Carriages Data',
   props<{ carriages: ICarriagesData[] }>(),
 );
+
+export const clearShowData = createAction('[Admin Page] Clear Show Data');
