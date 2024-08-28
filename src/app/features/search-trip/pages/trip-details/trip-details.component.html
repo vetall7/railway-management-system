@@ -1,1 +1,16 @@
-<p>trip-details works!</p>
+@if (rideData()?.rideId) {
+  <div class="trip-detail-wrapper">
+    <div class="trip-detail-header">
+      <a [routerLink]="['/trip']" class="trip-back"
+        ><i class="pi pi-chevron-left"></i
+      ></a>
+      <app-train-stations [rideData]="rideData()" />
+    </div>
+  </div>
+}
+@if (rideError().isError) {
+  <div class="trip-detail-error">
+    <div>Message: {{ rideError().message }}</div>
+    <div>Reason: {{ rideError().message }}</div>
+  </div>
+}

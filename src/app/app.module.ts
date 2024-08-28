@@ -2,6 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SearchTripModule } from '@features/search-trip/search-trip.module';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -10,6 +11,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 
 import { ENVIRONMENT } from './shared/services/environment.service';
+import { TripDetailStoreModule } from './store/trip-detail/trip-detail-store.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -25,6 +27,8 @@ import { AppRoutingModule } from './app-routing.module';
       maxAge: 25,
       logOnly: environment.isProduction,
     }),
+    TripDetailStoreModule,
+    SearchTripModule,
   ],
   providers: [
     { provide: ENVIRONMENT, useValue: environment },

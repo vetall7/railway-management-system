@@ -7,4 +7,12 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/admin/admin.module').then((m) => m.AdminModule),
   },
+  {
+    path: 'trip',
+    title: 'TripPage',
+    loadChildren: () =>
+      import('./features/search-trip/search-trip.module').then(
+        (m) => m.SearchTripModule,
+      ),
+  },
 ];
