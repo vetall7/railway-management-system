@@ -1,26 +1,42 @@
-<p-button (onClick)="openDialog()" label="Route" />
+<p-button (onClick)="openDialog()" label="Route &#8628;" [link]="true" />
 <p-dialog
-  header="Edit Profile"
+  header="Route details"
   [modal]="true"
   [(visible)]="isVisibleDialog"
   [dismissableMask]="true"
-  [style]="{ width: '25rem' }"
+  [style]="{ width: '35rem' }"
 >
   @let currentTrip = trip();
   @if (currentTrip) {
-    from {{ currentTrip.from.city }} to {{ currentTrip.to.city }}
-    <br />
-    @for (station of currentTrip.path; track $index) {
-      cityname {{ station.city }}
-      <br />
-      @if ($index !== 0) {
-        comes at {{ currentTrip.schedule.segments[$index - 1].time[1] }}
+    <div>Time</div>
+    <div>City</div>
+    <div>Stop</div>
+    <div class="timeline">
+      <!-- from {{ currentTrip.from.city }} to {{ currentTrip.to.city }} -->
+      @for (station of currentTrip.path; track $index) {
+        <div
+          class="{{ $index % 2 === 0 ? 'container left' : 'container right' }}"
+        >
+          <div class="content">
+            <div class="station">{{ station.city }}</div>
+            @if ($index !== 0) {
+              <div class="time">
+                {{
+                  currentTrip.schedule.segments[$index - 1].time[1]
+                    | date: 'HH:mm'
+                }}
+              </div>
+            }
+            @if ($index < currentTrip.path.length - 1) {
+              <div class="stop">
+                {{
+                  currentTrip.schedule.segments[$index].time[0] | date: 'HH:mm'
+                }}
+              </div>
+            }
+          </div>
+        </div>
       }
-      <br />
-      @if ($index < currentTrip.path.length - 1) {
-        departure at {{ currentTrip.schedule.segments[$index].time[0] }}
-      }
-      <p-divider type="solid" />
-    }
+    </div>
   }
 </p-dialog>

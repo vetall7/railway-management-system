@@ -63,4 +63,7 @@
     var(--primary-md-font-height) var(--primary-font-family);
   --primary-lg-font: var(--primary-lg-font-weight) var(--primary-lg-font-size) /
     var(--primary-lg-font-height) var(--primary-font-family);
+
+  --secondary-sm-font: var(--primary-sm-font-weight) var(--primary-sm-font-size) /
+    var(--primary-sm-font-height) var(--secondary-font-family);
 }

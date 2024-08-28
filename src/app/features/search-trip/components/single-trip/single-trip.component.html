@@ -1,32 +1,92 @@
 <div class="wrapper">
   @let currentTrip = trip();
   @if (currentTrip) {
-    <div class="path">
-      <div class="start-point">
-        <div class="start-time">{{ startTime | date: 'MMM, d' }}</div>
-        <div class="start-city">{{ currentTrip.from.city }}</div>
+    <div class="trip">
+      <div class="path">
+        <div class="start-point">
+          <div class="date">{{ startTime | date: 'MMM, d' }}</div>
+          <div class="city">{{ currentTrip.from.city }}</div>
+        </div>
+        <div class="path-line">{{ duration }}</div>
+        <div class="end-point">
+          <div class="date">{{ endTime | date: 'MMM, d' }}</div>
+          <div class="city">{{ currentTrip.to.city }}</div>
+        </div>
       </div>
-      <div class="path-line">{{ duration }}</div>
-      <div class="end-point">
-        <div class="end-time">{{ endTime | date: 'MMM, d' }}</div>
-        <div class="end-city">{{ currentTrip.to.city }}</div>
+      <div class="route">
+        <div class="stations">
+          <svg
+            class="icon"
+            viewBox="0 0 1024 1024"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M860.848 572.192h-97.792a33.328 33.328 0 0 1-33.28-33.28V448"
+              fill="#06CFFF"
+            />
+            <path
+              d="M473.328 704V496h128v198.016M281.328 496h80a16 16 0 0 1 16 16v80a16 16 0 0 1-16 16h-80a16 16 0 0 1-16-16v-80a16 16 0 0 1 16-16zM73.376 496H153.28a15.936 15.936 0 0 1 16.048 16.048v79.904A15.936 15.936 0 0 1 153.28 608H105.376M673.104 128h217.472c8.384 0 15.184 8 15.184 18.336v91.328c0 10.128-6.72 18.336-15.344 18.336H569.12c-8.48 0-15.344-8-15.344-18.336V146.336C553.76 136.208 560.464 128 569.04 128h39.552"
+              fill="#95EAFF"
+            />
+            <path
+              d="M576 480h-128a16 16 0 0 0-16 16v208a16 16 0 0 0 32 0V512h96v182.016a16 16 0 0 0 32 0V496a16 16 0 0 0-16-16z"
+              fill="#49A3FE"
+            />
+            <path
+              d="M335.952 512c0.112 0 0.048 79.952 0.048 79.952 0 0.112-79.952 0.048-79.952 0.048-0.112 0-0.048-79.952-0.048-79.952 0-0.112 79.952-0.048 79.952-0.048zM224 591.952c0 17.84 14.32 32.048 32.048 32.048h79.904A31.936 31.936 0 0 0 368 591.952v-79.904A31.936 31.936 0 0 0 335.952 480h-79.904A31.936 31.936 0 0 0 224 512.048v79.904z"
+              fill="#0F13AE"
+            />
+            <path
+              d="M127.952 512C128.064 512 128 591.952 128 591.952c0 0.112-47.952 0.048-47.952 0.048a16 16 0 0 0 0 32h47.904A31.936 31.936 0 0 0 160 591.952v-79.904A31.936 31.936 0 0 0 127.952 480H48.048a16 16 0 0 0 0 32h79.904z"
+              fill="#4548B8"
+            />
+            <path
+              d="M105.392 416a16 16 0 0 0 0-32H56.448a16 16 0 0 0 0 32h48.944z"
+              fill="#0F13AE"
+            />
+            <path
+              d="M951.824 848H880v-80a16 16 0 0 0-32 0v80h-48v-80a16 16 0 0 0-32 0v80h-128v-80a16 16 0 0 0-32 0v80h-48v-80a16 16 0 0 0-32 0v80h-128v-80a16 16 0 0 0-32 0v80h-48v-80a16 16 0 0 0-32 0v80H128.624a16 16 0 0 0 0 32h823.2a16 16 0 0 0 0-32zM201.248 704a16 16 0 0 0-16-16H112a16 16 0 0 0 0 32h73.248a16 16 0 0 0 16-16zM544.048 272H560v48a16 16 0 0 0 32 0v-48h240v48a16 16 0 0 0 32 0v-48h15.952C898.288 272 912 256.224 912 237.664V146.336C912 127.696 898.32 112 880.128 112h-227.36a16 16 0 0 0 0 32h227.36c-0.528 0-0.128 0.464-0.128 2.336v91.328c0 1.808-0.448 2.336-0.048 2.336H544.048c0.384 0-0.048-0.496-0.048-2.336V146.336c0-1.824 0.448-2.336-0.032-2.336h41.344a16 16 0 0 0 0-32h-41.344C525.664 112 512 127.792 512 146.336v91.328c0 18.672 13.808 34.336 32.048 34.336zM166.384 416h393.2c45.328 0 86.08 8.832 123.248 26.592a16.352 16.352 0 0 0-1.072 5.408v90.912c0 27.168 22.08 49.28 49.28 49.28h97.792a15.68 15.68 0 0 0 6.896-1.712c2.544 3.264 5.168 6.544 7.632 9.776 2.576 3.36 5.072 6.656 7.472 9.856 18.608 24.928 30.832 44.256 32.176 50.64 3.536 16.72-9.776 31.248-33.808 31.248H247.984a16 16 0 0 0 0 32h601.232c43.472 0 73.056-32.272 65.12-69.84-2.736-13.008-15.792-33.648-37.856-63.184a1236.832 1236.832 0 0 0-7.696-10.176 1520.736 1520.736 0 0 0-43.376-53.92C754.944 430.208 668.576 384 559.6 384H166.4a16 16 0 0 0-0.016 32z m634.064 126.912c1.168 1.424 2.4 2.88 4.144 4.96 2.08 2.48 4.496 5.424 6.88 8.336h-80.416c-9.52 0-17.28-7.792-17.28-17.28v-78.944c31.312 20.384 60.016 47.872 86.672 82.928z"
+              fill="#0F13AE"
+            />
+            <path
+              d="M64 704m-16 0a16 16 0 1 0 32 0 16 16 0 1 0-32 0Z"
+              fill="#0F13AE"
+            />
+            <path
+              d="M951.824 752H80a16 16 0 0 0 0 32h871.824a16 16 0 0 0 0-32z"
+              fill="#49A3FE"
+            />
+            <path
+              d="M768 192m-16 0a16 16 0 1 0 32 0 16 16 0 1 0-32 0Z"
+              fill="#49A3FE"
+            />
+            <path
+              d="M832 192m-16 0a16 16 0 1 0 32 0 16 16 0 1 0-32 0Z"
+              fill="#49A3FE"
+            />
+          </svg>
+          <div class="city">{{ startCity }}</div>
+          <span class="arrow">&#8614;</span>
+          <div class="city">{{ endCity }}</div>
+        </div>
+        <div class="details">
+          <app-trip-details-dialog
+            [trip]="currentTrip"
+          ></app-trip-details-dialog>
+        </div>
       </div>
     </div>
-
-    from {{ currentTrip.from.city }} to {{ currentTrip.to.city }} route starts
-    at {{ startCity }} and ends at {{ endCity }}
-
-    @for (
-      carriage of carriagesWithNumberOfAvailableSeats | keyvalue;
-      track $index
-    ) {
-      <p-divider type="solid" />
-      <div class="col flex align-items-center justify-content-center">
-        {{ carriage.key }}
-        available seats {{ carriage.value }} price: {{ getPrice(carriage.key) }}
-      </div>
-    }
-
-    <app-trip-details-dialog [trip]="currentTrip"></app-trip-details-dialog>
+    <div class="carriages">
+      @for (
+        carriage of carriagesWithNumberOfAvailableSeats | keyvalue;
+        track $index
+      ) {
+        <div class="carriage">
+          {{ carriage.key }}: {{ carriage.value }}
+          <span class="price"> {{ getPrice(carriage.key) }}$ </span>
+        </div>
+      }
+    </div>
   }
 </div>
