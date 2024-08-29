@@ -1,0 +1,52 @@
+<div class="container">
+  <h1>Sign In</h1>
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    <div class="p-field">
+      <label for="email">Email</label>
+      <input
+        id="email"
+        pInputText
+        formControlName="email"
+        type="email"
+        placeholder="hello@world.com"
+      />
+      @if (loginForm.get('email')?.invalid) {
+        <small class="p-error">Enter a valid email</small>
+      }
+      @if (
+        authError$ | async;
+        as authError && authError.error.reason === 'userNotFound'
+      ) {
+        <small class="p-error">User not found</small>
+      }
+    </div>
+
+    <div class="p-field">
+      <label for="password">Password</label>
+      <p-password
+        id="password"
+        formControlName="password"
+        [toggleMask]="true"
+        [feedback]="false"
+      />
+      @if (loginForm.get('password')?.invalid) {
+        <small class="p-error">Password is required</small>
+      }
+    </div>
+
+    <div class="p-field">
+      <p-button
+        pButton
+        type="submit"
+        label="Sign In"
+        [disabled]="loginForm.invalid"
+      />
+    </div>
+  </form>
+  <div class="p-field">
+    <a routerLink="/auth/signup">Sign Up</a>
+  </div>
+  @if (authError$ | async; as e) {
+    <div>Error {{ e.error | json }}</div>
+  }
+</div>

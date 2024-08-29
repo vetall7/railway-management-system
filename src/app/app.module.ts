@@ -1,10 +1,11 @@
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { apiTokenInterceptor } from '@shared/interceptors/api-token.interceptor';
 
 // eslint-disable-next-line import/extensions
 import { environment } from '../environments/environment';
@@ -28,7 +29,7 @@ import { AppRoutingModule } from './app-routing.module';
   ],
   providers: [
     { provide: ENVIRONMENT, useValue: environment },
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([apiTokenInterceptor])),
   ],
   bootstrap: [AppComponent],
 })
