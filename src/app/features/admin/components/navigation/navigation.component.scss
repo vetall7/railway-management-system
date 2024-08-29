@@ -1,0 +1,38 @@
+.wrapper {
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+
+  .nav {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    width: 100%;
+    max-width: 100px;
+    background-color: var(--color-secondary-a10);
+    font-weight: var(--primary-md-font-weight);
+    height: 100vh;
+
+    .active {
+      color: var(--color-primary-a50);
+      font-weight: var(--primary-lg-font-weight);
+    }
+
+    .line {
+      margin-top: 5px;
+      margin-bottom: 5px;
+      width: 100%;
+      height: 1px;
+      background-color: var(--color-secondary-a30);
+    }
+
+    a {
+      transition: all 0.3s ease-out;
+      text-decoration: none;
+
+      &:hover {
+        color: var(--color-primary-b40);
+      }
+    }
+  }
+}
