@@ -1,6 +1,7 @@
 /* eslint-disable indent */
 import {
   ICarriagesData,
+  IDataRide,
   IDataStation,
   IRoutesData,
 } from '@features/admin/models';
@@ -15,6 +16,7 @@ export interface AdminState {
   showData: IDataStation[][];
   routes: IRoutesData[];
   carriages: ICarriagesData[];
+  ride: IDataRide;
 }
 
 export const initialState: AdminState = {
@@ -24,6 +26,12 @@ export const initialState: AdminState = {
   routes: [],
   showData: [],
   carriages: [],
+  ride: {
+    id: 0,
+    path: [],
+    carriages: [],
+    schedule: [],
+  },
 };
 
 export const adminReducer = createReducer(
@@ -84,13 +92,7 @@ export const adminReducer = createReducer(
     AdminActions.deleteRouterInStore,
     (state, { id }): AdminState => ({
       ...state,
-      routes: [
-        state.routes.slice(
-          0,
-          state.routes.findIndex((el) => el.id === id),
-        ),
-        state.routes.slice(state.routes.findIndex((el) => el.id === id) + 1),
-      ].flat(),
+      routes: [state.routes.filter((el) => el.id !== id)].flat(),
     }),
   ),
   on(
@@ -164,6 +166,13 @@ export const adminReducer = createReducer(
     (state, { data }): AdminState => ({
       ...state,
       routes: [...state.routes, data],
+    }),
+  ),
+  on(
+    AdminActions.updateRide,
+    (state, { data }): AdminState => ({
+      ...state,
+      ride: data,
     }),
   ),
 );

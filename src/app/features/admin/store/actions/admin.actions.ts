@@ -1,6 +1,7 @@
 import {
   ICarriagesData,
   IDataPostStation,
+  IDataRide,
   IDataStation,
   IResponseCreateStation,
   IRoutesData,
@@ -100,4 +101,14 @@ export const createRouter = createAction(
 export const createRouterInStore = createAction(
   '[Admin Page] Create Router In Store',
   props<{ data: IRoutesData }>(),
+);
+
+export const getRide = createAction(
+  '[Admin Page] Get Ride',
+  props<{ id: number }>(),
+);
+
+export const updateRide = createAction(
+  '[Admin Page] Update Ride',
+  props<{ data: IDataRide }>(),
 );

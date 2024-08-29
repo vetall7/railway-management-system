@@ -7,3 +7,4 @@ export * from './message';
 export * from './form-router';
 export * from './router-info';
 export * from './confirm';
+export * from './ride-info';

@@ -9,12 +9,14 @@ import {
   LoaderComponent,
   MessageComponent,
   NavigationComponent,
+  RideInfoComponent,
   RouterInfoComponent,
   StationInfoComponent,
 } from '@features/admin/components';
 import {
   AdminComponent,
   CarriagesComponent,
+  RidesComponent,
   RoutesComponent,
   StationsComponent,
 } from '@features/admin/pages';
@@ -39,6 +41,8 @@ import { AdminRoutingModule } from './admin-routing.module';
     FormRouterComponent,
     RouterInfoComponent,
     ConfirmComponent,
+    RidesComponent,
+    RideInfoComponent,
   ],
   imports: [
     CommonModule,

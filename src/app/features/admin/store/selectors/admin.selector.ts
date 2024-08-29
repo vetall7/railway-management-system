@@ -92,3 +92,14 @@ export const selectGetRouterId = (id: number) =>
   createSelector(selectGetAppState, (state: AdminState) =>
     state.routes.find((el) => el.id === id),
   );
+
+export const selectGetRide = createSelector(
+  selectGetAppState,
+  (state) => state.ride,
+);
+
+export const selectGetRideStation = createSelector(selectGetAppState, (state) =>
+  state.ride.path.map(
+    (el) => state.stations.find((val) => val.id === el)?.city,
+  ),
+);

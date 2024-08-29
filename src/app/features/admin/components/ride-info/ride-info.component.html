@@ -1,0 +1,19 @@
+<div class="wrapper">
+  <h3 class="title">Ride {{ data?.rideId }}</h3>
+  <div>
+    @for (item of data?.segments; track $index) {
+      <div>
+        <div>
+          {{ (stationName$ | async)?.[$index] }}
+        </div>
+        <div>
+          <p></p>
+          <p></p>
+        </div>
+        <div>
+          <p>Price:</p>
+        </div>
+      </div>
+    }
+  </div>
+</div>

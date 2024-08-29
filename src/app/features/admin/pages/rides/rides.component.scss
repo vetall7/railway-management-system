@@ -1,0 +1,42 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1440px;
+}
+
+.rides_content {
+  width: 100%;
+  padding: 15px;
+}
+
+.title {
+  text-align: center;
+}
+
+.button {
+  width: 50px;
+  cursor: pointer;
+  height: 30px;
+  border-radius: 5px;
+  font-size: 12px;
+  border: none;
+  background-color: var(--primary-button-color);
+  color: var(--primary-button-text-color);
+  transition: all 0.3s ease-out;
+
+  &:hover {
+    background-color: var(--primary-button-hover-color);
+  }
+
+  &.disabled {
+    background-color: var(--primary-button-hover-color);
+    opacity: 0.33;
+    cursor: default;
+  }
+
+  .icon_back {
+    width: 2em;
+    height: 2em;
+  }
+}

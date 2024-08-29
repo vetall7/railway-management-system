@@ -2,10 +2,12 @@
 import { inject, Injectable } from '@angular/core';
 import {
   ICarriagesData,
+  IDataRide,
   IDataStation,
   IResponseCreateStation,
   IRoutesData,
 } from '@features/admin/models';
+import { RideService } from '@features/admin/services/ride.service';
 import { RouteService } from '@features/admin/services/route.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, finalize, map, of, switchMap } from 'rxjs';
@@ -18,19 +20,39 @@ export class AdminEffects {
   constructor(
     private stationService: StationService,
     private routeService: RouteService,
+    private rideService: RideService,
   ) {}
 
   private actions$ = inject(Actions);
 
   getAllStations$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(AdminActions.getStations),
+      ofType(AdminActions.getStations, AdminActions.updateRide),
       switchMap(() => this.stationService.login()),
       switchMap(() =>
         this.stationService.getStations().pipe(
           map((res) =>
             AdminActions.updateStations({
               stations: [...(res as IDataStation[])],
+            }),
+          ),
+          catchError(() => of(AdminActions.failed())),
+          finalize(() =>
+            of(AdminActions.setLoadingState({ isLoading: false })),
+          ),
+        ),
+      ),
+    );
+  });
+
+  getRide$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AdminActions.getRide),
+      switchMap((req) =>
+        this.rideService.getRide(req.id).pipe(
+          map((res) =>
+            AdminActions.updateRide({
+              data: res as IDataRide,
             }),
           ),
           catchError(() => of(AdminActions.failed())),
@@ -192,6 +214,7 @@ export class AdminEffects {
         AdminActions.deleteRouter,
         AdminActions.updateRouter,
         AdminActions.createRouter,
+        AdminActions.getRide,
       ),
       map(() => AdminActions.setLoadingState({ isLoading: true })),
     );
@@ -201,7 +224,6 @@ export class AdminEffects {
     return this.actions$.pipe(
       ofType(
         AdminActions.addStationInStore,
-        AdminActions.updateRoutes,
         AdminActions.deleteStationInStore,
         AdminActions.updateCarriages,
         AdminActions.deleteRouterInStore,
