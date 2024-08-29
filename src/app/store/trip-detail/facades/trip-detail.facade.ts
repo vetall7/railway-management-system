@@ -9,7 +9,7 @@ import { TripDetailSelector } from '../selectors';
 export class TripDetailFacade implements ITripDetailFacade {
   private readonly store = inject(Store);
 
-  public readonly rideData$ = this.store.select(
+  public readonly rideData = this.store.selectSignal(
     TripDetailSelector.selectRideData,
   );
 

@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   DestroyRef,
   inject,
   OnInit,
@@ -15,6 +16,7 @@ import {
   IRideError,
   IRideInformation,
 } from '@features/search-trip/models';
+import { SearchTripDetailService } from '@features/search-trip/services/search-trip-detail.service';
 
 import { TripDetailFacade } from '../../../../store/trip-detail/facades';
 
@@ -33,44 +35,33 @@ export class TripDetailsComponent implements OnInit {
 
   private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 
-  public from!: number;
+  private readonly searchTrip = inject(SearchTripDetailService);
 
-  public to!: number;
+  public from: WritableSignal<number | null> = signal(null);
 
-  public rideData: WritableSignal<IRideInformation | null> = signal(null);
+  public to: WritableSignal<number | null> = signal(null);
+
+  public rideData: Signal<IRideInformation | null> = computed(() => {
+    return this.searchTrip.setTrainDates(
+      this.tripDetailFacade.rideData(),
+      this.from(),
+      this.to(),
+    );
+  });
 
   public rideError: Signal<IRideError> = this.tripDetailFacade.rideError;
 
   public ngOnInit(): void {
     this.loadRide();
     this.getParam();
-    this.getRideData();
   }
 
   private getParam(): void {
     this.activatedRoute.queryParams
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((value: IQuery | Params) => {
-        this.from = +value.from;
-        this.to = +value.to;
-      });
-  }
-
-  private getRideData(): void {
-    this.tripDetailFacade.rideData$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((rideData: IRideInformation) => {
-        if (rideData.path?.length) {
-          const startIndex = rideData.path.indexOf(this.from);
-          const endIndex = rideData.path.indexOf(this.to);
-          this.rideData.set({
-            ...rideData,
-            startDate: rideData.schedule.segments[startIndex].time[0],
-            endDate: rideData.schedule.segments[endIndex - 1].time[1],
-            firstCity: this.from,
-            secondCity: this.to,
-          });
-        }
+        this.from?.set(+value.from);
+        this.to?.set(+value.to);
       });
   }
 
