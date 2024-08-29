@@ -10,6 +10,6 @@
   ::ng-deep .p-tabview-nav li {
     position: relative;
     padding: 10px 20px;
-    border-right: 1px solid #e0e0e0;
+    border-right: var(--secondary-border);
   }
 }

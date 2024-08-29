@@ -6,9 +6,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { SearchAutocompleteService } from '@features/search-trip/services';
-import { FetchTripsService } from '@features/search-trip/services/fetch-trips.service';
-import { dateValidator } from '@features/search-trip/validators/date-validator.directive';
+import {
+  FetchStationsService,
+  FetchTripsService,
+} from '@features/search-trip/services';
+import { dateValidator } from '@features/search-trip/validators';
 
 @Component({
   selector: 'app-search-trips',
@@ -19,15 +21,15 @@ import { dateValidator } from '@features/search-trip/validators/date-validator.d
 export class SearchTripsComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
 
-  private readonly autoCompleteService = inject(SearchAutocompleteService);
+  private readonly fetchStationsService = inject(FetchStationsService);
 
   protected readonly fetchTripsService = inject(FetchTripsService);
 
-  protected isSubmitted = false;
+  private isSubmitted = false;
 
   protected readonly form = this.formBuilder.group({
-    from: ['city1', Validators.required],
-    to: ['city56', Validators.required],
+    from: ['', Validators.required],
+    to: ['', Validators.required],
     date: [new Date(), [Validators.required, dateValidator()]],
     time: new Date(),
   });
@@ -35,15 +37,19 @@ export class SearchTripsComponent implements OnInit {
   protected filteredCities: string[] = [];
 
   public ngOnInit(): void {
-    this.autoCompleteService.fetchCities();
+    this.fetchStationsService.fetchStations();
+  }
+
+  public getIsSubmitted(): boolean {
+    return this.isSubmitted;
   }
 
   protected onSubmit(): void {
     this.isSubmitted = true;
     const { from, to, date, time } = this.form.value;
     if (from && to && date) {
-      const cityFrom = this.autoCompleteService.getCityByName(from);
-      const cityTo = this.autoCompleteService.getCityByName(to);
+      const cityFrom = this.fetchStationsService.getCityByName(from);
+      const cityTo = this.fetchStationsService.getCityByName(to);
 
       const mergedTime = time
         ? date.getTime() + new Date(time).getTime()
@@ -61,7 +67,7 @@ export class SearchTripsComponent implements OnInit {
 
   protected filterCities(event: { query: string }): void {
     const { query } = event;
-    this.filteredCities = this.autoCompleteService.getCitiesNames();
+    this.filteredCities = this.fetchStationsService.getCitiesNames();
     this.filteredCities = this.filteredCities.filter((city) =>
       city.toLowerCase().includes(query.toLowerCase()),
     );

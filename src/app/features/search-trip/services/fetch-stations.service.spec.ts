@@ -1,13 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SearchAutocompleteService } from './search-autocomplete.service';
+// eslint-disable-next-line import/extensions
+import { FetchStationsService } from './fetch-stations.service';
 
 describe('SearchAutocompleteService', () => {
-  let service: SearchAutocompleteService;
+  let service: FetchStationsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(SearchAutocompleteService);
+    service = TestBed.inject(FetchStationsService);
   });
 
   it('should be created', () => {

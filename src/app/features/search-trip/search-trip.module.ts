@@ -1,9 +1,22 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { CommonModule } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  DateSelectorComponent,
+  NoTripsComponent,
+  SingleTripComponent,
+  TripDetailsDialogComponent,
+} from '@features/search-trip/components';
 import { SearchTripsComponent } from '@features/search-trip/pages';
-import { SearchAutocompleteService } from '@features/search-trip/services';
+import {
+  FetchApiDataService,
+  FetchCarriagesService,
+  FetchStationsService,
+  FetchTripsService,
+} from '@features/search-trip/services';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
@@ -11,18 +24,13 @@ import { DividerModule } from 'primeng/divider';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { TabViewModule } from 'primeng/tabview';
 
-import { DateSelectorComponent } from './components/date-selector/date-selector.component';
-import { SingleTripComponent } from './components/single-trip/single-trip.component';
-import { TripDetailsDialogComponent } from './components/trip-details-dialog/trip-details-dialog.component';
-import { FetchCarriagesService } from './services/fetch-carriages.service';
-import { FetchTripsService } from './services/fetch-trips.service';
-
 @NgModule({
   declarations: [
     SearchTripsComponent,
     SingleTripComponent,
     DateSelectorComponent,
     TripDetailsDialogComponent,
+    NoTripsComponent,
   ],
   imports: [
     CommonModule,
@@ -34,13 +42,15 @@ import { FetchTripsService } from './services/fetch-trips.service';
     DividerModule,
     DialogModule,
     FloatLabelModule,
+    AngularSvgIconModule.forRoot(),
   ],
   exports: [SearchTripsComponent],
   providers: [
-    SearchAutocompleteService,
+    FetchStationsService,
     FetchTripsService,
     FetchCarriagesService,
     provideHttpClient(),
+    FetchApiDataService,
   ],
 })
 export class SearchTripModule {}

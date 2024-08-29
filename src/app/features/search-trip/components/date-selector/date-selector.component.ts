@@ -5,9 +5,11 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { SingleTrip } from '@features/search-trip/models/trips.model';
-import { FetchCarriagesService } from '@features/search-trip/services/fetch-carriages.service';
-import { FetchTripsService } from '@features/search-trip/services/fetch-trips.service';
+import { SingleTrip } from '@features/search-trip/models';
+import {
+  FetchCarriagesService,
+  FetchTripsService,
+} from '@features/search-trip/services';
 
 @Component({
   selector: 'app-date-selector',
@@ -20,7 +22,7 @@ export class DateSelectorComponent implements OnInit {
 
   protected readonly activeTabIndex = 0;
 
-  private availableDates: string[] = [];
+  private availableDates: Date[] = [];
 
   private readonly fetchCarriagesService = inject(FetchCarriagesService);
 
@@ -33,9 +35,9 @@ export class DateSelectorComponent implements OnInit {
     const trips = this.fetchTripsService.tripsSignal;
     if (trips) {
       trips.forEach((trip) => {
-        const date = new Date(trip.schedule.segments[0].time[0])
-          .setHours(0, 0, 0, 0)
-          .toString();
+        const date = new Date(
+          new Date(trip.schedule.segments[0].time[0]).setHours(0, 0, 0, 0),
+        ).toISOString();
         if (map.has(date)) {
           const dateTrips = map.get(date);
           if (dateTrips) {
@@ -49,17 +51,16 @@ export class DateSelectorComponent implements OnInit {
     return map;
   });
 
-  protected getAvailableDates(): string[] {
-    this.availableDates = Array.from(this.tripsByDate().keys()).sort((a, b) => {
-      const dateA = new Date(a);
-      const dateB = new Date(b);
-      return dateA.getTime() - dateB.getTime();
-    });
+  protected getAvailableDates(): Date[] {
+    this.availableDates = Array.from(this.tripsByDate().keys())
+      .map((dateString) => new Date(dateString))
+      .sort((a, b) => a.getTime() - b.getTime());
     return this.availableDates;
   }
 
   protected getTripsByIndexOfDate(index: number): SingleTrip[] {
     const date = this.availableDates[index];
-    return this.tripsByDate().get(date) || [];
+    const trips = this.tripsByDate().get(date.toISOString()) || [];
+    return trips;
   }
 }

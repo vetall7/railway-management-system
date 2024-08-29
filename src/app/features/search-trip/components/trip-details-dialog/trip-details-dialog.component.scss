@@ -1,171 +1,6 @@
-// .timeline {
-//   margin: 0 auto;
-//   padding: 10px 0;
-//   position: relative;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center; /* Center items horizontally */
-//   font: var(--primary-md-font);
-//   width: fit-content; /* Ensure the width fits the content */
-// }
-
-// .timeline:before {
-//   content: '';
-//   position: absolute;
-//   top: 0;
-//   bottom: 0;
-//   width: 4px;
-//   background: #1E90FF;
-//   border-radius: 2px;
-// }
-
-// .event {
-//   margin-bottom: 30px;
-//   position: relative;
-//   width: 100%; /* Ensure events take up the full width */
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center; /* Center content horizontally */
-// }
-
-// .event:last-child {
-//   margin-bottom: 0;
-// }
-
-// .event:before {
-//   content: '';
-//   position: absolute;
-//   left: -8px; /* Align circle with the timeline line */
-//   width: 16px;
-//   height: 16px;
-//   border-radius: 50%;
-//   background: #1E90FF;
-//   border: 3px solid white;
-// }
-
-// .time, .station, .stop {
-//   text-align: center; /* Center text within event */
-// }
-
-// .timeline {
-//   margin: 20px auto;
-//   padding: 20px;
-// }
-
-// .card {
-//   position: relative;
-//   max-width: 400px;
-// }
-
-// .card:nth-child(odd) {
-//   padding: 30px 0 30px 30px;
-// }
-// .card:nth-child(even) {
-//   padding: 30px 30px 30px 0;
-// }
-// /* Global ::before */
-// .card::before {
-//   content: "";
-//   position: absolute;
-//   width: 50%;
-//   border: solid orangered;
-// }
-
-// /* Setting the border of top, bottom, left */
-// .card:nth-child(odd)::before {
-//   left: 0px;
-//   top: -4.5px;
-//   bottom: -4.5px;
-//   border-width: 5px 0 5px 5px;
-//   border-radius: 50px 0 0 50px;
-// }
-
-// /* Setting the top and bottom to "-5px" because earlier it was out of a pixel in mobile devices */
-// @media only screen and (max-width: 400px) {
-//   .card:nth-child(odd)::before {
-//     top: -5px;
-//     bottom: -5px;
-//   }
-// }
-
-// /* Setting the border of top, bottom, right */
-// .card:nth-child(even)::before {
-//   right: 0;
-//   top: 0;
-//   bottom: 0;
-//   border-width: 5px 5px 5px 0;
-//   border-radius: 0 50px 50px 0;
-// }
-
-// /* Removing the border if it is the first card */
-// .card:first-child::before {
-//   border-top: 0;
-//   border-top-left-radius: 0;
-// }
-
-// /* Removing the border if it is the last card  and it's odd */
-// .card:last-child:nth-child(odd)::before {
-//   border-bottom: 0;
-//   border-bottom-left-radius: 0;
-// }
-
-// /* Removing the border if it is the last card  and it's even */
-// .card:last-child:nth-child(even)::before {
-//   border-bottom: 0;
-//   border-bottom-right-radius: 0;
-// }
-
-// .card:nth-child(even) > .info > .title {
-//   text-align: right;
-// }
-
-// /* setting dot to the left if the card is odd */
-// .card:nth-child(odd) > .info > .title::before {
-//   left: -45px;
-// }
-
-// /* setting dot to the right if the card is odd */
-// .card:nth-child(even) > .info > .title::before {
-//   right: -45px;
-// }
-
-// .info {
-//   display: flex;
-//   flex-direction: column;
-//   color: gray;
-//   border-radius: 10px;
-//   padding: 10px;
-// }
-
-// /* Title of the card */
-// .title {
-//   color: orangered;
-//   position: relative;
-// }
-
-// /* Timeline dot  */
-// .title::before {
-//   content: "";
-//   position: absolute;
-//   width: 10px;
-//   height: 10px;
-//   background: white;
-//   border-radius: 999px;
-//   border: 3px solid orangered;
-// }
-
-* {
-  box-sizing: border-box;
-}
-
-/* Set a background color */
-.timeline {
-  background-color: #474e5d;
-  font-family: Helvetica, sans-serif;
-}
-
 /* The actual timeline (the vertical ruler) */
 .timeline {
+  font: var(--primary-md-font);
   position: relative;
   max-width: 1200px;
   margin: 0 auto;
@@ -176,7 +11,7 @@
   content: '';
   position: absolute;
   width: 6px;
-  background-color: white;
+  background-color: var(--primary-time-line-color);
   top: 0;
   bottom: 0;
   left: 50%;
@@ -198,8 +33,8 @@
   width: 25px;
   height: 25px;
   right: -17px;
-  background-color: white;
-  border: 4px solid #ff9f55;
+  background-color: var(--primary-timeline-circle-background-color);
+  border: 4px solid var(--primary-timeline-circle-color);
   top: 15px;
   border-radius: 50%;
   z-index: 1;
@@ -224,9 +59,10 @@
   width: 0;
   z-index: 1;
   right: 30px;
-  border: medium solid white;
+  border: medium solid var(--primary-background-color);
   border-width: 10px 0 10px 10px;
-  border-color: transparent transparent transparent white;
+  border-color: transparent transparent transparent
+    var(--primary-background-color);
 }
 
 /* Add arrows to the right container (pointing left) */
@@ -238,9 +74,10 @@
   width: 0;
   z-index: 1;
   left: 30px;
-  border: medium solid white;
+  border: medium solid var(--primary-background-color);
   border-width: 10px 10px 10px 0;
-  border-color: transparent white transparent transparent;
+  border-color: transparent var(--primary-background-color) transparent
+    transparent;
 }
 
 /* Fix the circle for containers on the right side */
@@ -251,9 +88,17 @@
 /* The actual content */
 .content {
   padding: 20px 30px;
-  background-color: white;
   position: relative;
+  background-color: var(--primary-background-color);
   border-radius: 6px;
+}
+
+.passed-city {
+  color: var(--color-primary-a50);
+}
+
+.station {
+  font-weight: bold;
 }
 
 /* Media queries - Responsive timeline on screens less than 600px wide */
@@ -273,9 +118,9 @@
   /* Make sure that all arrows are pointing leftwards */
   .container::before {
     left: 60px;
-    border: medium solid white;
+    border: medium solid var(--color-primary-a0);
     border-width: 10px 10px 10px 0;
-    border-color: transparent white transparent transparent;
+    border-color: transparent var(--color-primary-a0) transparent transparent;
   }
 
   /* Make sure all circles are at the same spot */

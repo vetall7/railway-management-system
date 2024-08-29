@@ -1,49 +1,53 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="inputs">
-    <p-autoComplete
-      class="input"
-      formControlName="from"
-      [suggestions]="filteredCities"
-      (completeMethod)="filterCities($event)"
-      inputId="float-label"
-      [placeholder]="'City from'"
-      [forceSelection]="true"
-    />
-    <span
-      class="circle-icon"
-      (click)="swapCities()"
-      tabindex="0"
-      (keydown)="swapCities()"
-      role="button"
-      aria-label="Swap cities"
-    >
-      &#8644;
-    </span>
+    <div class="cities">
+      <p-autoComplete
+        class="input"
+        formControlName="from"
+        [suggestions]="filteredCities"
+        (completeMethod)="filterCities($event)"
+        inputId="float-label"
+        [placeholder]="'City from'"
+        [forceSelection]="true"
+      />
+      <span
+        class="circle-icon"
+        (click)="swapCities()"
+        tabindex="0"
+        (keydown)="swapCities()"
+        role="button"
+        aria-label="Swap cities"
+      >
+        &#8644;
+      </span>
 
-    <p-autoComplete
-      class="input"
-      formControlName="to"
-      [suggestions]="filteredCities"
-      (completeMethod)="filterCities($event)"
-      [placeholder]="'City to'"
-      [forceSelection]="true"
-    />
-    <p-calendar
-      class="calendar"
-      formControlName="date"
-      inputId="buttondisplay"
-    />
-
-    @let date = form.get('date');
-    @if (date) {
+      <p-autoComplete
+        class="input"
+        formControlName="to"
+        [suggestions]="filteredCities"
+        (completeMethod)="filterCities($event)"
+        [placeholder]="'City to'"
+        [forceSelection]="true"
+      />
+    </div>
+    <div class="date">
       <p-calendar
         class="calendar"
-        inputId="calendar-timeonly"
-        formControlName="time"
-        [timeOnly]="true"
-        [disabled]="date.invalid"
+        formControlName="date"
+        inputId="buttondisplay"
       />
-    }
+
+      @let date = form.get('date');
+      @if (date) {
+        <p-calendar
+          class="calendar"
+          inputId="calendar-timeonly"
+          formControlName="time"
+          [timeOnly]="true"
+          [disabled]="date.invalid"
+        />
+      }
+    </div>
     <p-button
       [rounded]="true"
       icon="pi pi-search"
@@ -86,11 +90,9 @@
   </div>
 </form>
 
-@if (isSubmitted) {
-  @if (this.fetchTripsService.isNotFoundSig() === true) {
-    <div>
-      <small class="p-error">No trips found</small>
-    </div>
+@if (getIsSubmitted()) {
+  @if (this.fetchTripsService.isNotFoundSig()) {
+    <app-no-trips></app-no-trips>
   } @else {
     <app-date-selector class="dates-board"></app-date-selector>
   }

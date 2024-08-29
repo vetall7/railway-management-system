@@ -5,7 +5,7 @@
   align-items: center;
   gap: 1rem;
   padding: 2rem;
-  border: 1px solid #ccc;
+  border: var(--secondary-border);
   font: var(--primary-sm-font);
 }
 
@@ -15,7 +15,7 @@
   flex-direction: column;
   width: 100%;
   flex: 2;
-  border-right: 2px solid #ccc;
+  border-right: var(--secondary-border);
 }
 
 .path {
@@ -46,7 +46,7 @@
 .path-line::after {
   content: '';
   flex: 1;
-  border-bottom: 4px solid #6d3493;
+  border-bottom: 4px solid var(--primary-time-line-border-color);
 }
 
 .path-line:not(:empty)::before {
@@ -65,7 +65,6 @@
 
 .city {
   font: var(--secondary-sm-font);
-  font-family: 'Courier New', monospace;
 }
 
 .icon {
@@ -82,7 +81,7 @@
 
 .arrow {
   font-size: 2rem;
-  color: #6d3493;
+  color: var(--primary-time-line-border-color);
 }
 
 .carriages {
@@ -111,4 +110,35 @@
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+}
+
+@media (max-width: 1200px) {
+  .wrapper {
+    flex-direction: column;
+  }
+  .trip {
+    border-right: none;
+  }
+  .carriages {
+    justify-content: center;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .icon {
+    height: 2rem;
+    width: 2rem;
+  }
+  .path {
+    width: 100%;
+  }
+  .route {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .carriages {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 }
