@@ -4,12 +4,12 @@
     <div class="trip">
       <div class="path">
         <div class="start-point">
-          <div class="date">{{ startTime | date: 'MMM, d' }}</div>
+          <div class="date">{{ startTime | date: 'MMM d, HH:mm' }}</div>
           <div class="city">{{ currentTrip.from.city }}</div>
         </div>
         <div class="path-line">{{ duration }}</div>
         <div class="end-point">
-          <div class="date">{{ endTime | date: 'MMM, d' }}</div>
+          <div class="date">{{ endTime | date: 'MMM d, HH:mm' }}</div>
           <div class="city">{{ currentTrip.to.city }}</div>
         </div>
       </div>
