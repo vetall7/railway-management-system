@@ -1,12 +1,25 @@
 import {
+  AfterViewChecked,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   inject,
+  Input,
   OnInit,
+  Output,
+  signal,
 } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import {
+  AbstractControlOptions,
+  FormArray,
+  FormBuilder,
+  Validators,
+} from '@angular/forms';
+import { IDataFormRouter, IRoutesData } from '@features/admin/models';
+import { RouteFormValid } from '@features/admin/validators';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 import * as AdminActions from '../../store/actions/admin.actions';
 import * as AdminSelectors from '../../store/selectors/admin.selector';
@@ -17,29 +30,48 @@ import * as AdminSelectors from '../../store/selectors/admin.selector';
   styleUrl: './form-router.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormRouterComponent implements OnInit {
+export class FormRouterComponent implements OnInit, AfterViewChecked {
+  @Input() data: IDataFormRouter | null = {
+    data: { id: -1, carriages: [], path: [] },
+    update: false,
+    checkUpdate: false,
+  };
+
+  @Output() changed = new EventEmitter<boolean>();
+
   formBuilder = inject(FormBuilder);
 
   store = inject(Store);
 
   ref = inject(ChangeDetectorRef);
 
-  form = this.formBuilder.group({
-    stations: this.formBuilder.array([
-      this.formBuilder.control('', {
-        validators: [Validators.required],
-        updateOn: 'change',
-      }),
-    ]),
-    carriages: this.formBuilder.array([
-      this.formBuilder.control('', {
-        validators: [Validators.required],
-        updateOn: 'change',
-      }),
-    ]),
-  });
+  form = this.formBuilder.group(
+    {
+      stations: this.formBuilder.array([
+        this.formBuilder.control('', {
+          validators: [Validators.required],
+          updateOn: 'change',
+        }),
+      ]),
+      carriages: this.formBuilder.array([
+        this.formBuilder.control('', {
+          validators: [Validators.required],
+          updateOn: 'change',
+        }),
+      ]),
+    },
+    { validators: RouteFormValid } as AbstractControlOptions,
+  );
 
   data$ = this.store.select(AdminSelectors.selectGetStations);
+
+  dataUpdate$ = new Observable<IRoutesData | undefined>();
+
+  fillData$ = signal<IRoutesData>({
+    id: -1,
+    path: [],
+    carriages: [],
+  });
 
   dataCarriages$ = this.store.select(AdminSelectors.selectGetCarriagesData);
 
@@ -110,20 +142,44 @@ export class FormRouterComponent implements OnInit {
 
   handleSubmit() {
     if (this.form.valid) {
-      // console.log(1);
+      const data: IRoutesData = {
+        id: this.data?.data.id as number,
+        carriages: this.form.value.carriages?.slice(0, -1) as string[],
+        path: this.form.value.stations
+          ?.map((el) => Number(el))
+          ?.slice(0, -1) as number[],
+      };
+      this.store.dispatch(AdminActions.createRouter({ data }));
+
+      this.changed.emit(false);
     }
   }
 
   handleUpdate() {
-    this.store.dispatch(AdminActions.clearShowData());
-    const car = ['carriage2', 'carriage5', ''];
-    const st = ['2', '17', '32', ''];
+    if (this.form.valid) {
+      const data: IRoutesData = {
+        id: this.data?.data.id as number,
+        carriages: this.form.value.carriages?.slice(0, -1) as string[],
+        path: this.form.value.stations
+          ?.map((el) => Number(el))
+          ?.slice(0, -1) as number[],
+      };
+      this.store.dispatch(AdminActions.updateRouter({ data }));
+
+      this.changed.emit(false);
+    }
+  }
+
+  updateForm() {
+    const car = [...this.fillData$().carriages, ''];
+    const st = [...this.fillData$().path.map((el) => String(el)), ''];
+
     this.form.controls.carriages.reset(car);
     this.form.controls.stations.reset(st);
     this.form.controls.carriages.clear();
     this.form.controls.stations.clear();
     car.forEach((el, i) => {
-      if (i === 0) {
+      if (i < 3) {
         this.form.controls.carriages.push(
           this.formBuilder.control('', {
             validators: [Validators.required],
@@ -139,7 +195,7 @@ export class FormRouterComponent implements OnInit {
       }
     });
     st.forEach((el, i) => {
-      if (i === 0) {
+      if (i < 3) {
         this.form.controls.stations.push(
           this.formBuilder.control('', {
             validators: [Validators.required],
@@ -155,7 +211,7 @@ export class FormRouterComponent implements OnInit {
       }
     });
 
-    this.form.controls.carriages.reset(car);
+    this.store.dispatch(AdminActions.clearShowData());
 
     st?.slice(0, -1).forEach((el, i) => {
       this.store.dispatch(
@@ -165,11 +221,24 @@ export class FormRouterComponent implements OnInit {
         }),
       );
     });
+    this.form.controls.carriages.reset(car);
     this.form.controls.stations.reset(st);
-    this.ref.markForCheck();
+    this.form.updateValueAndValidity();
   }
 
   ngOnInit(): void {
     this.store.dispatch(AdminActions.setShowData({ id: 0, valueForm: [] }));
+  }
+
+  ngAfterViewChecked() {
+    if (this.data?.checkUpdate && this.data.update) {
+      this.fillData$.set(this.data.data);
+      this.updateForm();
+      this.data.update = false;
+    }
+  }
+
+  handleClickCancel() {
+    this.changed.emit(false);
   }
 }

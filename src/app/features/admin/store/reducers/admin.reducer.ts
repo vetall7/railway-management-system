@@ -81,6 +81,19 @@ export const adminReducer = createReducer(
     }),
   ),
   on(
+    AdminActions.deleteRouterInStore,
+    (state, { id }): AdminState => ({
+      ...state,
+      routes: [
+        state.routes.slice(
+          0,
+          state.routes.findIndex((el) => el.id === id),
+        ),
+        state.routes.slice(state.routes.findIndex((el) => el.id === id) + 1),
+      ].flat(),
+    }),
+  ),
+  on(
     AdminActions.updateRoutes,
     (state, { routes }): AdminState => ({
       ...state,
@@ -103,7 +116,7 @@ export const adminReducer = createReducer(
                 .filter(
                   (el) =>
                     // eslint-disable-next-line operator-linebreak
-                    !valueForm?.includes(String(el?.id)) ||
+                    !valueForm.slice(0, id)?.includes(String(el?.id)) ||
                     el?.id === Number(valueForm![id]),
                 ) as IDataStation[])!,
             ],
@@ -120,7 +133,7 @@ export const adminReducer = createReducer(
     AdminActions.clearShowData,
     (state): AdminState => ({
       ...state,
-      showData: [],
+      showData: [state.showData[0]],
     }),
   ),
   on(
@@ -128,6 +141,29 @@ export const adminReducer = createReducer(
     (state, { carriages }): AdminState => ({
       ...state,
       carriages: [...carriages],
+    }),
+  ),
+  on(
+    AdminActions.updateRouterInStore,
+    (state, { data }): AdminState => ({
+      ...state,
+      routes: [
+        ...state.routes.slice(
+          0,
+          state.routes.findIndex((el) => el.id === data.id),
+        ),
+        data,
+        ...state.routes.slice(
+          state.routes.findIndex((el) => el.id === data.id) + 1,
+        ),
+      ],
+    }),
+  ),
+  on(
+    AdminActions.createRouterInStore,
+    (state, { data }): AdminState => ({
+      ...state,
+      routes: [...state.routes, data],
     }),
   ),
 );

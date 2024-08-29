@@ -1,14 +1,21 @@
 @if (loading$ | async) {
   <app-loader />
 }
+@if (showAlert$()) {
+  <app-message [error]="true" [text]="'Please cancel the form'" />
+}
 <div class="wrapper">
   <app-navigation />
   <div class="router_content">
     @if (!showCreate$()) {
-      <button (click)="handleClickCreate()">Create</button>
+      <button type="button" (click)="handleClickCreate()" class="button">
+        Create
+      </button>
     } @else {
-      <app-form-router />
+      <app-form-router [data]="edit$()" (changed)="onCancelEdit($event)" />
     }
-    <app-router-info />
+    @for (val of routes$ | async; track val) {
+      <app-router-info [data]="val" (changed)="onClickEdit($event)" />
+    }
   </div>
 </div>

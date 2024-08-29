@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
 import {
+  ConfirmComponent,
   FormRouterComponent,
   FormStationComponent,
   LoaderComponent,
@@ -37,6 +38,7 @@ import { AdminRoutingModule } from './admin-routing.module';
     MessageComponent,
     FormRouterComponent,
     RouterInfoComponent,
+    ConfirmComponent,
   ],
   imports: [
     CommonModule,

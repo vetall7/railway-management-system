@@ -1,0 +1,92 @@
+.form {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.content_selection {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+
+.alert {
+  margin-bottom: 10px;
+}
+
+.buttons_content {
+  display: flex;
+  justify-content: space-around;
+}
+
+.button {
+  width: 30%;
+  cursor: pointer;
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  font-size: 12px;
+  background-color: var(--primary-button-color);
+  color: var(--primary-button-text-color);
+
+  &:hover {
+    background-color: var(--primary-button-hover-color);
+  }
+
+  &.disabled {
+    background-color: var(--primary-button-hover-color);
+    opacity: 0.33;
+    cursor: default;
+  }
+}
+
+.alert {
+  align-self: center;
+}
+
+.form__line {
+  width: 30%;
+}
+
+.line__label {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.line__input {
+  width: 100%;
+  margin-bottom: 10px;
+  border: 5px;
+}
+
+.content_input {
+  display: flex;
+  justify-content: space-between;
+}
+
+.select_carriage {
+  margin-right: 10px;
+}
+
+.button_delete {
+  width: 22px;
+  cursor: pointer;
+  height: 22px;
+  border: none;
+  border-radius: 5px;
+  font-size: 12px;
+  background-color: var(--primary-button-color);
+  color: var(--primary-button-text-color);
+
+  &:hover {
+    background-color: var(--primary-button-hover-color);
+  }
+
+  &.disabled {
+    background-color: var(--primary-button-hover-color);
+    opacity: 0.33;
+    cursor: default;
+  }
+}

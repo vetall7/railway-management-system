@@ -70,4 +70,34 @@ export const updateCarriages = createAction(
   props<{ carriages: ICarriagesData[] }>(),
 );
 
+export const deleteRouter = createAction(
+  '[Admin Page] Delete Router',
+  props<{ id: number }>(),
+);
+
+export const deleteRouterInStore = createAction(
+  '[Admin Page] Delete Router In Store',
+  props<{ id: number }>(),
+);
+
 export const clearShowData = createAction('[Admin Page] Clear Show Data');
+
+export const updateRouter = createAction(
+  '[Admin Page] Update Router',
+  props<{ data: IRoutesData }>(),
+);
+
+export const updateRouterInStore = createAction(
+  '[Admin Page] Update Router In Store',
+  props<{ data: IRoutesData }>(),
+);
+
+export const createRouter = createAction(
+  '[Admin Page] Create Router',
+  props<{ data: IRoutesData }>(),
+);
+
+export const createRouterInStore = createAction(
+  '[Admin Page] Create Router In Store',
+  props<{ data: IRoutesData }>(),
+);

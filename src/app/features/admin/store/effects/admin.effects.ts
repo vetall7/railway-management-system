@@ -63,9 +63,9 @@ export class AdminEffects {
 
   getAllCarriages$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(AdminActions.updateRoutes, AdminActions.getCarriages),
+      ofType(AdminActions.getCarriages, AdminActions.updateStations),
       switchMap(() =>
-        this.routeService.geCarriages().pipe(
+        this.routeService.getCarriages().pipe(
           map((res) =>
             AdminActions.updateCarriages({
               carriages: [...(res as ICarriagesData[])],
@@ -119,6 +119,68 @@ export class AdminEffects {
     );
   });
 
+  deleteRouter$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AdminActions.deleteRouter),
+      switchMap((req) =>
+        this.routeService.deleteRouter(req.id).pipe(
+          map(() =>
+            AdminActions.deleteRouterInStore({
+              id: req.id,
+            }),
+          ),
+          catchError(() => of(AdminActions.failed())),
+          finalize(() =>
+            of(AdminActions.setLoadingState({ isLoading: false })),
+          ),
+        ),
+      ),
+    );
+  });
+
+  updateRouter$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AdminActions.updateRouter),
+      switchMap((req) =>
+        this.routeService.updateRouter(req.data).pipe(
+          map(() =>
+            AdminActions.updateRouterInStore({
+              data: req.data,
+            }),
+          ),
+          catchError(() => of(AdminActions.failed())),
+          finalize(() =>
+            of(AdminActions.setLoadingState({ isLoading: false })),
+          ),
+        ),
+      ),
+    );
+  });
+
+  createRouter$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AdminActions.createRouter),
+      switchMap((req) =>
+        this.routeService.createRouter(req.data).pipe(
+          map((res) => {
+            const data: IRoutesData = {
+              id: (res as IResponseCreateStation).id,
+              carriages: req.data.carriages,
+              path: req.data.path,
+            };
+            return AdminActions.createRouterInStore({
+              data,
+            });
+          }),
+          catchError(() => of(AdminActions.failed())),
+          finalize(() =>
+            of(AdminActions.setLoadingState({ isLoading: false })),
+          ),
+        ),
+      ),
+    );
+  });
+
   startLoading$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(
@@ -127,6 +189,9 @@ export class AdminEffects {
         AdminActions.getRoutes,
         AdminActions.deleteStation,
         AdminActions.getCarriages,
+        AdminActions.deleteRouter,
+        AdminActions.updateRouter,
+        AdminActions.createRouter,
       ),
       map(() => AdminActions.setLoadingState({ isLoading: true })),
     );
@@ -139,6 +204,9 @@ export class AdminEffects {
         AdminActions.updateRoutes,
         AdminActions.deleteStationInStore,
         AdminActions.updateCarriages,
+        AdminActions.deleteRouterInStore,
+        AdminActions.updateRouterInStore,
+        AdminActions.createRouterInStore,
       ),
       map(() => AdminActions.setLoadingState({ isLoading: false })),
     );

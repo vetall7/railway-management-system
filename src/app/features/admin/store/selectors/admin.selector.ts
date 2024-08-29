@@ -69,3 +69,26 @@ export const selectCheckRouterActive = (id: number) =>
   createSelector(selectGetAppState, (state: AdminState) =>
     new Set([...state.routes].map((el) => el.path).flat()).has(id),
   );
+
+export const selectGetStationNameForRoute = (id: number) =>
+  createSelector(selectGetAppState, (state: AdminState) =>
+    [...state.routes]
+      .find((el) => el.id === id)
+      ?.path.map((el) => [...state.stations].find((val) => val.id === el)?.city)
+      .join(' - '),
+  );
+
+export const selectGetCarriageForRoute = (id: number) =>
+  createSelector(selectGetAppState, (state: AdminState) =>
+    [...state.routes]
+      .find((el) => el.id === id)
+      ?.carriages.map(
+        (el) => [...state.carriages].find((val) => val.code === el)?.name,
+      )
+      .join(' - '),
+  );
+
+export const selectGetRouterId = (id: number) =>
+  createSelector(selectGetAppState, (state: AdminState) =>
+    state.routes.find((el) => el.id === id),
+  );

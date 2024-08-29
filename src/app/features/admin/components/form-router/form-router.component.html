@@ -1,54 +1,80 @@
 <form [formGroup]="form" class="form" (submit)="handleSubmit()">
-  <div class="form__line">
-    <p class="line__label">Stations</p>
-    <div formArrayName="stations">
-      @for (connect of getFormsControlsStation()['controls']; track $index) {
-        <div class="content_input">
-          <select
-            id="connected"
-            name="connected"
-            class="line__input"
-            formControlName="{{ $index }}"
-            (change)="changeSelectStation($index)"
-          >
-            @for (val of ((showData$ | async) || [])[$index]; track val.id) {
-              <option [value]="val.id" [disabled]="checkSelectStation(val.id)">
-                {{ val.city }}
-              </option>
+  <div class="content_selection">
+    <div class="form__line">
+      <p class="line__label">Stations</p>
+      <div formArrayName="stations">
+        @for (connect of getFormsControlsStation()['controls']; track $index) {
+          <div class="content_input">
+            <select
+              id="connected"
+              name="connected"
+              class="line__input"
+              formControlName="{{ $index }}"
+              (change)="changeSelectStation($index)"
+            >
+              @for (val of ((showData$ | async) || [])[$index]; track val.id) {
+                <option [value]="val.id">
+                  {{ val.city }}
+                </option>
+              }
+            </select>
+          </div>
+        }
+      </div>
+    </div>
+    <div class="form__line">
+      <p class="line__label">Carriages</p>
+      <div formArrayName="carriages">
+        @for (
+          connect of getFormsControlsCarriages()['controls'];
+          track $index
+        ) {
+          <div class="content_input">
+            <select
+              id="connected"
+              name="connected"
+              class="line__input select_carriage"
+              formControlName="{{ $index }}"
+              (change)="changeSelectCarriages()"
+            >
+              @for (val of (dataCarriages$ | async) || []; track val.code) {
+                <option [value]="val.code">
+                  {{ val.name }}
+                </option>
+              }
+            </select>
+            @if (
+              (form.value.carriages || []).length > 2 &&
+              $index !== getFormsControlsCarriages()['controls'].length - 1
+            ) {
+              <button
+                type="button"
+                class="button_delete"
+                (click)="changeDelete($index)"
+              >
+                x
+              </button>
             }
-          </select>
-        </div>
-      }
+          </div>
+        }
+      </div>
     </div>
   </div>
-  <div class="form__line">
-    <p class="line__label">Carriages</p>
-    <div formArrayName="carriages">
-      @for (connect of getFormsControlsCarriages()['controls']; track $index) {
-        <div class="content_input">
-          <select
-            id="connected"
-            name="connected"
-            class="line__input"
-            formControlName="{{ $index }}"
-            (change)="changeSelectCarriages()"
-          >
-            @for (val of (dataCarriages$ | async) || []; track val.code) {
-              <option [value]="val.code" [disabled]="checkSelect(val.code)">
-                {{ val.name }}
-              </option>
-            }
-          </select>
-          @if (
-            (form.value.carriages || []).length > 2 &&
-            $index !== getFormsControlsCarriages()['controls'].length - 1
-          ) {
-            <button type="button" (click)="changeDelete($index)">x</button>
-          }
-        </div>
-      }
-    </div>
+  @if (form.errors?.['routeFormValid']) {
+    <div class="alert">Minimum 3 carriages and minimum 3 stations</div>
+  }
+  <div class="buttons_content">
+    @if (fillData$().id >= 0) {
+      <button type="button" class="button" (click)="handleUpdate()">
+        Save
+      </button>
+    } @else {
+      <button type="button" class="button" (click)="handleSubmit()">
+        Save
+      </button>
+    }
+    <button type="button" class="button" (click)="handleClickCancel()">
+      Cancel
+    </button>
   </div>
-  <button type="button" (click)="handleSubmit()">Save</button>
-  <button type="button" (click)="handleUpdate()">Update</button>
 </form>
