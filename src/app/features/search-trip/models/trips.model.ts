@@ -10,9 +10,9 @@ const GeolocationSchema = z.object({
 });
 
 class Geolocation {
-  latitude: number;
+  readonly latitude: number;
 
-  longitude: number;
+  readonly longitude: number;
 
   constructor(data: z.infer<typeof GeolocationSchema>) {
     const validatedData = GeolocationSchema.parse(data);
@@ -28,11 +28,11 @@ const StationSchema = z.object({
 });
 
 export class Station {
-  stationId: number;
+  readonly stationId: number;
 
-  city: string;
+  readonly city: string;
 
-  geolocation: Geolocation;
+  readonly geolocation: Geolocation;
 
   constructor(data: z.infer<typeof StationSchema>) {
     const validatedData = StationSchema.parse(data);
@@ -49,11 +49,11 @@ const SegmentSchema = z.object({
 });
 
 class Segment {
-  time: string[];
+  readonly time: string[];
 
-  price: Record<string, number>;
+  readonly price: Record<string, number>;
 
-  occupiedSeats: number[];
+  readonly occupiedSeats: number[];
 
   constructor(data: z.infer<typeof SegmentSchema>) {
     const validatedData = SegmentSchema.parse(data);
@@ -69,9 +69,9 @@ const ScheduleSchema = z.object({
 });
 
 class Schedule {
-  rideId: number;
+  readonly rideId: number;
 
-  segments: Segment[];
+  readonly segments: Segment[];
 
   constructor(data: z.infer<typeof ScheduleSchema>) {
     const validatedData = ScheduleSchema.parse(data);
@@ -90,13 +90,13 @@ const RouteSchema = z.object({
 });
 
 export class Route {
-  id: number;
+  readonly id: number;
 
-  path: number[];
+  readonly path: number[];
 
-  carriages: string[];
+  readonly carriages: string[];
 
-  schedule: Schedule[];
+  readonly schedule: Schedule[];
 
   constructor(data: z.infer<typeof RouteSchema>) {
     const validatedData = RouteSchema.parse(data);
@@ -118,15 +118,15 @@ const SingleTripSchema = z.object({
 });
 
 export class SingleTrip {
-  path: Station[];
+  readonly path: Station[];
 
-  carriages: string[];
+  readonly carriages: string[];
 
-  from: Station;
+  readonly from: Station;
 
-  to: Station;
+  readonly to: Station;
 
-  schedule: Schedule;
+  readonly schedule: Schedule;
 
   constructor(data: z.infer<typeof SingleTripSchema>) {
     const validatedData = SingleTripSchema.parse(data);
@@ -145,11 +145,11 @@ const TripDataSchema = z.object({
 });
 
 export class RoutesData {
-  from: Station;
+  readonly from: Station;
 
-  to: Station;
+  readonly to: Station;
 
-  routes: Route[];
+  readonly routes: Route[];
 
   constructor(data: z.infer<typeof TripDataSchema>) {
     const validatedData = TripDataSchema.parse(data);

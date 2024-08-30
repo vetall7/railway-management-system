@@ -9,15 +9,15 @@ export const CarriageSchema = z.object({
 });
 
 export class Carriage {
-  code: string;
+  readonly code: string;
 
-  name: string;
+  readonly name: string;
 
-  rows: number;
+  readonly rows: number;
 
-  leftSeats: number;
+  readonly leftSeats: number;
 
-  rightSeats: number;
+  readonly rightSeats: number;
 
   constructor(data: z.infer<typeof CarriageSchema>) {
     const validatedData = CarriageSchema.parse(data);

@@ -1,11 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import {
+  Carriage,
+  RoutesData,
+  Station,
+  StationArraySchema,
+  StationResponse,
+} from '@features/search-trip/models';
 import { catchError, map, Observable } from 'rxjs';
 import { ZodError } from 'zod';
-
-import { Carriage } from '../models/carriage.model';
-import { StationResponse } from '../models/station-responce.model';
-import { RoutesData, Station } from '../models/trips.model';
 
 @Injectable()
 export class FetchApiDataService {
@@ -33,8 +36,9 @@ export class FetchApiDataService {
 
   public fetchStations(): Observable<Station[]> {
     return this.httpClient.get<StationResponse[]>(this.urls.station).pipe(
-      map((data) =>
-        data.map(
+      map((data) => {
+        const validatedData = StationArraySchema.parse(data);
+        return validatedData.map(
           (station) =>
             new Station({
               stationId: station.id,
@@ -44,8 +48,8 @@ export class FetchApiDataService {
                 longitude: station.longitude,
               },
             }),
-        ),
-      ),
+        );
+      }),
       catchError((error) => {
         if (error instanceof ZodError) {
           console.error('Validation failed:', error.errors);
