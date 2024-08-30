@@ -5,6 +5,7 @@ import {
   IDataStation,
   IResponseCreateStation,
   IRoutesData,
+  ISegmentsRide,
 } from '@features/admin/models';
 import { createAction, props } from '@ngrx/store';
 
@@ -111,4 +112,14 @@ export const getRide = createAction(
 export const updateRide = createAction(
   '[Admin Page] Update Ride',
   props<{ data: IDataRide }>(),
+);
+
+export const updateRideData = createAction(
+  '[Admin Page] Update Ride Data',
+  props<{ data: ISegmentsRide[]; rideId: number; id: number }>(),
+);
+
+export const updateRideDataInStore = createAction(
+  '[Admin Page] Update Ride Data In Store',
+  props<{ data: ISegmentsRide[]; rideId: number }>(),
 );

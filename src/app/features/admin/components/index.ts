@@ -8,3 +8,4 @@ export * from './form-router';
 export * from './router-info';
 export * from './confirm';
 export * from './ride-info';
+export * from './ride-info-content';

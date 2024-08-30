@@ -2,18 +2,19 @@
   <h3 class="title">Ride {{ data?.rideId }}</h3>
   <div>
     @for (item of data?.segments; track $index) {
-      <div>
-        <div>
-          {{ (stationName$ | async)?.[$index] }}
-        </div>
-        <div>
-          <p></p>
-          <p></p>
-        </div>
-        <div>
-          <p>Price:</p>
-        </div>
-      </div>
+      <app-ride-info-content
+        [index]="$index"
+        [name]="(stationName$ | async)?.[$index]"
+        [segment]="item"
+        [pos]="
+          $index === 0
+            ? 'start'
+            : (data?.segments || []).length - 1 === $index
+              ? 'finish'
+              : ''
+        "
+        (changed)="onChangeData($event)"
+      />
     }
   </div>
 </div>

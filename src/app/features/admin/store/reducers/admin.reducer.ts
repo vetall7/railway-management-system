@@ -175,4 +175,22 @@ export const adminReducer = createReducer(
       ride: data,
     }),
   ),
+  on(
+    AdminActions.updateRideDataInStore,
+    (state, { data, rideId }): AdminState => ({
+      ...state,
+      ride: {
+        ...state.ride,
+        schedule: state.ride.schedule.map((el) => {
+          if (el.rideId === rideId) {
+            return {
+              rideId,
+              segments: data,
+            };
+          }
+          return el;
+        }),
+      },
+    }),
+  ),
 );

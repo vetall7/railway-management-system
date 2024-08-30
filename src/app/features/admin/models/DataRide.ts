@@ -14,3 +14,9 @@ export interface IDataRide {
   carriages: string[];
   schedule: IScheduleRide[];
 }
+
+export interface IDataRideChange {
+  index: number;
+  time: string[];
+  price: Record<string, number>;
+}

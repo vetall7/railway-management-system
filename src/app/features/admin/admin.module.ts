@@ -10,6 +10,7 @@ import {
   MessageComponent,
   NavigationComponent,
   RideInfoComponent,
+  RideInfoContentComponent,
   RouterInfoComponent,
   StationInfoComponent,
 } from '@features/admin/components';
@@ -43,6 +44,7 @@ import { AdminRoutingModule } from './admin-routing.module';
     ConfirmComponent,
     RidesComponent,
     RideInfoComponent,
+    RideInfoContentComponent,
   ],
   imports: [
     CommonModule,
