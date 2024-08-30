@@ -20,17 +20,18 @@ import {
 export class DateSelectorComponent implements OnInit {
   protected readonly fetchTripsService = inject(FetchTripsService);
 
-  protected readonly activeTabIndex = 0;
+  private readonly fetchCarriagesService = inject(FetchCarriagesService);
+
+  protected activeTabIndex = 0;
 
   private availableDates: Date[] = [];
-
-  private readonly fetchCarriagesService = inject(FetchCarriagesService);
 
   public ngOnInit(): void {
     this.fetchCarriagesService.fetchCarriages();
   }
 
   protected tripsByDate = computed(() => {
+    this.resetTabIndex();
     const map = new Map<string, SingleTrip[]>();
     const trips = this.fetchTripsService.tripsSignal;
     if (trips) {
@@ -50,6 +51,10 @@ export class DateSelectorComponent implements OnInit {
     }
     return map;
   });
+
+  private resetTabIndex(): void {
+    this.activeTabIndex = 0;
+  }
 
   protected getAvailableDates(): Date[] {
     this.availableDates = Array.from(this.tripsByDate().keys())

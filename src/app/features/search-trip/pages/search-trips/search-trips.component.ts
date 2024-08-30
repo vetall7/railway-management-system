@@ -25,8 +25,6 @@ export class SearchTripsComponent implements OnInit {
 
   protected readonly fetchTripsService = inject(FetchTripsService);
 
-  private isSubmitted = false;
-
   protected readonly form = this.formBuilder.group({
     from: ['', Validators.required],
     to: ['', Validators.required],
@@ -40,12 +38,7 @@ export class SearchTripsComponent implements OnInit {
     this.fetchStationsService.fetchStations();
   }
 
-  public getIsSubmitted(): boolean {
-    return this.isSubmitted;
-  }
-
   protected onSubmit(): void {
-    this.isSubmitted = true;
     const { from, to, date, time } = this.form.value;
     if (from && to && date) {
       const cityFrom = this.fetchStationsService.getCityByName(from);
@@ -71,10 +64,6 @@ export class SearchTripsComponent implements OnInit {
     this.filteredCities = this.filteredCities.filter((city) =>
       city.toLowerCase().includes(query.toLowerCase()),
     );
-  }
-
-  public getFilteredCities(): string[] {
-    return this.filteredCities;
   }
 
   protected swapCities(): void {

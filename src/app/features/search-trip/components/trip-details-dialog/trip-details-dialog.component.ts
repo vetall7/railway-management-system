@@ -46,8 +46,4 @@ export class TripDetailsDialogComponent implements OnInit {
   protected closeDialog(): void {
     this.isVisibleDialog = false;
   }
-
-  protected getIsDialogVisible(): boolean {
-    return this.isVisibleDialog;
-  }
 }
