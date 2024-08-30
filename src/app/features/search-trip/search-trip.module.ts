@@ -24,6 +24,8 @@ import { DividerModule } from 'primeng/divider';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { TabViewModule } from 'primeng/tabview';
 
+import { SearchTripRoutingModule } from './search-trip-routing.module';
+
 @NgModule({
   declarations: [
     SearchTripsComponent,
@@ -43,6 +45,7 @@ import { TabViewModule } from 'primeng/tabview';
     DialogModule,
     FloatLabelModule,
     AngularSvgIconModule.forRoot(),
+    SearchTripRoutingModule,
   ],
   exports: [SearchTripsComponent],
   providers: [

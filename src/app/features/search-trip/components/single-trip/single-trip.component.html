@@ -1,6 +1,11 @@
-<div class="wrapper">
-  @let currentTrip = trip();
-  @if (currentTrip) {
+@let currentTrip = trip();
+@if (currentTrip) {
+  <div
+    class="wrapper"
+    (click)="navigateToDetails()"
+    (keypress)="navigateToDetails()"
+    tabindex="0"
+  >
     <div class="trip">
       <div class="path">
         <div class="start-point">
@@ -41,5 +46,5 @@
         </div>
       }
     </div>
-  }
-</div>
+  </div>
+}

@@ -7,4 +7,12 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/admin/admin.module').then((m) => m.AdminModule),
   },
+  {
+    path: '',
+    loadChildren: () =>
+      import('./features/search-trip/search-trip.module').then(
+        (m) => m.SearchTripModule,
+      ),
+    pathMatch: 'full',
+  },
 ];

@@ -6,6 +6,7 @@ import {
   input,
   OnInit,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { SingleTrip } from '@features/search-trip/models';
 import { FetchCarriagesService } from '@features/search-trip/services';
 
@@ -19,6 +20,8 @@ export class SingleTripComponent implements OnInit {
   public readonly trip = input.required<SingleTrip | null>();
 
   private readonly fetchCarriagesService = inject(FetchCarriagesService);
+
+  protected readonly router = inject(Router);
 
   protected carriagesWithNumberOfAvailableSeats = new Map<string, number>();
 
@@ -110,5 +113,14 @@ export class SingleTripComponent implements OnInit {
       return price;
     }
     return 0;
+  }
+
+  protected navigateToDetails(): void {
+    const trip = this.trip();
+    if (trip) {
+      this.router.navigate(['/trip', trip.schedule.rideId], {
+        queryParams: { from: trip.from.city, to: trip.to.city },
+      });
+    }
   }
 }
