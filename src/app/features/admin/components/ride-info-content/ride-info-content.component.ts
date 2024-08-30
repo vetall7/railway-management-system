@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DoCheck,
   EventEmitter,
   Input,
   OnInit,
@@ -15,7 +16,7 @@ import { IDataRideChange, ISegmentsRide } from '@features/admin/models';
   styleUrl: './ride-info-content.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RideInfoContentComponent implements OnInit {
+export class RideInfoContentComponent implements OnInit, DoCheck {
   @Input() index: number | null = -1;
 
   @Input() name: string | undefined = '';
@@ -35,6 +36,8 @@ export class RideInfoContentComponent implements OnInit {
   timeSend = signal<string[]>([]);
 
   priceSend = signal<[string, number][]>([]);
+
+  check = signal<boolean>(false);
 
   ngOnInit(): void {
     this.price.set(Object.entries(this.segment?.price || {}));
@@ -87,5 +90,18 @@ export class RideInfoContentComponent implements OnInit {
       [el[index][0], Number(target.value)],
       ...el.slice(index + 1),
     ]);
+  }
+
+  ngDoCheck(): void {
+    if (
+      // eslint-disable-next-line operator-linebreak
+      Object.values(this.segment?.price || {}).join('') !==
+      this.price()
+        .map((el) => el[1])
+        .flat()
+        .join('')
+    ) {
+      this.price.set(Object.entries(this.segment?.price || {}));
+    }
   }
 }
