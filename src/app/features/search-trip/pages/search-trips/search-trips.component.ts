@@ -6,11 +6,9 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import {
-  FetchStationsService,
-  FetchTripsService,
-} from '@features/search-trip/services';
+import { FetchTripsService } from '@features/search-trip/services';
 import { dateValidator } from '@features/search-trip/validators';
+import { FetchStationsService } from '@shared/services';
 
 @Component({
   selector: 'app-search-trips',

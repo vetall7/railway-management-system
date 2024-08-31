@@ -10,12 +10,12 @@ import {
   TripDetailsDialogComponent,
 } from '@features/search-trip/components';
 import { SearchTripsComponent } from '@features/search-trip/pages';
+import { FetchTripsService } from '@features/search-trip/services';
 import {
   FetchApiDataService,
   FetchCarriagesService,
   FetchStationsService,
-  FetchTripsService,
-} from '@features/search-trip/services';
+} from '@shared/services';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CalendarModule } from 'primeng/calendar';

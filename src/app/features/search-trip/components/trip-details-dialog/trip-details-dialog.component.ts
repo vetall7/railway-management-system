@@ -4,7 +4,7 @@ import {
   input,
   OnInit,
 } from '@angular/core';
-import { SingleTrip } from '@features/search-trip/models';
+import { SingleTrip } from '@shared/models';
 
 @Component({
   selector: 'app-trip-details-dialog',

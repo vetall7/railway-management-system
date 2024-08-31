@@ -5,11 +5,9 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { SingleTrip } from '@features/search-trip/models';
-import {
-  FetchCarriagesService,
-  FetchTripsService,
-} from '@features/search-trip/services';
+import { FetchTripsService } from '@features/search-trip/services';
+import { SingleTrip } from '@shared/models';
+import { FetchCarriagesService } from '@shared/services';
 
 @Component({
   selector: 'app-date-selector',
