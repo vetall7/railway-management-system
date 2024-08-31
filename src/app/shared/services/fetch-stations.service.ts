@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { Station } from '@features/search-trip/models/trips.model';
+import { Station } from '@shared/models/trips.model';
 
 import { FetchApiDataService } from './fetch-api-data.service';
 

@@ -7,8 +7,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { SingleTrip } from '@features/search-trip/models';
-import { FetchCarriagesService } from '@features/search-trip/services';
+import { SingleTrip } from '@shared/models';
+import { FetchCarriagesService } from '@shared/services';
 
 @Component({
   selector: 'app-single-trip',

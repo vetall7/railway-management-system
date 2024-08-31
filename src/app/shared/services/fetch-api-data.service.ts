@@ -6,7 +6,7 @@ import {
   Station,
   StationArraySchema,
   StationResponse,
-} from '@features/search-trip/models';
+} from '@shared/models';
 import { catchError, map, Observable } from 'rxjs';
 import { ZodError } from 'zod';
 

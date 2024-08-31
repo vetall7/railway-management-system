@@ -6,12 +6,9 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
-
-import { RoutesData, SingleTrip, Station } from '../models/trips.model';
-
-import { FetchApiDataService } from './fetch-api-data.service';
+import { RoutesData, SingleTrip, Station } from '@shared/models';
+import { FetchApiDataService, FetchStationsService } from '@shared/services';
 // eslint-disable-next-line import/extensions
-import { FetchStationsService } from './fetch-stations.service';
 
 @Injectable()
 export class FetchTripsService {

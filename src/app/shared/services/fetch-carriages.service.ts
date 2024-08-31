@@ -6,9 +6,8 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
-
-import { Carriage } from '../models/carriage.model';
-import { SingleTrip } from '../models/trips.model';
+import { Carriage } from '@shared/models/carriage.model';
+import { SingleTrip } from '@shared/models/trips.model';
 
 import { FetchApiDataService } from './fetch-api-data.service';
 
