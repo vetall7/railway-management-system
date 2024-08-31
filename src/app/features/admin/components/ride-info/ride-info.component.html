@@ -1,3 +1,12 @@
+@if (showConfirm()) {
+  <app-confirm
+    [ride]="true"
+    [data]="data!.rideId"
+    (changed)="onChangeDelete($event)"
+    (yesDelete)="onChangeYesDelete($event)"
+  />
+}
+
 <div class="wrapper">
   <h3 class="title">Ride {{ data?.rideId }}</h3>
   <svg

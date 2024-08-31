@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
 import {
+  CarriageInfoComponent,
+  CarriageViewComponent,
   ConfirmComponent,
   FormRouterComponent,
   FormStationComponent,
@@ -47,6 +49,8 @@ import { AdminRoutingModule } from './admin-routing.module';
     RideInfoComponent,
     RideInfoContentComponent,
     RideCreateComponent,
+    CarriageInfoComponent,
+    CarriageViewComponent,
   ],
   imports: [
     CommonModule,

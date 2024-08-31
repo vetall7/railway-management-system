@@ -33,6 +33,8 @@ export class RideInfoComponent implements OnInit {
 
   private activeRouter = inject(ActivatedRoute);
 
+  showConfirm = signal<boolean>(false);
+
   id = signal<string>(this.activeRouter.snapshot.paramMap.get('id') as string);
 
   segments = signal<ISegmentsRide[]>([]);
@@ -59,11 +61,21 @@ export class RideInfoComponent implements OnInit {
   }
 
   handleClickDelete() {
-    this.store.dispatch(
-      AdminActions.deleteRide({
-        roteId: Number(this.id()),
-        rideId: this.data!.rideId,
-      }),
-    );
+    this.showConfirm.set(true);
+  }
+
+  onChangeDelete(el: boolean) {
+    this.showConfirm.set(el);
+  }
+
+  onChangeYesDelete(el: boolean) {
+    if (el) {
+      this.store.dispatch(
+        AdminActions.deleteRide({
+          roteId: Number(this.id()),
+          rideId: this.data!.rideId,
+        }),
+      );
+    }
   }
 }
