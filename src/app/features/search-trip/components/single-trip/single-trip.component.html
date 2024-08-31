@@ -28,7 +28,12 @@
           <span class="arrow">&#8614;</span>
           <div class="city">{{ endCity }}</div>
         </div>
-        <div class="details">
+        <div
+          class="details"
+          (click)="$event.stopPropagation()"
+          (keypress)="$event.stopPropagation()"
+          tabindex="0"
+        >
           <app-trip-details-dialog
             [trip]="currentTrip"
           ></app-trip-details-dialog>
