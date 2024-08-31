@@ -1,0 +1,21 @@
+@let dates = getAvailableDates();
+@if (dates.length !== 0) {
+  <p-tabView
+    class="custom-tabview"
+    [(activeIndex)]="activeTabIndex"
+    [scrollable]="true"
+  >
+    @for (date of getAvailableDates(); track $index) {
+      @let currentDate = date | date: 'EEEE, MMM d';
+      @if (currentDate) {
+        <p-tabPanel [header]="currentDate">
+          @if (activeTabIndex === $index) {
+            @for (trip of getTripsByIndexOfDate(activeTabIndex); track $index) {
+              <app-single-trip [trip]="trip"></app-single-trip>
+            }
+          }
+        </p-tabPanel>
+      }
+    }
+  </p-tabView>
+}

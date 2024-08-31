@@ -2,7 +2,7 @@
   --color-primary-a0: #ffffff;
   --color-primary-a10: #d0cfd1;
   --color-primary-a20: #b093fb;
-  --color-primary-a30: #8060f6;
+  --color-primary-a30: #7b3dc6;
   --color-primary-a40: #007bff;
   --color-primary-a50: #0059ff;
   --color-primary-a60: #3223ae;
@@ -36,11 +36,18 @@
   --primary-error-border-color: var(--color-primary-b10);
   --primary-success-border-color: var(--color-primary-b30);
   --primary-box-shadow: 0 45px 65px var(--primary-shadow-color), 0 35px 22px;
+  --primary-border-color: var(--color-primary-a40);
+
+  --primary-time-line-color: var(--color-primary-a40);
+  --primary-time-line-border-color: var(--color-primary-a30);
+  --primary-timeline-circle-color: #ff9f55;
+  --primary-timeline-circle-background-color: var(--color-primary-a0);
 
   --secondary-shadow-color: rgba(0, 0, 0, 0.45);
   --secondary-text-color: var(--color-secondary-a60);
-  --secondary-background-color: var(--color-secondary-a0);
+  --secondary-background-color: var(--color-secondary-a30);
   --secondary-box-shadow: 0 0 10px 0 var(--secondary-shadow-color) inset;
+  --secondary-border-color: var(--color-secondary-a20);
 
   --primary-font-family: 'Georgia', sans-serif;
   --secondary-font-family: 'Open Sans', sans-serif;
@@ -63,4 +70,10 @@
     var(--primary-md-font-height) var(--primary-font-family);
   --primary-lg-font: var(--primary-lg-font-weight) var(--primary-lg-font-size) /
     var(--primary-lg-font-height) var(--primary-font-family);
+
+  --secondary-sm-font: var(--primary-sm-font-weight) var(--primary-sm-font-size) /
+    var(--primary-sm-font-height) var(--secondary-font-family);
+
+  --primary-border: 2px solid var(--primary-border-color);
+  --secondary-border: 2px solid var(--secondary-border-color);
 }

@@ -1,0 +1,55 @@
+@let currentTrip = trip();
+@if (currentTrip) {
+  <div
+    class="wrapper"
+    (click)="navigateToDetails()"
+    (keypress)="navigateToDetails()"
+    tabindex="0"
+  >
+    <div class="trip">
+      <div class="path">
+        <div class="start-point">
+          <div class="date">{{ startTime | date: 'MMM d, HH:mm' }}</div>
+          <div class="city">{{ currentTrip.from.city }}</div>
+        </div>
+        <div class="path-line">{{ duration }}</div>
+        <div class="end-point">
+          <div class="date">{{ endTime | date: 'MMM d, HH:mm' }}</div>
+          <div class="city">{{ currentTrip.to.city }}</div>
+        </div>
+      </div>
+      <div class="route">
+        <div class="stations">
+          <svg-icon
+            src="assets/icons/high-speed-rail.svg"
+            [svgClass]="'icon'"
+          ></svg-icon>
+          <div class="city">{{ startCity }}</div>
+          <span class="arrow">&#8614;</span>
+          <div class="city">{{ endCity }}</div>
+        </div>
+        <div
+          class="details"
+          (click)="$event.stopPropagation()"
+          (keypress)="$event.stopPropagation()"
+          tabindex="0"
+        >
+          <app-trip-details-dialog
+            [trip]="currentTrip"
+          ></app-trip-details-dialog>
+        </div>
+      </div>
+    </div>
+    <div class="carriages">
+      @for (
+        carriage of carriagesWithNumberOfAvailableSeats | keyvalue;
+        track $index
+      ) {
+        <div class="carriage">
+          {{ carriage.key }}: {{ carriage.value }}
+          <span class="price"> {{ getPrice(carriage.key) }}$ </span>
+        </div>
+      }
+    </div>
+  </div>
+}
