@@ -1,12 +1,13 @@
 /* eslint-disable arrow-body-style */
 import { inject, Injectable } from '@angular/core';
 import {
-  ICarriagesData,
+  IDataCarriages,
   IDataRide,
   IDataStation,
   IResponseCreateStation,
   IRoutesData,
 } from '@features/admin/models';
+import { CarriageService } from '@features/admin/services/carriage.service';
 import { RideService } from '@features/admin/services/ride.service';
 import { RouteService } from '@features/admin/services/route.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -20,6 +21,7 @@ export class AdminEffects {
   constructor(
     private stationService: StationService,
     private routeService: RouteService,
+    private carriageService: CarriageService,
     private rideService: RideService,
   ) {}
 
@@ -87,10 +89,10 @@ export class AdminEffects {
     return this.actions$.pipe(
       ofType(AdminActions.getCarriages, AdminActions.updateStations),
       switchMap(() =>
-        this.routeService.getCarriages().pipe(
+        this.carriageService.getCarriages().pipe(
           map((res) =>
             AdminActions.updateCarriages({
-              carriages: [...(res as ICarriagesData[])],
+              carriages: [...(res as unknown as IDataCarriages[])],
             }),
           ),
           catchError(() => of(AdminActions.failed())),

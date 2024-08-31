@@ -1,1 +1,30 @@
-<p>carriage-view works!</p>
+@if (data.rows) {
+  <div class="wrapper">
+    <div
+      class="table table_top"
+      [ngStyle]="{
+        'grid-template-rows': 'repeat(' + this.data.rightSeats + ', 1fr)',
+        'grid-template-columns': 'repeat(' + this.data.rows + ', 1fr)',
+      }"
+    >
+      @for (val of result1; track $index) {
+        <div class="seat">
+          {{ val }}
+        </div>
+      }
+    </div>
+    <div
+      class="table"
+      [ngStyle]="{
+        'grid-template-rows': 'repeat(' + this.data.leftSeats + ', 1fr)',
+        'grid-template-columns': 'repeat(' + this.data.rows + ', 1fr)',
+      }"
+    >
+      @for (val of result2; track $index) {
+        <div class="seat">
+          {{ val }}
+        </div>
+      }
+    </div>
+  </div>
+}

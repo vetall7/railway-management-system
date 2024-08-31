@@ -1,0 +1,28 @@
+.wrapper {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--primary-border-color);
+  overflow: auto;
+  padding: 10px;
+}
+
+.table {
+  display: grid;
+  row-gap: 5px;
+  column-gap: 5px;
+  justify-items: center;
+}
+
+.table_top {
+  margin-bottom: 30px;
+}
+
+.seat {
+  width: 35px;
+  height: 35px;
+  background-color: var(--primary-border-color);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

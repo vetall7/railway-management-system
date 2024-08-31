@@ -1,11 +1,7 @@
 /* eslint-disable no-undef */
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  ICarriagesData,
-  IResponseCreateStation,
-  IRoutesData,
-} from '@features/admin/models';
+import { IResponseCreateStation, IRoutesData } from '@features/admin/models';
 import { Store } from '@ngrx/store';
 import { catchError, Observable, of, retry } from 'rxjs';
 
@@ -20,13 +16,6 @@ export class RouteService {
 
   getRoutes(): Observable<IRoutesData[] | string> {
     return this.http.get<IRoutesData[]>('/api/route').pipe(
-      retry(2),
-      catchError((e: HttpErrorResponse) => of(`Bad Promise: ${e}`)),
-    );
-  }
-
-  getCarriages(): Observable<ICarriagesData[] | string> {
-    return this.http.get<ICarriagesData[]>('/api/carriage').pipe(
       retry(2),
       catchError((e: HttpErrorResponse) => of(`Bad Promise: ${e}`)),
     );
