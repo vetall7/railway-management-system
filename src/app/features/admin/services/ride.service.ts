@@ -75,4 +75,20 @@ export class RideService {
         catchError((e: HttpErrorResponse) => of(`Bad Promise: ${e}`)),
       );
   }
+
+  deleteRide(
+    routeId: number,
+    rideId: number,
+  ): Observable<IResponseCreateStation | string> {
+    return this.http
+      .delete<IResponseCreateStation>(`/api/route/${routeId}/ride/${rideId}`, {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem('token')!)}`,
+        },
+      })
+      .pipe(
+        retry(2),
+        catchError((e: HttpErrorResponse) => of(`Bad Promise: ${e}`)),
+      );
+  }
 }

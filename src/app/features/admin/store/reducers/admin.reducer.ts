@@ -194,6 +194,16 @@ export const adminReducer = createReducer(
     }),
   ),
   on(
+    AdminActions.deleteRideInStore,
+    (state, { rideId }): AdminState => ({
+      ...state,
+      ride: {
+        ...state.ride,
+        schedule: state.ride.schedule.filter((el) => el.rideId !== rideId),
+      },
+    }),
+  ),
+  on(
     AdminActions.createRideInStore,
     (state, { data, rideId }): AdminState => ({
       ...state,

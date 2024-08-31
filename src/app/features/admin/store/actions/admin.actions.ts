@@ -133,3 +133,13 @@ export const createRideInStore = createAction(
   '[Admin Page] Create Ride In Store',
   props<{ data: ISegmentsRide[]; rideId: number }>(),
 );
+
+export const deleteRide = createAction(
+  '[Admin Page] Delete Ride',
+  props<{ roteId: number; rideId: number }>(),
+);
+
+export const deleteRideInStore = createAction(
+  '[Admin Page] Delete Ride In Store',
+  props<{ rideId: number }>(),
+);

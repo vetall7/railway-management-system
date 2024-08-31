@@ -57,4 +57,13 @@ export class RideInfoComponent implements OnInit {
       }),
     );
   }
+
+  handleClickDelete() {
+    this.store.dispatch(
+      AdminActions.deleteRide({
+        roteId: Number(this.id()),
+        rideId: this.data!.rideId,
+      }),
+    );
+  }
 }

@@ -160,6 +160,25 @@ export class AdminEffects {
     );
   });
 
+  deleteRide$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AdminActions.deleteRide),
+      switchMap((req) =>
+        this.rideService.deleteRide(req.roteId, req.rideId).pipe(
+          map(() =>
+            AdminActions.deleteRideInStore({
+              rideId: req.rideId,
+            }),
+          ),
+          catchError(() => of(AdminActions.failed())),
+          finalize(() =>
+            of(AdminActions.setLoadingState({ isLoading: false })),
+          ),
+        ),
+      ),
+    );
+  });
+
   updateRouter$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AdminActions.updateRouter),
@@ -257,6 +276,7 @@ export class AdminEffects {
         AdminActions.getRide,
         AdminActions.updateRideData,
         AdminActions.createRide,
+        AdminActions.deleteRide,
       ),
       map(() => AdminActions.setLoadingState({ isLoading: true })),
     );
@@ -273,6 +293,7 @@ export class AdminEffects {
         AdminActions.createRouterInStore,
         AdminActions.updateRideDataInStore,
         AdminActions.createRideInStore,
+        AdminActions.deleteRideInStore,
       ),
       map(() => AdminActions.setLoadingState({ isLoading: false })),
     );
