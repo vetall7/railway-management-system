@@ -21,8 +21,23 @@
           ></path>
         </svg>
       </button>
-      <button type="button" class="button create">Create Ride</button>
+      @if (!showCreate$()) {
+        <button
+          type="button"
+          class="button create"
+          (click)="handleClickCreate()"
+        >
+          Create Ride
+        </button>
+      }
     </div>
+    @if (showCreate$()) {
+      <app-ride-create
+        [data]="(data$ | async)!"
+        (changed)="onChangeCancel($event)"
+        (createRide)="onChangeCreate($event)"
+      />
+    }
     <div>
       @for (item of (data$ | async)?.schedule || []; track item.rideId) {
         <app-ride-info [data]="item" />

@@ -123,3 +123,13 @@ export const updateRideDataInStore = createAction(
   '[Admin Page] Update Ride Data In Store',
   props<{ data: ISegmentsRide[]; rideId: number }>(),
 );
+
+export const createRide = createAction(
+  '[Admin Page] Create Ride',
+  props<{ data: ISegmentsRide[]; id: number }>(),
+);
+
+export const createRideInStore = createAction(
+  '[Admin Page] Create Ride In Store',
+  props<{ data: ISegmentsRide[]; rideId: number }>(),
+);

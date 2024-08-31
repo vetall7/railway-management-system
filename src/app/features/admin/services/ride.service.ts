@@ -1,7 +1,11 @@
 /* eslint-disable no-undef */
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IDataRide, ISegmentsRide } from '@features/admin/models';
+import {
+  IDataRide,
+  IResponseCreateStation,
+  ISegmentsRide,
+} from '@features/admin/models';
 import { Store } from '@ngrx/store';
 import { catchError, Observable, of, retry } from 'rxjs';
 
@@ -35,6 +39,28 @@ export class RideService {
     return this.http
       .put<ISegmentsRide>(
         `/api/route/${routeId}/ride/${rideId}`,
+        {
+          segments: data,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem('token')!)}`,
+          },
+        },
+      )
+      .pipe(
+        retry(2),
+        catchError((e: HttpErrorResponse) => of(`Bad Promise: ${e}`)),
+      );
+  }
+
+  createRide(
+    routeId: number,
+    data: ISegmentsRide[],
+  ): Observable<IResponseCreateStation | string> {
+    return this.http
+      .post<IResponseCreateStation>(
+        `/api/route/${routeId}/ride`,
         {
           segments: data,
         },

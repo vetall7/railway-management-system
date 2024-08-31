@@ -1,7 +1,8 @@
 <div class="wrapper">
   <div class="name">{{ name }}</div>
   <div class="time">
-    @if (editTime()) {
+    @if (create) {
+    } @else if (editTime()) {
       <svg
         viewBox="64 64 896 896"
         focusable="false"
@@ -33,7 +34,14 @@
     @if (pos === 'start') {
       <p>
         Departure:
-        @if (editTime()) {
+        @if (create) {
+          <input
+            type="datetime-local"
+            name="departure"
+            id="departure"
+            (change)="handleChangeTime($event)"
+          />
+        } @else if (editTime()) {
           <input
             type="datetime-local"
             name="departure"
@@ -50,7 +58,14 @@
     } @else if (pos === 'finish') {
       <p>
         Arrival:
-        @if (editTime()) {
+        @if (create) {
+          <input
+            type="datetime-local"
+            name="arrival"
+            id="arrival"
+            (change)="handleChangeTime($event)"
+          />
+        } @else if (editTime()) {
           <input
             type="datetime-local"
             name="arrival"
@@ -67,7 +82,14 @@
     } @else {
       <p>
         Arrival:
-        @if (editTime()) {
+        @if (create) {
+          <input
+            type="datetime-local"
+            name="arrival"
+            id="arrival"
+            (change)="handleChangeTime($event)"
+          />
+        } @else if (editTime()) {
           <input
             type="datetime-local"
             name="arrival"
@@ -83,7 +105,14 @@
       </p>
       <p>
         Departure:
-        @if (editTime()) {
+        @if (create) {
+          <input
+            type="datetime-local"
+            name="departure"
+            id="departure"
+            (change)="handleChangeTime($event)"
+          />
+        } @else if (editTime()) {
           <input
             type="datetime-local"
             name="departure"
@@ -100,7 +129,8 @@
     }
   </div>
   <div class="price_content">
-    @if (editPrice()) {
+    @if (create) {
+    } @else if (editPrice()) {
       <svg
         viewBox="64 64 896 896"
         focusable="false"
@@ -135,13 +165,23 @@
         <div>{{ item[0] }}</div>
         <div>{{ ' - ' }}</div>
         <div>
-          @if (editPrice()) {
+          @if (create) {
+            <input
+              type="number"
+              name="price"
+              id="price"
+              class="price"
+              min="1"
+              (change)="handleChangePrice($event, $index)"
+            />
+          } @else if (editPrice()) {
             <input
               type="number"
               name="price"
               id="price"
               [value]="item[1]"
               class="price"
+              min="1"
               (change)="handleChangePrice($event, $index)"
             />
           } @else {

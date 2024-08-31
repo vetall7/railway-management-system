@@ -30,11 +30,25 @@ export class RidesComponent implements OnInit {
 
   data$ = this.store.select(AdminSelectors.selectGetRide);
 
+  showCreate$ = signal<boolean>(false);
+
   handleClickBack() {
     this.router.navigate(['admin', 'routes']);
   }
 
   ngOnInit(): void {
     this.store.dispatch(AdminActions.getRide({ id: Number(this.id()) }));
+  }
+
+  handleClickCreate() {
+    this.showCreate$.set(true);
+  }
+
+  onChangeCancel(el: boolean) {
+    this.showCreate$.set(el);
+  }
+
+  onChangeCreate(el: boolean) {
+    this.showCreate$.set(el);
   }
 }

@@ -99,7 +99,18 @@ export const selectGetRide = createSelector(
 );
 
 export const selectGetRideStation = createSelector(selectGetAppState, (state) =>
-  state.ride.path.map(
-    (el) => state.stations.find((val) => val.id === el)?.city,
-  ),
+  state.ride.path
+    .map((el) => state.stations.find((val) => val.id === el)?.city)
+    .slice(0, -1),
+);
+
+export const selectGetRideCarriages = createSelector(
+  selectGetAppState,
+  (state) => ({
+    price: Object.fromEntries(
+      state.ride.carriages
+        .map((el) => state.carriages.find((val) => val.code === el)?.name)
+        .map((el) => [el, -1]),
+    ),
+  }),
 );

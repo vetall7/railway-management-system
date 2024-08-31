@@ -193,4 +193,14 @@ export const adminReducer = createReducer(
       },
     }),
   ),
+  on(
+    AdminActions.createRideInStore,
+    (state, { data, rideId }): AdminState => ({
+      ...state,
+      ride: {
+        ...state.ride,
+        schedule: [...state.ride.schedule, { rideId, segments: data }],
+      },
+    }),
+  ),
 );

@@ -9,6 +9,7 @@ import {
   LoaderComponent,
   MessageComponent,
   NavigationComponent,
+  RideCreateComponent,
   RideInfoComponent,
   RideInfoContentComponent,
   RouterInfoComponent,
@@ -45,6 +46,7 @@ import { AdminRoutingModule } from './admin-routing.module';
     RidesComponent,
     RideInfoComponent,
     RideInfoContentComponent,
+    RideCreateComponent,
   ],
   imports: [
     CommonModule,

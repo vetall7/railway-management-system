@@ -25,7 +25,13 @@ export class RideInfoContentComponent implements OnInit, DoCheck {
 
   @Input() segment: ISegmentsRide | undefined = { time: [], price: {} };
 
+  @Input() create: boolean | undefined = false;
+
+  @Input() carriagesName: (string | undefined)[] = [];
+
   @Output() changed = new EventEmitter<IDataRideChange>();
+
+  @Output() changedCreate = new EventEmitter<IDataRideChange>();
 
   price = signal<[string, number][]>([]);
 
@@ -40,9 +46,19 @@ export class RideInfoContentComponent implements OnInit, DoCheck {
   check = signal<boolean>(false);
 
   ngOnInit(): void {
-    this.price.set(Object.entries(this.segment?.price || {}));
-    this.priceSend.set(Object.entries(this.segment?.price || {}));
-    this.timeSend.set(this.segment?.time || []);
+    if (this.create) {
+      this.price.set(
+        Object.entries(this.segment || {}).map(([key]) => [key, -1]),
+      );
+      this.priceSend.set(
+        Object.entries(this.segment || {}).map(([key]) => [key, -1]),
+      );
+      this.timeSend.set(['', '']);
+    } else {
+      this.price.set(Object.entries(this.segment?.price || {}));
+      this.priceSend.set(Object.entries(this.segment?.price || {}));
+      this.timeSend.set(this.segment?.time || []);
+    }
   }
 
   handleClickEditTime() {
@@ -81,6 +97,27 @@ export class RideInfoContentComponent implements OnInit, DoCheck {
     if (target.name === 'departure') {
       this.timeSend.update((el) => [el[0], `${target.value}:29.906Z`]);
     }
+    if (this.create) {
+      if (this.pos === 'start') {
+        this.timeSend.set([
+          '2024-08-13T01:17:29.906Z',
+          `${target.value}:29.906Z`,
+        ]);
+      }
+      if (this.pos === 'finish') {
+        this.timeSend.set([
+          `${target.value}:29.906Z`,
+          '2024-08-13T01:17:29.906Z',
+        ]);
+      }
+      const data = {
+        index: this.index!,
+        time: this.timeSend(),
+        price: Object.fromEntries(this.priceSend()),
+      };
+
+      this.changedCreate.emit(data);
+    }
   }
 
   handleChangePrice(event: Event, index: number) {
@@ -90,16 +127,28 @@ export class RideInfoContentComponent implements OnInit, DoCheck {
       [el[index][0], Number(target.value)],
       ...el.slice(index + 1),
     ]);
+
+    if (this.create) {
+      const data = {
+        index: this.index!,
+        time: this.timeSend(),
+        price: Object.fromEntries(this.priceSend()),
+      };
+
+      this.changedCreate.emit(data);
+    }
   }
 
   ngDoCheck(): void {
     if (
       // eslint-disable-next-line operator-linebreak
       Object.values(this.segment?.price || {}).join('') !==
-      this.price()
-        .map((el) => el[1])
-        .flat()
-        .join('')
+        this.price()
+          .map((el) => el[1])
+          .flat()
+          // eslint-disable-next-line operator-linebreak
+          .join('') &&
+      !this.create
     ) {
       this.price.set(Object.entries(this.segment?.price || {}));
     }
