@@ -1,0 +1,13 @@
+.p-field {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 0;
+
+  input {
+    max-width: 200px;
+  }
+}
+
+.container {
+  max-width: 600px;
+}
