@@ -15,4 +15,11 @@ export const routes: Routes = [
       ),
     pathMatch: 'full',
   },
+  {
+    path: 'orders',
+    loadChildren: () =>
+      import('./features/my-orders/my-orders.module').then(
+        (m) => m.MyOrdersModule,
+      ),
+  },
 ];
