@@ -153,18 +153,27 @@ export class TripDetailsComponent implements OnInit {
           stationStart: this.from() ?? 0,
           stationEnd: this.to() ?? 0,
         })
-        .subscribe((value) => {
-          if (value.id) {
-            this.orderSelected.set(modalData.numberSeat);
-            this.modalData = {} as ICarModalDataInfo;
+        .subscribe(
+          (value) => {
+            if (value.id) {
+              this.orderSelected.set(modalData.numberSeat);
+              this.modalData = {} as ICarModalDataInfo;
+              this.message.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Order created success!',
+              });
+              this.orderId.set(value.id);
+            }
+          },
+          (error) => {
             this.message.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Order created success!',
+              severity: 'error',
+              summary: 'Error',
+              detail: error.error.message,
             });
-            this.orderId.set(value.id);
-          }
-        });
+          },
+        );
     } else {
       this.router.navigate(['/auth/signin']);
     }
