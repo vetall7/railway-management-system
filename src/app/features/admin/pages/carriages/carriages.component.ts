@@ -6,6 +6,7 @@ import {
   signal,
 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { IDataCarriages } from '@features/admin/models';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs';
 
@@ -117,13 +118,23 @@ export class CarriagesComponent implements OnInit {
 
   handleSubmit() {
     if (this.form.valid) {
-      // if (this.updateCarriage()) {
-      //   console.log('update');
-      //   console.log(this.form.value);
-      // } else {
-      //   console.log('save');
-      //   console.log(this.form.value);
-      // }
+      if (this.updateCarriage()) {
+        const res: IDataCarriages = {
+          leftSeats: Number(this.form.value.leftSeats),
+          name: this.form.value.name || '',
+          rightSeats: Number(this.form.value.rightSeats),
+          rows: Number(this.form.value.rows),
+        };
+        this.store.dispatch(AdminActions.createCarriages({ carriages: res }));
+      } else {
+        const res: IDataCarriages = {
+          leftSeats: Number(this.form.value.leftSeats),
+          name: this.form.value.name || '',
+          rightSeats: Number(this.form.value.rightSeats),
+          rows: Number(this.form.value.rows),
+        };
+        this.store.dispatch(AdminActions.createCarriages({ carriages: res }));
+      }
       this.handleClickCreate();
     }
   }

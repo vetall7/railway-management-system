@@ -2,6 +2,7 @@
 import { inject, Injectable } from '@angular/core';
 import {
   IDataCarriages,
+  IDataReq,
   IDataRide,
   IDataStation,
   IResponseCreateStation,
@@ -117,6 +118,26 @@ export class AdminEffects {
             AdminActions.addStationInStore({
               station: req.station,
               id: res as IResponseCreateStation,
+            }),
+          ),
+          catchError(() => of(AdminActions.failed())),
+          finalize(() =>
+            of(AdminActions.setLoadingState({ isLoading: false })),
+          ),
+        ),
+      ),
+    );
+  });
+
+  addCarriages$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AdminActions.createCarriages),
+      switchMap((req) =>
+        this.carriageService.createCarriage(req.carriages).pipe(
+          map((res) =>
+            AdminActions.createCarriagesInStore({
+              carriages: req.carriages,
+              code: res as IDataReq,
             }),
           ),
           catchError(() => of(AdminActions.failed())),
@@ -283,6 +304,7 @@ export class AdminEffects {
         AdminActions.updateRideData,
         AdminActions.createRide,
         AdminActions.deleteRide,
+        AdminActions.createCarriages,
       ),
       map(() => AdminActions.setLoadingState({ isLoading: true })),
     );
@@ -300,6 +322,7 @@ export class AdminEffects {
         AdminActions.updateRideDataInStore,
         AdminActions.createRideInStore,
         AdminActions.deleteRideInStore,
+        AdminActions.createCarriagesInStore,
       ),
       map(() => AdminActions.setLoadingState({ isLoading: false })),
     );
