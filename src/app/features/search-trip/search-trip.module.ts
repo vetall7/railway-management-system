@@ -1,6 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { CommonModule } from '@angular/common';
-import { provideHttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -52,7 +51,6 @@ import { SearchTripRoutingModule } from './search-trip-routing.module';
     FetchStationsService,
     FetchTripsService,
     FetchCarriagesService,
-    provideHttpClient(),
     FetchApiDataService,
   ],
 })
