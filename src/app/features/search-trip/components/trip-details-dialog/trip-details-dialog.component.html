@@ -1,0 +1,38 @@
+<p-button (onClick)="openDialog()" label="Route &#8628;" [link]="true" />
+<p-dialog
+  [modal]="true"
+  [(visible)]="isVisibleDialog"
+  [dismissableMask]="true"
+  [style]="{ width: '35rem' }"
+>
+  @let currentTrip = trip();
+  @if (currentTrip) {
+    <div class="timeline">
+      @for (station of currentTrip.path; track $index) {
+        <div class="container {{ $index % 2 === 0 ? 'left' : 'right' }}">
+          <div
+            class="content {{
+              isPassedCity(station.city) ? 'passed-city' : 'not-passed-city'
+            }}"
+          >
+            <div class="station">{{ station.city }}</div>
+            @if ($index !== 0) {
+              {{
+                currentTrip.schedule.segments[$index - 1].time[1]
+                  | date: 'HH:mm'
+              }}
+              @if ($index !== currentTrip.path.length - 1) {
+                -
+              }
+            }
+            @if ($index < currentTrip.path.length - 1) {
+              {{
+                currentTrip.schedule.segments[$index].time[0] | date: 'HH:mm'
+              }}
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+</p-dialog>

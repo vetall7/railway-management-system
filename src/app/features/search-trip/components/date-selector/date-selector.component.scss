@@ -1,0 +1,15 @@
+.custom-tabview {
+  width: 100%;
+}
+.custom-tabview {
+  ::ng-deep .p-tabview-nav {
+    gap: 1rem;
+    font: var(--primary-lg-font);
+  }
+
+  ::ng-deep .p-tabview-nav li {
+    position: relative;
+    padding: 10px 20px;
+    border-right: var(--secondary-border);
+  }
+}

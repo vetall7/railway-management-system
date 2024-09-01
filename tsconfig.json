@@ -27,7 +27,9 @@
       "@shared/*": ["./src/app/shared/*"],
       "@shared": ["./src/app/shared"],
       "@features/*": ["./src/app/features/*"],
-      "@features": ["./src/app/features"]
+      "@features": ["./src/app/features"],
+      "@icons/*": ["./src/assets/icons/*"],
+      "@icons": ["./src/assets/icons"]
     }
   },
   "angularCompilerOptions": {
