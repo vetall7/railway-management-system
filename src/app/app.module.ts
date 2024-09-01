@@ -1,4 +1,4 @@
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -6,6 +6,10 @@ import { SearchTripModule } from '@features/search-trip/search-trip.module';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { HeaderComponent } from '@shared/components/header/header.component';
+import { apiTokenInterceptor } from '@shared/interceptors/api-token.interceptor';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 // eslint-disable-next-line import/extensions
 import { environment } from '../environments/environment';
@@ -19,10 +23,13 @@ import { AppRoutingModule } from './app-routing.module';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    HeaderComponent,
+    ToastModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([]),
+    SearchTripModule,
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.isProduction,
@@ -32,7 +39,8 @@ import { AppRoutingModule } from './app-routing.module';
   ],
   providers: [
     { provide: ENVIRONMENT, useValue: environment },
-    provideHttpClient(),
+    MessageService,
+    provideHttpClient(withInterceptors([apiTokenInterceptor])),
   ],
   bootstrap: [AppComponent],
 })

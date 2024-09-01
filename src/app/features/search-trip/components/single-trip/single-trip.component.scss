@@ -1,0 +1,144 @@
+.wrapper {
+  margin-top: 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+  border: var(--secondary-border);
+  font: var(--primary-sm-font);
+  cursor: pointer;
+}
+
+.trip {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  flex: 2;
+  border-right: var(--secondary-border);
+}
+
+.path {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.start-point {
+  gap: 0.5rem;
+  margin-right: 2%;
+}
+
+.end-point {
+  gap: 0.5rem;
+  margin-left: 2%;
+}
+
+.path-line {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.path-line::before,
+.path-line::after {
+  content: '';
+  flex: 1;
+  border-bottom: 4px solid var(--primary-time-line-border-color);
+}
+
+.path-line:not(:empty)::before {
+  margin-right: 0.25em;
+}
+
+.path-line:not(:empty)::after {
+  margin-left: 0.25em;
+}
+
+.date {
+  font: var(--primary-md-font);
+  font-weight: bold;
+}
+
+.city {
+  font: var(--secondary-sm-font);
+}
+
+.icon {
+  height: 3rem;
+  width: 3rem;
+}
+
+.route {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.arrow {
+  font-size: 2rem;
+  color: var(--primary-time-line-border-color);
+}
+
+.carriages {
+  width: 80%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.price {
+  font: var(--primary-md-font);
+  font-weight: bold;
+}
+
+.carriage {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: column;
+}
+
+.stations {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@media (max-width: 1200px) {
+  .wrapper {
+    flex-direction: column;
+  }
+  .trip {
+    border-right: none;
+  }
+  .carriages {
+    justify-content: center;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .icon {
+    height: 2rem;
+    width: 2rem;
+  }
+  .path {
+    width: 100%;
+  }
+  .route {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .carriages {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
