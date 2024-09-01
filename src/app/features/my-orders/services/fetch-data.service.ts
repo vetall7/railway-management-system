@@ -7,6 +7,7 @@ import {
   User,
   UserListSchema,
 } from '@features/my-orders/models';
+import { AuthenticationService } from '@shared/services';
 import { catchError, map, Observable, of, throwError } from 'rxjs';
 
 @Injectable({
@@ -14,6 +15,8 @@ import { catchError, map, Observable, of, throwError } from 'rxjs';
 })
 export class FetchDataService {
   private readonly httpClient = inject(HttpClient);
+
+  private readonly authService = inject(AuthenticationService);
 
   private readonly urls = {
     orders: '/api/order',
@@ -92,7 +95,7 @@ export class FetchDataService {
         routeId: 18,
         seatId: 150,
         userId: 3,
-        status: 'active',
+        status: 'canceled',
         path: [33, 5, 62, 11, 48, 34],
         carriages: [
           'carriage2',
@@ -158,7 +161,12 @@ export class FetchDataService {
       }),
     );
 
-    // return this.httpClient.get<OrderResponse[]>(this.urls.orders).pipe(
+    // TODO : uncomment this code when the backend is ready
+
+    // const isManager = this.authService.isManager();
+    // const params = new HttpParams().set('all', isManager ? 'true' : 'false');
+
+    // return this.httpClient.get<OrderResponse[]>(this.urls.orders, {params}).pipe(
     //   map((response) => {
     //     const validatedResponse = OrderListSchema.parse(response);
     //     return validatedResponse.map((order) => new OrderResponse(order));

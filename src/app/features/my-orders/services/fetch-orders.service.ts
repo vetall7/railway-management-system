@@ -7,8 +7,8 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
-import { Order, OrderResponse } from '@features/my-orders/models';
-import { FetchCarriagesService, FetchStationsService } from '@shared/services';
+import { Order, OrderResponse, Status } from '@features/my-orders/models';
+import { AuthenticationService, FetchCarriagesService, FetchStationsService } from '@shared/services';
 import { lastValueFrom } from 'rxjs';
 
 import { FetchDataService } from './fetch-data.service';
@@ -27,6 +27,8 @@ export class FetchOrdersService {
   private readonly fetchCarriagesService = inject(FetchCarriagesService);
 
   private readonly fetchUsersService = inject(FetchUsersService);
+
+  private readonly authService = inject(AuthenticationService);
 
   private readonly error = signal('');
 
@@ -75,7 +77,10 @@ export class FetchOrdersService {
     return [];
   });
 
-  private getUserName(order: OrderResponse): string {
+  private getUserName(order: OrderResponse): string | undefined {
+    if (!this.authService.isManager()) {
+      return undefined;
+    }
     const user = this.fetchUsersService.getUserById(order.userId);
     return user ? user.name : '';
   }
@@ -201,5 +206,13 @@ export class FetchOrdersService {
 
   public set errorSig(value: string) {
     this.error.set(value);
+  }
+
+  public changeOrderStatus(orderId: number, status: Status): void {
+    const orders = this.getOrders();
+    const order = orders.find((o) => o.id === orderId);
+    if (order) {
+      order.status = status;
+    }
   }
 }

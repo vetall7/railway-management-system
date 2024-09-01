@@ -20,6 +20,12 @@
   transform: translateY(-50%);
 }
 
+.status {
+  position: absolute;
+  bottom: 5%;
+  left: 1rem;
+}
+
 .trip {
   display: flex;
   align-items: center;

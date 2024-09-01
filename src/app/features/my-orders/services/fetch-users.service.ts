@@ -1,5 +1,6 @@
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { User } from '@features/my-orders/models';
+import { AuthenticationService } from '@shared/services';
 import { lastValueFrom } from 'rxjs';
 
 import { FetchDataService } from './fetch-data.service';
@@ -10,7 +11,13 @@ export class FetchUsersService {
 
   private readonly FetchDataService = inject(FetchDataService);
 
+  private authService = inject(AuthenticationService);
+
+  // eslint-disable-next-line consistent-return
   public async fetchUsers(): Promise<void> {
+    if (!this.authService.isManager()) {
+      return Promise.resolve();
+    }
     try {
       const users = await lastValueFrom(this.FetchDataService.fetchAllUsers());
       this.users.set(users);
@@ -21,10 +28,5 @@ export class FetchUsersService {
 
   public getUserById(id: number): User | undefined {
     return this.users().find((user) => user.id === id);
-  }
-
-  public isManager(id: number): boolean {
-    const user = this.getUserById(id);
-    return user ? user.role === 'manager' : false;
   }
 }

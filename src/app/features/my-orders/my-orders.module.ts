@@ -1,12 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MyOrdersComponent } from '@features/my-orders/pages';
-import { FetchCarriagesService, FetchStationsService } from '@shared/services';
+import {
+  AuthenticationService,
+  FetchCarriagesService,
+  FetchStationsService,
+} from '@shared/services';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { ConfirmationService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
 
 import { SingleOrderComponent } from './components/single-order/single-order.component';
@@ -25,6 +30,7 @@ import { MyOrdersRoutingModule } from './my-orders-routing.module';
     ConfirmDialogModule,
     ToastModule,
     ConfirmPopupModule,
+    TagModule,
   ],
   providers: [
     FetchDataService,
@@ -33,6 +39,7 @@ import { MyOrdersRoutingModule } from './my-orders-routing.module';
     FetchCarriagesService,
     ConfirmationService,
     FetchUsersService,
+    AuthenticationService,
   ],
 })
 export class MyOrdersModule {}

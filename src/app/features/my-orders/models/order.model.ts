@@ -1,9 +1,11 @@
 /* eslint-disable max-classes-per-file */
 import { z } from 'zod';
 
+const StatusSchema = z.enum(['active', 'completed', 'rejected', 'canceled']);
+
 const OrderSchema = z.object({
   id: z.number(),
-  userName: z.string(),
+  userName: z.string().optional(),
   startTripStation: z.string(),
   startTripTime: z.string().datetime(),
   endTripStation: z.string(),
@@ -13,13 +15,15 @@ const OrderSchema = z.object({
   carNumber: z.string(),
   seatNumber: z.string(),
   price: z.number(),
-  status: z.enum(['active', 'completed', 'rejected', 'canceled']),
+  status: StatusSchema,
 });
+
+export type Status = 'active' | 'completed' | 'rejected' | 'canceled';
 
 export class Order {
   readonly id: number;
 
-  readonly userName: string;
+  readonly userName: string | undefined;
 
   readonly startTripStation: string;
 
@@ -39,7 +43,7 @@ export class Order {
 
   readonly price: number;
 
-  readonly status: 'active' | 'completed' | 'rejected' | 'canceled';
+  status: Status;
 
   constructor(data: z.infer<typeof OrderSchema>) {
     this.id = data.id;

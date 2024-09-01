@@ -2,6 +2,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CoreModule } from '@core/core.module';
 import { SearchTripModule } from '@features/search-trip/search-trip.module';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -33,6 +34,7 @@ import { AppRoutingModule } from './app-routing.module';
       maxAge: 25,
       logOnly: environment.isProduction,
     }),
+    CoreModule,
   ],
   providers: [
     { provide: ENVIRONMENT, useValue: environment },
