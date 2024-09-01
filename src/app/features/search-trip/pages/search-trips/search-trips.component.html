@@ -1,1 +1,97 @@
-<p>search-trips works!</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="inputs">
+    <div class="cities">
+      <p-autoComplete
+        class="input"
+        formControlName="from"
+        [suggestions]="filteredCities"
+        (completeMethod)="filterCities($event)"
+        inputId="float-label"
+        [placeholder]="'City from'"
+        [forceSelection]="true"
+      />
+      <span
+        class="circle-icon"
+        (click)="swapCities()"
+        tabindex="0"
+        (keydown)="swapCities()"
+        role="button"
+        aria-label="Swap cities"
+      >
+        &#8644;
+      </span>
+
+      <p-autoComplete
+        class="input"
+        formControlName="to"
+        [suggestions]="filteredCities"
+        (completeMethod)="filterCities($event)"
+        [placeholder]="'City to'"
+        [forceSelection]="true"
+      />
+    </div>
+    <div class="date">
+      <p-calendar
+        class="calendar"
+        formControlName="date"
+        inputId="buttondisplay"
+      />
+
+      @let date = form.get('date');
+      @if (date) {
+        <p-calendar
+          class="calendar"
+          inputId="calendar-timeonly"
+          formControlName="time"
+          [timeOnly]="true"
+          [disabled]="date.invalid"
+        />
+      }
+    </div>
+    <p-button
+      [rounded]="true"
+      icon="pi pi-search"
+      type="submit"
+      size="large"
+      [disabled]="form.invalid"
+    />
+  </div>
+  <div class="errors">
+    @let from = form.get('from');
+    @if (from && (from.dirty || from.touched)) {
+      @if (from.hasError('required')) {
+        <div>
+          <small class="p-error">Enter the start city</small>
+        </div>
+      }
+    }
+
+    @let to = form.get('to');
+    @if (to && (to.dirty || to.touched)) {
+      @if (to.hasError('required')) {
+        <div>
+          <small class="p-error">Enter the destination city</small>
+        </div>
+      }
+    }
+
+    @if (date && (date.dirty || date.touched)) {
+      @if (date.hasError('required')) {
+        <div>
+          <small class="p-error">Date is required</small>
+        </div>
+      }
+      @if (date.hasError('pastDate')) {
+        <div>
+          <small class="p-error">Date cannot be in the past</small>
+        </div>
+      }
+    }
+  </div>
+</form>
+
+@if (this.fetchTripsService.isNotFoundSig()) {
+  <app-no-trips></app-no-trips>
+} @else {
+  <app-date-selector class="dates-board"></app-date-selector>
+}

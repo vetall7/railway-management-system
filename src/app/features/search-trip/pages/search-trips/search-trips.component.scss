@@ -1,0 +1,121 @@
+form {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  font: var(--primary-md-font);
+}
+
+.cities {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.inputs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.errors {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.1rem;
+  font: var(--primary-md-font);
+}
+
+.input {
+  ::ng-deep .p-autocomplete-input {
+    width: 20rem;
+    height: 5rem;
+    border-radius: 10% 25%;
+    padding: 2%;
+    font: var(--primary-lg-font);
+  }
+}
+
+::ng-deep .p-autocomplete-panel {
+  width: 85%;
+  border-radius: 15%;
+  margin-top: 0.5em;
+}
+
+::ng-deep .p-autocomplete-item {
+  display: block;
+  font: var(--primary-md-font);
+  padding: 0.2em 0.5em;
+  text-align: left;
+}
+
+::ng-deep .p-autocomplete-dropdown {
+  border-radius: 15%;
+}
+
+.circle-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: var(--primary-border);
+  width: 2rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.calendar {
+  ::ng-deep .p-inputtext {
+    width: 20rem;
+    height: 5rem;
+    border-radius: 10% 25%;
+    padding: 2%;
+    font: var(--primary-lg-font);
+  }
+}
+
+.dates-board {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0 auto;
+  width: 80rem;
+  max-width: 90%;
+  font: var(--primary-lg-font);
+  padding: 2%;
+}
+
+@media (max-width: 1500px) {
+  .inputs {
+    flex-direction: column;
+  }
+  .date {
+    gap: 4rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .cities {
+    flex-direction: column;
+  }
+  .date {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .circle-icon {
+    transform: rotate(90deg);
+  }
+}
