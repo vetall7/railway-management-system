@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {
   AdminComponent,
   CarriagesComponent,
+  RidesComponent,
   RoutesComponent,
   StationsComponent,
 } from '@features/admin/pages';
@@ -14,15 +15,23 @@ const routes: Routes = [
   },
   {
     path: 'stations',
+    title: 'StationsPage',
     component: StationsComponent,
   },
   {
     path: 'carriages',
+    title: 'CarriagesPage',
     component: CarriagesComponent,
   },
   {
     path: 'routes',
+    title: 'RoutesPage',
     component: RoutesComponent,
+  },
+  {
+    path: 'routes/:id',
+    title: 'RidePage',
+    component: RidesComponent,
   },
 ];
 

@@ -1,28 +1,33 @@
 .wrapper {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 1440px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  padding-right: 10px;
+  background-color: #f1f5f9;
 }
 
-.router_content {
+.content {
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--color-primary-a10);
+}
+
+.button_content {
   width: 100%;
-  padding: 15px;
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  justify-content: space-around;
+  margin-bottom: 10px;
 }
 
 .button {
-  width: 30%;
+  width: 50px;
   cursor: pointer;
   height: 30px;
-  border: none;
   border-radius: 5px;
   font-size: 12px;
+  border: none;
   background-color: var(--primary-button-color);
   color: var(--primary-button-text-color);
-  margin-bottom: 10px;
+  transition: all 0.3s ease-out;
 
   &:hover {
     background-color: var(--primary-button-hover-color);
