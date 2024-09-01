@@ -69,7 +69,7 @@ export const updateShowData = createAction(
 );
 
 export const updateCarriages = createAction(
-  '[Admin Page] Update Carriages Data',
+  '[Admin Page] Update Carriages',
   props<{ carriages: IDataCarriages[] }>(),
 );
 
@@ -153,4 +153,14 @@ export const createCarriages = createAction(
 export const createCarriagesInStore = createAction(
   '[Admin Page] Create Carriages Data In Store',
   props<{ carriages: IDataCarriages; code: IDataReq }>(),
+);
+
+export const updateCarriagesData = createAction(
+  '[Admin Page] Update Carriages Data',
+  props<{ data: IDataCarriages; code: IDataReq }>(),
+);
+
+export const updateCarriagesDataInStore = createAction(
+  '[Admin Page] Update Carriages Data In Store',
+  props<{ data: IDataCarriages; code: IDataReq }>(),
 );

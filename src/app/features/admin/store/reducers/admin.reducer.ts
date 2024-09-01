@@ -229,4 +229,24 @@ export const adminReducer = createReducer(
       ],
     }),
   ),
+  on(
+    AdminActions.updateCarriagesDataInStore,
+    (state, { data, code }): AdminState => ({
+      ...state,
+      carriages: [
+        ...state.carriages.map((el) => {
+          if (el.code === code.code) {
+            return {
+              code: code.code,
+              leftSeats: data.leftSeats,
+              name: data.name,
+              rightSeats: data.rightSeats,
+              rows: data.rows,
+            };
+          }
+          return el;
+        }),
+      ],
+    }),
+  ),
 );

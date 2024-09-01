@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DoCheck,
   EventEmitter,
   Input,
   OnInit,
@@ -14,7 +15,7 @@ import { IDataCarriages, IDataView } from '@features/admin/models';
   styleUrl: './carriage-info.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CarriageInfoComponent implements OnInit {
+export class CarriageInfoComponent implements OnInit, DoCheck {
   @Input() data: IDataCarriages = {
     code: '',
     name: '',
@@ -41,5 +42,13 @@ export class CarriageInfoComponent implements OnInit {
 
   change() {
     this.changed.emit(this.data.code);
+  }
+
+  ngDoCheck(): void {
+    this.dataView = {
+      rightSeats: this.data.rightSeats,
+      leftSeats: this.data.leftSeats,
+      rows: this.data.rows,
+    };
   }
 }

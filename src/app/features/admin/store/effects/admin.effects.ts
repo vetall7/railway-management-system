@@ -225,6 +225,26 @@ export class AdminEffects {
     );
   });
 
+  updateCarriages$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AdminActions.updateCarriagesData),
+      switchMap((req) =>
+        this.carriageService.updateCarriage(req.code.code, req.data).pipe(
+          map((res) =>
+            AdminActions.updateCarriagesDataInStore({
+              data: req.data,
+              code: res as IDataReq,
+            }),
+          ),
+          catchError(() => of(AdminActions.failed())),
+          finalize(() =>
+            of(AdminActions.setLoadingState({ isLoading: false })),
+          ),
+        ),
+      ),
+    );
+  });
+
   createRouter$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AdminActions.createRouter),
@@ -305,6 +325,7 @@ export class AdminEffects {
         AdminActions.createRide,
         AdminActions.deleteRide,
         AdminActions.createCarriages,
+        AdminActions.updateCarriagesData,
       ),
       map(() => AdminActions.setLoadingState({ isLoading: true })),
     );
@@ -323,6 +344,7 @@ export class AdminEffects {
         AdminActions.createRideInStore,
         AdminActions.deleteRideInStore,
         AdminActions.createCarriagesInStore,
+        AdminActions.updateCarriagesDataInStore,
       ),
       map(() => AdminActions.setLoadingState({ isLoading: false })),
     );

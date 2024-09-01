@@ -30,6 +30,8 @@ export class CarriagesComponent implements OnInit {
 
   show = signal(false);
 
+  code = signal('');
+
   updateCarriage = signal(false);
 
   form = this.formBuilder.group({
@@ -118,21 +120,20 @@ export class CarriagesComponent implements OnInit {
 
   handleSubmit() {
     if (this.form.valid) {
+      const res: IDataCarriages = {
+        leftSeats: Number(this.form.value.leftSeats),
+        name: this.form.value.name || '',
+        rightSeats: Number(this.form.value.rightSeats),
+        rows: Number(this.form.value.rows),
+      };
       if (this.updateCarriage()) {
-        const res: IDataCarriages = {
-          leftSeats: Number(this.form.value.leftSeats),
-          name: this.form.value.name || '',
-          rightSeats: Number(this.form.value.rightSeats),
-          rows: Number(this.form.value.rows),
-        };
-        this.store.dispatch(AdminActions.createCarriages({ carriages: res }));
+        this.store.dispatch(
+          AdminActions.updateCarriagesData({
+            data: res,
+            code: { code: this.code() },
+          }),
+        );
       } else {
-        const res: IDataCarriages = {
-          leftSeats: Number(this.form.value.leftSeats),
-          name: this.form.value.name || '',
-          rightSeats: Number(this.form.value.rightSeats),
-          rows: Number(this.form.value.rows),
-        };
         this.store.dispatch(AdminActions.createCarriages({ carriages: res }));
       }
       this.handleClickCreate();
@@ -140,6 +141,7 @@ export class CarriagesComponent implements OnInit {
   }
 
   onChanged(code: string) {
+    this.code.set(code);
     this.updateCarriage.set(true);
     this.show.set(true);
     this.data$.pipe(take(1)).subscribe((el) => {
