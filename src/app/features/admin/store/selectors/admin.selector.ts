@@ -114,3 +114,13 @@ export const selectGetRideCarriages = createSelector(
     ),
   }),
 );
+
+export const selectCheckCarriagesName = (name: string) =>
+  createSelector(selectGetAppState, (state: AdminState) =>
+    state.carriages.map((el) => el.name).includes(name),
+  );
+
+export const selectCheckCarriages = (name: string) =>
+  createSelector(selectGetAppState, (state: AdminState) =>
+    new Set(state.routes.map((el) => el.carriages).flat()).has(name),
+  );

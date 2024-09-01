@@ -164,3 +164,13 @@ export const updateCarriagesDataInStore = createAction(
   '[Admin Page] Update Carriages Data In Store',
   props<{ data: IDataCarriages; code: IDataReq }>(),
 );
+
+export const deleteCarriages = createAction(
+  '[Admin Page] Delete Carriages',
+  props<{ code: IDataReq }>(),
+);
+
+export const deleteCarriagesInStore = createAction(
+  '[Admin Page] Delete Carriages In Store',
+  props<{ code: IDataReq }>(),
+);

@@ -77,6 +77,7 @@ export const adminReducer = createReducer(
     AdminActions.deleteStationInStore,
     (state, { id }): AdminState => ({
       ...state,
+      isAlert: false,
       stations: [
         state.stations.slice(
           0,
@@ -86,6 +87,13 @@ export const adminReducer = createReducer(
           state.stations.findIndex((el) => el.id === id) + 1,
         ),
       ].flat(),
+    }),
+  ),
+  on(
+    AdminActions.deleteStation,
+    (state): AdminState => ({
+      ...state,
+      isAlert: false,
     }),
   ),
   on(
@@ -247,6 +255,20 @@ export const adminReducer = createReducer(
           return el;
         }),
       ],
+    }),
+  ),
+  on(
+    AdminActions.deleteCarriages,
+    (state): AdminState => ({
+      ...state,
+      isAlert: false,
+    }),
+  ),
+  on(
+    AdminActions.deleteCarriagesInStore,
+    (state, { code }): AdminState => ({
+      ...state,
+      carriages: [...state.carriages.filter((el) => el.code !== code.code)],
     }),
   ),
 );

@@ -2,6 +2,13 @@
   <app-loader />
 }
 
+@if (alert$ | async) {
+  <app-message
+    [error]="true"
+    [text]="'Cannot delete carriage with active rides'"
+  />
+}
+
 <div class="wrapper">
   <app-navigation />
   <div class="carries">
@@ -70,7 +77,11 @@
       </form>
     }
     @for (val of data$ | async; track val.code) {
-      <app-carriage-info [data]="val" (changed)="onChanged($event)" />
+      <app-carriage-info
+        [data]="val"
+        (changed)="onChanged($event)"
+        (changedDelete)="onChangedDelete($event)"
+      />
     }
   </div>
 </div>

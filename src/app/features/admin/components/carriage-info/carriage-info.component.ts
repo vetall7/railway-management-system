@@ -8,6 +8,11 @@ import {
   Output,
 } from '@angular/core';
 import { IDataCarriages, IDataView } from '@features/admin/models';
+import { Store } from '@ngrx/store';
+import { Observable, take } from 'rxjs';
+
+import * as AdminActions from '../../store/actions/admin.actions';
+import * as AdminSelectors from '../../store/selectors/admin.selector';
 
 @Component({
   selector: 'app-carriage-info',
@@ -26,11 +31,17 @@ export class CarriageInfoComponent implements OnInit, DoCheck {
 
   @Output() changed = new EventEmitter<string>();
 
+  @Output() changedDelete = new EventEmitter<boolean>();
+
   dataView: IDataView = {
     rightSeats: 0,
     leftSeats: 0,
     rows: 0,
   };
+
+  active$ = new Observable<boolean | undefined>();
+
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.dataView = {
@@ -38,6 +49,10 @@ export class CarriageInfoComponent implements OnInit, DoCheck {
       leftSeats: this.data.leftSeats,
       rows: this.data.rows,
     };
+
+    this.active$ = this.store.select(
+      AdminSelectors.selectCheckCarriages(this.data!.name),
+    );
   }
 
   change() {
@@ -50,5 +65,18 @@ export class CarriageInfoComponent implements OnInit, DoCheck {
       leftSeats: this.data.leftSeats,
       rows: this.data.rows,
     };
+  }
+
+  handleClickDelete() {
+    this.active$.pipe(take(1)).subscribe((res) => {
+      if (res) {
+        this.store.dispatch(AdminActions.setAlertState({ isAlert: true }));
+      } else if (this.data!.name) {
+        this.changedDelete.emit(false);
+        this.store.dispatch(
+          AdminActions.deleteCarriages({ code: { code: this.data!.code! } }),
+        );
+      }
+    });
   }
 }

@@ -2,10 +2,17 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  OnDestroy,
   OnInit,
+  Renderer2,
   signal,
 } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { IDataCarriages } from '@features/admin/models';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs';
@@ -19,7 +26,7 @@ import * as AdminSelectors from '../../store/selectors/admin.selector';
   styleUrl: './carriages.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CarriagesComponent implements OnInit {
+export class CarriagesComponent implements OnInit, OnDestroy {
   private store = inject(Store);
 
   private formBuilder = inject(FormBuilder);
@@ -34,11 +41,13 @@ export class CarriagesComponent implements OnInit {
 
   updateCarriage = signal(false);
 
+  update = false;
+
   form = this.formBuilder.group({
     name: [
       '',
       {
-        validators: [Validators.required],
+        validators: [Validators.required, this.uniqNameValid.bind(this)],
       },
     ],
     rows: [
@@ -61,8 +70,6 @@ export class CarriagesComponent implements OnInit {
     ],
   });
 
-  update = false;
-
   nameUser = '';
 
   rowsUser = '';
@@ -76,6 +83,26 @@ export class CarriagesComponent implements OnInit {
     leftSeats: Number(this.leftSeatsUser),
     rightSeats: Number(this.rightSeatsUser),
   };
+
+  alert$ = this.store.select(AdminSelectors.selectGetIsAlert);
+
+  private renderer = inject(Renderer2);
+
+  private bodyClickListener?: () => void;
+
+  uniqNameValid(control: AbstractControl): ValidationErrors | null {
+    let check = false;
+    this.store
+      .select(AdminSelectors.selectCheckCarriagesName(control.value.trim()))
+      .pipe(take(1))
+      .subscribe((el) => {
+        check = el;
+      });
+    if (this.updateCarriage() || !check) {
+      return null;
+    }
+    return { uniqNameValid: true };
+  }
 
   handleClickCreate() {
     if (this.show()) {
@@ -140,6 +167,14 @@ export class CarriagesComponent implements OnInit {
     }
   }
 
+  onChangedDelete(el: boolean) {
+    if (this.show()) {
+      this.clearForm();
+    }
+    this.show.set(el);
+    this.updateCarriage.set(false);
+  }
+
   onChanged(code: string) {
     this.code.set(code);
     this.updateCarriage.set(true);
@@ -158,5 +193,21 @@ export class CarriagesComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(AdminActions.getCarriages());
+    this.bodyClickListener = this.renderer.listen(
+      // eslint-disable-next-line no-undef
+      document.body,
+      'click',
+      (event) => {
+        if (!event.target.classList.contains('trash')) {
+          this.store.dispatch(AdminActions.setAlertState({ isAlert: false }));
+        }
+      },
+    );
+  }
+
+  ngOnDestroy() {
+    if (this.bodyClickListener) {
+      this.bodyClickListener();
+    }
   }
 }

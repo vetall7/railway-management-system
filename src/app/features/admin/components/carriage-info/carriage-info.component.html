@@ -3,11 +3,10 @@
     <div class="content">
       <p class="name">{{ this.data.name }}</p>
       <p class="count">
-        {{
-          (this.data.leftSeats + this.data.rightSeats) * this.data.rows
-        }}
+        {{ (this.data.leftSeats + this.data.rightSeats) * this.data.rows }}
         seats
       </p>
+      <p>({{ (active$ | async) ? 'Active' : 'Inactive' }})</p>
     </div>
     <div class="block_button">
       <svg
@@ -30,6 +29,7 @@
         data-icon="delete"
         aria-hidden="true"
         class="delete icon"
+        (click)="handleClickDelete()"
       >
         <path
           class="trash"
