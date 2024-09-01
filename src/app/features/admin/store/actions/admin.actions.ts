@@ -1,8 +1,11 @@
 import {
+  ICarriagesData,
   IDataPostStation,
+  IDataRide,
   IDataStation,
   IResponseCreateStation,
   IRoutesData,
+  ISegmentsRide,
 } from '@features/admin/models';
 import { createAction, props } from '@ngrx/store';
 
@@ -19,6 +22,8 @@ export const setAlertState = createAction(
 export const getStations = createAction('[Admin Page] Get Stations');
 
 export const getRoutes = createAction('[Admin Page] Get Routes');
+
+export const getCarriages = createAction('[Admin Page] Get Carriages');
 
 export const failed = createAction('[Admin Page] Failed');
 
@@ -50,4 +55,91 @@ export const deleteStation = createAction(
 export const deleteStationInStore = createAction(
   '[Admin Page] Delete Station In Store',
   props<{ id: number }>(),
+);
+
+export const setShowData = createAction(
+  '[Admin Page] Set Show Data',
+  props<{ id: number; valueForm: string[] }>(),
+);
+
+export const updateShowData = createAction(
+  '[Admin Page] Update Show Data',
+  props<{ id: number }>(),
+);
+
+export const updateCarriages = createAction(
+  '[Admin Page] Update Carriages Data',
+  props<{ carriages: ICarriagesData[] }>(),
+);
+
+export const deleteRouter = createAction(
+  '[Admin Page] Delete Router',
+  props<{ id: number }>(),
+);
+
+export const deleteRouterInStore = createAction(
+  '[Admin Page] Delete Router In Store',
+  props<{ id: number }>(),
+);
+
+export const clearShowData = createAction('[Admin Page] Clear Show Data');
+
+export const updateRouter = createAction(
+  '[Admin Page] Update Router',
+  props<{ data: IRoutesData }>(),
+);
+
+export const updateRouterInStore = createAction(
+  '[Admin Page] Update Router In Store',
+  props<{ data: IRoutesData }>(),
+);
+
+export const createRouter = createAction(
+  '[Admin Page] Create Router',
+  props<{ data: IRoutesData }>(),
+);
+
+export const createRouterInStore = createAction(
+  '[Admin Page] Create Router In Store',
+  props<{ data: IRoutesData }>(),
+);
+
+export const getRide = createAction(
+  '[Admin Page] Get Ride',
+  props<{ id: number }>(),
+);
+
+export const updateRide = createAction(
+  '[Admin Page] Update Ride',
+  props<{ data: IDataRide }>(),
+);
+
+export const updateRideData = createAction(
+  '[Admin Page] Update Ride Data',
+  props<{ data: ISegmentsRide[]; rideId: number; id: number }>(),
+);
+
+export const updateRideDataInStore = createAction(
+  '[Admin Page] Update Ride Data In Store',
+  props<{ data: ISegmentsRide[]; rideId: number }>(),
+);
+
+export const createRide = createAction(
+  '[Admin Page] Create Ride',
+  props<{ data: ISegmentsRide[]; id: number }>(),
+);
+
+export const createRideInStore = createAction(
+  '[Admin Page] Create Ride In Store',
+  props<{ data: ISegmentsRide[]; rideId: number }>(),
+);
+
+export const deleteRide = createAction(
+  '[Admin Page] Delete Ride',
+  props<{ roteId: number; rideId: number }>(),
+);
+
+export const deleteRideInStore = createAction(
+  '[Admin Page] Delete Ride In Store',
+  props<{ rideId: number }>(),
 );

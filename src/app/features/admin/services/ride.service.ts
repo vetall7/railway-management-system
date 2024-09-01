@@ -2,9 +2,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  ICarriagesData,
+  IDataRide,
   IResponseCreateStation,
-  IRoutesData,
+  ISegmentsRide,
 } from '@features/admin/models';
 import { Store } from '@ngrx/store';
 import { catchError, Observable, of, retry } from 'rxjs';
@@ -12,29 +12,15 @@ import { catchError, Observable, of, retry } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class RouteService {
+export class RideService {
   constructor(
     private http: HttpClient,
     private store: Store,
   ) {}
 
-  getRoutes(): Observable<IRoutesData[] | string> {
-    return this.http.get<IRoutesData[]>('/api/route').pipe(
-      retry(2),
-      catchError((e: HttpErrorResponse) => of(`Bad Promise: ${e}`)),
-    );
-  }
-
-  getCarriages(): Observable<ICarriagesData[] | string> {
-    return this.http.get<ICarriagesData[]>('/api/carriage').pipe(
-      retry(2),
-      catchError((e: HttpErrorResponse) => of(`Bad Promise: ${e}`)),
-    );
-  }
-
-  deleteRouter(id: number): Observable<IRoutesData | string> {
+  getRide(id: number): Observable<IDataRide | string> {
     return this.http
-      .delete<IRoutesData>(`/api/route/${id}`, {
+      .get<IDataRide>(`/api/route/${id}`, {
         headers: {
           Authorization: `Bearer ${JSON.parse(localStorage.getItem('token')!)}`,
         },
@@ -45,13 +31,16 @@ export class RouteService {
       );
   }
 
-  createRouter(data: IRoutesData): Observable<IResponseCreateStation | string> {
+  updateRide(
+    routeId: number,
+    rideId: number,
+    data: ISegmentsRide[],
+  ): Observable<ISegmentsRide | string> {
     return this.http
-      .post<IResponseCreateStation>(
-        '/api/route',
+      .put<ISegmentsRide>(
+        `/api/route/${routeId}/ride/${rideId}`,
         {
-          path: [...data.path],
-          carriages: [...data.carriages],
+          segments: data,
         },
         {
           headers: {
@@ -65,13 +54,15 @@ export class RouteService {
       );
   }
 
-  updateRouter(data: IRoutesData): Observable<IResponseCreateStation | string> {
+  createRide(
+    routeId: number,
+    data: ISegmentsRide[],
+  ): Observable<IResponseCreateStation | string> {
     return this.http
-      .put<IResponseCreateStation>(
-        `/api/route/${data.id}`,
+      .post<IResponseCreateStation>(
+        `/api/route/${routeId}/ride`,
         {
-          path: [...data.path],
-          carriages: [...data.carriages],
+          segments: data,
         },
         {
           headers: {
@@ -79,6 +70,22 @@ export class RouteService {
           },
         },
       )
+      .pipe(
+        retry(2),
+        catchError((e: HttpErrorResponse) => of(`Bad Promise: ${e}`)),
+      );
+  }
+
+  deleteRide(
+    routeId: number,
+    rideId: number,
+  ): Observable<IResponseCreateStation | string> {
+    return this.http
+      .delete<IResponseCreateStation>(`/api/route/${routeId}/ride/${rideId}`, {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem('token')!)}`,
+        },
+      })
       .pipe(
         retry(2),
         catchError((e: HttpErrorResponse) => of(`Bad Promise: ${e}`)),

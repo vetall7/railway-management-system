@@ -38,8 +38,8 @@ export class FormStationComponent implements DoCheck {
 
   @Input() userMarkInput: IUserMark = {
     show: false,
-    lat: NaN,
-    lng: NaN,
+    lat: 0,
+    lng: 0,
     city: '',
   };
 
