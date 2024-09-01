@@ -73,8 +73,13 @@ export class TripDetailsComponent implements OnInit {
     },
   );
 
+  public orderSelected: WritableSignal<number | null> = signal(null);
+
   public getAllOccupiedSeats: Signal<number[]> = computed(() => {
-    return this.searchTrip.getAllOccupiedSeats(this.rideData());
+    return this.searchTrip.getAllOccupiedSeats(
+      this.rideData(),
+      this.orderSelected() ?? 0,
+    );
   });
 
   private readonly searchTrip = inject(SearchTripDetailService);
@@ -150,6 +155,8 @@ export class TripDetailsComponent implements OnInit {
         })
         .subscribe((value) => {
           if (value.id) {
+            this.orderSelected.set(modalData.numberSeat);
+            this.modalData = {} as ICarModalDataInfo;
             this.message.add({
               severity: 'success',
               summary: 'Success',

@@ -50,4 +50,8 @@ export class TrainCarItemsComponent implements OnInit {
         this.isSelected.set(selected);
       });
   }
+
+  public isSelectedValue(allSeats: number[]) {
+    return !allSeats.includes(this.itemNumber);
+  }
 }

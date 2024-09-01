@@ -106,7 +106,10 @@ export class SearchTripDetailService {
     return prices;
   }
 
-  public getAllOccupiedSeats(rideData: IRideInformation | null) {
+  public getAllOccupiedSeats(
+    rideData: IRideInformation | null,
+    selected: number,
+  ) {
     if (rideData?.path?.length) {
       const allOccupiedSeats: number[] = [];
       rideData?.schedule.segments.forEach((segment, index) => {
@@ -114,7 +117,7 @@ export class SearchTripDetailService {
           allOccupiedSeats.push(...segment.occupiedSeats);
         }
       });
-      return allOccupiedSeats as number[];
+      return [...allOccupiedSeats, selected] as number[];
     }
     return [];
   }
