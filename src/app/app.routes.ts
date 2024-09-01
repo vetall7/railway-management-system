@@ -2,6 +2,14 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: '',
+    loadChildren: () =>
+      import('./features/search-trip/search-trip.module').then(
+        (m) => m.SearchTripModule,
+      ),
+    pathMatch: 'full',
+  },
+  {
     path: 'auth',
     title: 'Authorization',
     loadChildren: () =>
