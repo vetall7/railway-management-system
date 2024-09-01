@@ -1,0 +1,44 @@
+.book-seat-wrapper {
+  width: 250px;
+  height: 300px;
+  border-radius: 30px;
+  background-color: var(--color-secondary-a20);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .book-seat-button {
+    display: flex;
+    padding: 20px;
+    margin: 0 auto;
+  }
+
+  .book-seat-header {
+    padding: 20px 15px;
+    color: var(--color-secondary-a0);
+    font-weight: 700;
+    font-size: 13px;
+    height: 80px;
+    border-bottom: 2px solid var(--color-primary-b30);
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+  }
+  .price {
+    //display: flex;
+  }
+  .btn {
+    background-color: var(--color-secondary-a20);
+    border: none;
+  }
+}
+
+:host ::ng-deep {
+  p-button {
+    text-align: center;
+    button {
+      width: 180px;
+      height: 40px;
+    }
+  }
+}

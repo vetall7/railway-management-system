@@ -1,1 +1,19 @@
-<p>book-seat works!</p>
+<div class="book-seat-wrapper">
+  <div class="book-seat-header">
+    @if (modalData) {
+      <div>Car{{ modalData.car }}, seat {{ modalData.numberSeat }}</div>
+      <div class="price">
+        {{ modalData.price | currency }}
+        <button class="btn" (click)="clearSelected()">
+          <i class="pi pi-times"></i>
+        </button>
+      </div>
+    } @else {
+      <div>There is no selected seats</div>
+    }
+  </div>
+  <div class="book-seat-button">
+    <p-button class="button" label="Book seat" [disabled]="!isDisable">
+    </p-button>
+  </div>
+</div>

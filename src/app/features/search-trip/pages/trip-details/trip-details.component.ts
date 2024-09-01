@@ -12,11 +12,17 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Params } from '@angular/router';
 import {
+  ICarListItem,
+  ICarModalDataInfo,
   IQuery,
+  IRideCarriage,
   IRideError,
   IRideInformation,
+  IRideSeatsInfo,
 } from '@features/search-trip/models';
+import { IRideCarriageData } from '@features/search-trip/models/ride-carriage-info.model';
 import { SearchTripDetailService } from '@features/search-trip/services/search-trip-detail.service';
+import { CarService } from '@shared/services';
 
 import { TripDetailFacade } from '../../../../store/trip-detail/facades';
 
@@ -35,11 +41,44 @@ export class TripDetailsComponent implements OnInit {
 
   private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 
+  public isLoading: WritableSignal<boolean> = signal(false);
+
+  public readonly carriageData: WritableSignal<IRideCarriageData[]> = signal(
+    [],
+  );
+
+  private readonly car = inject(CarService);
+
+  public calculateCarriageSeats: Signal<IRideSeatsInfo[]> = computed(() => {
+    return this.carriageData().map((carriage: IRideCarriageData) => {
+      return {
+        type: carriage.code,
+        seats: carriage.rows * (carriage.leftSeats + carriage.rightSeats),
+      };
+    });
+  });
+
+  public getCalculateCarList: Signal<Record<string, ICarListItem[]>> = computed(
+    () => {
+      return this.searchTrip.calculateCarList(
+        this.rideData(),
+        this.calculateCarriageSeats(),
+        this.getAllOccupiedSeats(),
+      );
+    },
+  );
+
+  public getAllOccupiedSeats: Signal<number[]> = computed(() => {
+    return this.searchTrip.getAllOccupiedSeats(this.rideData());
+  });
+
   private readonly searchTrip = inject(SearchTripDetailService);
 
   public from: WritableSignal<number | null> = signal(null);
 
   public to: WritableSignal<number | null> = signal(null);
+
+  public modalData!: ICarModalDataInfo;
 
   public rideData: Signal<IRideInformation | null> = computed(() => {
     return this.searchTrip.setTrainDates(
@@ -49,11 +88,29 @@ export class TripDetailsComponent implements OnInit {
     );
   });
 
+  public isErrorParam: Signal<boolean> = computed(
+    () =>
+      /* eslint-disable operator-linebreak */
+      !!this.rideData()?.path.includes(this.from() ?? 0) &&
+      !!this.rideData()?.path.includes(this.to() ?? 0),
+  );
+
+  public carriageTypeInfo: Signal<IRideCarriage[] | null> = computed(() => {
+    return this.searchTrip.getCarriageData(
+      this.tripDetailFacade.rideData(),
+      this.getCalculateCarList(),
+    );
+  });
+
   public rideError: Signal<IRideError> = this.tripDetailFacade.rideError;
 
   public ngOnInit(): void {
-    this.loadRide();
+    this.searchTrip.getCarriage().subscribe((value) => {
+      this.carriageData.set(value);
+      this.isLoading.set(true);
+    });
     this.getParam();
+    this.loadRide();
   }
 
   private getParam(): void {
@@ -68,5 +125,9 @@ export class TripDetailsComponent implements OnInit {
   private loadRide(): void {
     const id = this.activatedRoute.snapshot.paramMap.get(this.tokeId);
     this.tripDetailFacade.loadRide(id ?? '');
+  }
+
+  public clearSelected() {
+    this.car.selected = null;
   }
 }

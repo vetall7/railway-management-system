@@ -11,6 +11,7 @@ export const tripDetailReducer = createReducer(
     (state, { rideData }): ITripDetailState => ({
       ...state,
       rideData,
+      isLoading: true,
     }),
   ),
   on(
@@ -21,6 +22,7 @@ export const tripDetailReducer = createReducer(
         ...error,
         isError: true,
       },
+      isLoading: true,
     }),
   ),
 );

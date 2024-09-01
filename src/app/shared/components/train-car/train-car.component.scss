@@ -1,0 +1,27 @@
+.train-car-wrapper {
+  background-color: var(--color-secondary-a10);
+  border-radius: 5px;
+  font-size: 16px;
+  margin: 15px 0;
+  overflow: auto;
+  width: 1350px;
+
+  .trip-car-header {
+    padding: 15px;
+    display: flex;
+  }
+  .train-seats-available-wrapper {
+    margin-left: 10px;
+    padding: 0 5px;
+    border-radius: 20px;
+    text-align: center;
+    border: 1px solid var(--color-secondary-a30);
+  }
+  .train-seats-wrapper {
+    padding: 15px;
+  }
+  .train-seats-wrapper-items {
+    display: flex;
+    padding: 10px 0;
+  }
+}

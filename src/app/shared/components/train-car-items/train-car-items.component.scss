@@ -1,0 +1,19 @@
+.train-car-item-wrapper {
+  color: var(--color-primary-a0);
+  width: 50px;
+  text-align: center;
+  margin: 10px 10px;
+  border: 1px solid var(--color-primary-a40);
+  background-color: var(--color-primary-a40);
+  display: block;
+
+  &.occupied {
+    border: 1px solid var(--color-secondary-a50);
+    background-color: var(--color-secondary-a50);
+  }
+
+  &.selected {
+    border: 1px solid var(--color-primary-b20);
+    background-color: var(--color-primary-b20);
+  }
+}

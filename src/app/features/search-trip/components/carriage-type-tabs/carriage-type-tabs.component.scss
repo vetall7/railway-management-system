@@ -1,0 +1,38 @@
+.carrier-type-wrapper {
+  padding: 0 64px;
+}
+
+:host ::ng-deep {
+  .carrier-type-wrapper {
+    padding-top: 20px;
+    .carrier-type-tab {
+      .p-tabview-nav-link.p-element {
+        font-weight: normal;
+        border: none;
+        padding: 7px 12px;
+        border-radius: 6px 6px 0 0;
+        font-size: 15px;
+        display: block;
+        background-color: var(--color-secondary-a10);
+        width: 300px;
+        border: 1px solid var(--color-primary-a80);
+        margin: 0 1px;
+
+        &:focus,
+        &:active {
+          box-shadow: none;
+        }
+      }
+      .p-tabview-nav-container {
+        margin-bottom: -1px;
+      }
+
+      .p-highlight {
+        border-bottom: 1px solid var(--color-primary-a60);
+      }
+    }
+  }
+  .p-tabview .p-tabview-nav {
+    border: none;
+  }
+}

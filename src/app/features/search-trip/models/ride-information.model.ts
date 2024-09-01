@@ -1,8 +1,8 @@
 export interface IPrice {
-  readonly carriage1: number;
-  readonly carriage2: number;
-  readonly carriage3: number;
-  readonly carriage4: number;
+  carriage1: number;
+  carriage2: number;
+  carriage3: number;
+  carriage4: number;
 }
 
 export interface ISegments {
