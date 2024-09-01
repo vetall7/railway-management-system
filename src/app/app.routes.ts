@@ -7,7 +7,6 @@ export const routes: Routes = [
       import('./features/search-trip/search-trip.module').then(
         (m) => m.SearchTripModule,
       ),
-    pathMatch: 'full',
   },
   {
     path: 'auth',

@@ -9,8 +9,13 @@
   <span> Arrival time: {{ rideData?.endDate | date: 'MMMM d, HH:mm' }} </span>
   <div class="train-station-indelicate">
     Ride {{ rideData?.rideId }}
-    <span class="train-station-tab-left rain-station-route"
-      >Route <i class="pi pi-chevron-down"></i>
-    </span>
+    <div
+      class="details"
+      (click)="$event.stopPropagation()"
+      (keypress)="$event.stopPropagation()"
+      tabindex="0"
+    >
+      <app-trip-details-dialog [trip]="currentTrip()"></app-trip-details-dialog>
+    </div>
   </div>
 </div>

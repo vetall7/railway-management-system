@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
   ICarListItem,
+  IDataToResponse,
+  IOrderResponse,
   IPrice,
   IRideCarriage,
   IRideInformation,
@@ -34,6 +36,15 @@ export class SearchTripDetailService {
 
   public getCarriage(): Observable<IRideCarriageData[]> {
     return this.http.get<IRideCarriageData[]>(`${this.apiUrl}/carriage`);
+  }
+
+  public createOrder(body: IDataToResponse): Observable<IOrderResponse> {
+    return this.http.post<IOrderResponse>(`${this.apiUrl}/order`, body, {
+      headers: {
+        // eslint-disable-next-line no-undef
+        Authorization: `Bearer ${localStorage.getItem('token')!}`,
+      },
+    });
   }
 
   public setTrainDates(

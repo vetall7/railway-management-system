@@ -23,3 +23,14 @@ export interface ICarModalData {
 export interface ICarModalDataInfo extends ICarModalData {
   price: number;
 }
+
+export interface IDataToResponse {
+  rideId: number;
+  seat: number;
+  stationStart: number;
+  stationEnd: number;
+}
+
+export interface IOrderResponse {
+  id: string;
+}

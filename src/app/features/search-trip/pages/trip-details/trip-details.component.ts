@@ -10,7 +10,7 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import {
   ICarListItem,
   ICarModalDataInfo,
@@ -23,6 +23,7 @@ import {
 import { IRideCarriageData } from '@features/search-trip/models/ride-carriage-info.model';
 import { SearchTripDetailService } from '@features/search-trip/services/search-trip-detail.service';
 import { CarService } from '@shared/services';
+import { MessageService } from 'primeng/api';
 
 import { TripDetailFacade } from '../../../../store/trip-detail/facades';
 
@@ -36,6 +37,10 @@ export class TripDetailsComponent implements OnInit {
   private readonly tokeId: string = 'id';
 
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
+
+  private readonly router = inject(Router);
+
+  private readonly message = inject(MessageService);
 
   private readonly tripDetailFacade = inject(TripDetailFacade);
 
@@ -104,6 +109,8 @@ export class TripDetailsComponent implements OnInit {
 
   public rideError: Signal<IRideError> = this.tripDetailFacade.rideError;
 
+  public orderId: WritableSignal<string | null> = signal(null);
+
   public ngOnInit(): void {
     this.searchTrip.getCarriage().subscribe((value) => {
       this.carriageData.set(value);
@@ -129,5 +136,30 @@ export class TripDetailsComponent implements OnInit {
 
   public clearSelected() {
     this.car.selected = null;
+  }
+
+  public createOrder(modalData: ICarModalDataInfo): void {
+    // eslint-disable-next-line no-undef
+    if (localStorage.getItem('token')?.length) {
+      this.searchTrip
+        .createOrder({
+          rideId: this.rideData()?.rideId ?? 0,
+          seat: modalData.numberSeat,
+          stationStart: this.from() ?? 0,
+          stationEnd: this.to() ?? 0,
+        })
+        .subscribe((value) => {
+          if (value.id) {
+            this.message.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Order created success!',
+            });
+            this.orderId.set(value.id);
+          }
+        });
+    } else {
+      this.router.navigate(['/auth/signin']);
+    }
   }
 }

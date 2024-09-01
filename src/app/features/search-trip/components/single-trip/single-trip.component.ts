@@ -119,7 +119,10 @@ export class SingleTripComponent implements OnInit {
     const trip = this.trip();
     if (trip) {
       this.router.navigate(['/trip', trip.schedule.rideId], {
-        queryParams: { from: trip.from.city, to: trip.to.city },
+        queryParams: {
+          from: this.startCity.replace(/\D/g, ''),
+          to: this.endCity.replace(/\D/g, ''),
+        },
       });
     }
   }
