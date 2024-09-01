@@ -4,11 +4,11 @@ import { AuthError, AuthPayload, AuthRes } from '../models/auth.model';
 
 export const signUp = createAction(
   '[Auth] Sign Up',
-  props<{ playload: AuthPayload }>(),
+  props<{ payload: AuthPayload }>(),
 );
 export const signIn = createAction(
   '[Auth] Sign In',
-  props<{ playload: AuthPayload }>(),
+  props<{ payload: AuthPayload }>(),
 );
 
 export const authSuccess = createAction(
