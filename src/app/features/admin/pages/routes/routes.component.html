@@ -15,7 +15,11 @@
       <app-form-router [data]="edit$()" (changed)="onCancelEdit($event)" />
     }
     @for (val of routes$ | async; track val.id) {
-      <app-router-info [data]="val" (changed)="onClickEdit($event)" />
+      <app-router-info
+        [data]="val"
+        (changed)="onClickEdit($event)"
+        (changedDelete)="onClickDelete($event)"
+      />
     }
   </div>
 </div>

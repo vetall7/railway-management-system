@@ -59,6 +59,7 @@ export class ConfirmComponent implements OnInit, OnDestroy {
       this.changed.emit(false);
     } else {
       this.store.dispatch(AdminActions.deleteRouter({ id: this.data! }));
+      this.yesDelete.emit(true);
       this.handleClickNo();
     }
   }

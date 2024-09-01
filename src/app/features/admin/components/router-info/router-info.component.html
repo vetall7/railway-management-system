@@ -51,6 +51,10 @@
     </svg>
   </div>
   @if (showConfirm$()) {
-    <app-confirm [data]="data!.id" (changed)="onDeleteNo($event)" />
+    <app-confirm
+      [data]="data!.id"
+      (changed)="onDeleteNo($event)"
+      (yesDelete)="onDeleteYes($event)"
+    />
   }
 </div>

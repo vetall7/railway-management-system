@@ -30,6 +30,8 @@ export class RouterInfoComponent implements OnInit {
 
   @Output() changed = new EventEmitter<IRoutesData>();
 
+  @Output() changedDelete = new EventEmitter<boolean>();
+
   store = inject(Store);
 
   router = inject(Router);
@@ -52,6 +54,10 @@ export class RouterInfoComponent implements OnInit {
 
   onDeleteNo(show: boolean) {
     this.showConfirm$.set(show);
+  }
+
+  onDeleteYes(show: boolean) {
+    this.changedDelete.emit(show);
   }
 
   handleClickDelete() {
