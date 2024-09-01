@@ -5,7 +5,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { HeaderComponent } from '@shared/components/header/header.component';
 import { apiTokenInterceptor } from '@shared/interceptors/api-token.interceptor';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 // eslint-disable-next-line import/extensions
 import { environment } from '../environments/environment';
@@ -18,6 +21,8 @@ import { AppRoutingModule } from './app-routing.module';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    HeaderComponent,
+    ToastModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     StoreModule.forRoot({}, {}),
@@ -29,6 +34,7 @@ import { AppRoutingModule } from './app-routing.module';
   ],
   providers: [
     { provide: ENVIRONMENT, useValue: environment },
+    MessageService,
     provideHttpClient(withInterceptors([apiTokenInterceptor])),
   ],
   bootstrap: [AppComponent],
