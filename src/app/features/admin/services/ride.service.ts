@@ -6,23 +6,19 @@ import {
   IResponseCreateStation,
   ISegmentsRide,
 } from '@features/admin/models';
-import { Store } from '@ngrx/store';
 import { catchError, Observable, of, retry } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RideService {
-  constructor(
-    private http: HttpClient,
-    private store: Store,
-  ) {}
+  constructor(private http: HttpClient) {}
 
   getRide(id: number): Observable<IDataRide | string> {
     return this.http
       .get<IDataRide>(`/api/route/${id}`, {
         headers: {
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem('token')!)}`,
+          Authorization: `Bearer ${localStorage.getItem('token')!}`,
         },
       })
       .pipe(
@@ -44,7 +40,7 @@ export class RideService {
         },
         {
           headers: {
-            Authorization: `Bearer ${JSON.parse(localStorage.getItem('token')!)}`,
+            Authorization: `Bearer ${localStorage.getItem('token')!}`,
           },
         },
       )
@@ -66,7 +62,7 @@ export class RideService {
         },
         {
           headers: {
-            Authorization: `Bearer ${JSON.parse(localStorage.getItem('token')!)}`,
+            Authorization: `Bearer ${localStorage.getItem('token')!}`,
           },
         },
       )
@@ -83,7 +79,7 @@ export class RideService {
     return this.http
       .delete<IResponseCreateStation>(`/api/route/${routeId}/ride/${rideId}`, {
         headers: {
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem('token')!)}`,
+          Authorization: `Bearer ${localStorage.getItem('token')!}`,
         },
       })
       .pipe(

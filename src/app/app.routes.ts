@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { permissionGuard } from '@shared/guards/permission.guard';
 
 export const routes: Routes = [
   {
@@ -18,6 +19,7 @@ export const routes: Routes = [
   {
     path: 'admin',
     title: 'AdminPage',
+    canActivate: [permissionGuard],
     loadChildren: () =>
       import('./features/admin/admin.module').then((m) => m.AdminModule),
   },

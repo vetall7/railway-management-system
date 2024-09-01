@@ -2,17 +2,13 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IResponseCreateStation, IRoutesData } from '@features/admin/models';
-import { Store } from '@ngrx/store';
 import { catchError, Observable, of, retry } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RouteService {
-  constructor(
-    private http: HttpClient,
-    private store: Store,
-  ) {}
+  constructor(private http: HttpClient) {}
 
   getRoutes(): Observable<IRoutesData[] | string> {
     return this.http.get<IRoutesData[]>('/api/route').pipe(
@@ -25,7 +21,7 @@ export class RouteService {
     return this.http
       .delete<IRoutesData>(`/api/route/${id}`, {
         headers: {
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem('token')!)}`,
+          Authorization: `Bearer ${localStorage.getItem('token')!}`,
         },
       })
       .pipe(
@@ -44,7 +40,7 @@ export class RouteService {
         },
         {
           headers: {
-            Authorization: `Bearer ${JSON.parse(localStorage.getItem('token')!)}`,
+            Authorization: `Bearer ${localStorage.getItem('token')!}`,
           },
         },
       )
@@ -64,7 +60,7 @@ export class RouteService {
         },
         {
           headers: {
-            Authorization: `Bearer ${JSON.parse(localStorage.getItem('token')!)}`,
+            Authorization: `Bearer ${localStorage.getItem('token')!}`,
           },
         },
       )

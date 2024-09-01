@@ -31,7 +31,6 @@ export class AdminEffects {
   getAllStations$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AdminActions.getStations, AdminActions.updateRide),
-      switchMap(() => this.stationService.login()),
       switchMap(() =>
         this.stationService.getStations().pipe(
           map((res) =>
