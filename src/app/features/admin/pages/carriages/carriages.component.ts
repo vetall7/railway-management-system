@@ -25,6 +25,8 @@ export class CarriagesComponent implements OnInit {
 
   data$ = this.store.select(AdminSelectors.selectGetCarriagesData);
 
+  loading$ = this.store.select(AdminSelectors.selectGetIsLoading);
+
   show = signal(false);
 
   updateCarriage = signal(false);

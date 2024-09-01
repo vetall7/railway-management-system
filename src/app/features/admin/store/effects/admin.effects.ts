@@ -68,7 +68,11 @@ export class AdminEffects {
 
   getAllRoutes$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(AdminActions.getRoutes, AdminActions.updateStations),
+      ofType(
+        AdminActions.getRoutes,
+        AdminActions.updateStations,
+        AdminActions.getCarriages,
+      ),
       switchMap(() =>
         this.routeService.getRoutes().pipe(
           map((res) =>
