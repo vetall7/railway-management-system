@@ -23,13 +23,12 @@
     "@angular/router": "^18.2.0",
     "@ngrx/effects": "^18.0.2",
     "@ngrx/store": "^18.0.2",
+    "@ngrx/store-devtools": "^18.0.2",
     "@planess/train-a-backend": "^0.0.6",
     "angular-svg-icon": "^18.0.1",
     "primeicons": "^7.0.0",
-    "@ngrx/store-devtools": "^18.0.2",
     "primeng": "^17.18.9",
     "rxjs": "~7.8.0",
-    "tslib": "^2.3.0",
     "zod": "^3.23.8",
     "zone.js": "~0.14.10"
   },
@@ -62,6 +61,7 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "lint-staged": "^15.2.9",
     "prettier": "^3.3.3",
+    "tslib": "^2.7.0",
     "typescript": "~5.5.2"
   }
 }
