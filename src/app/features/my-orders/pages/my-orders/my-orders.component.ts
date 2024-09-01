@@ -9,6 +9,8 @@ import { FetchOrdersService } from '@features/my-orders/services';
 export class MyOrdersComponent implements OnInit {
   protected readonly fetchOrdersService = inject(FetchOrdersService);
 
+  protected readonly orders = this.fetchOrdersService.getOrders;
+
   public ngOnInit(): void {
     this.fetchOrdersService.fetchOrders();
   }

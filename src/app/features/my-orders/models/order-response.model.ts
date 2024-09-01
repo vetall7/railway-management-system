@@ -5,9 +5,9 @@ const ScheduleSegmentSchema = z.object({
   segments: z.array(
     z.object({
       time: z.tuple([z.string().datetime(), z.string().datetime()]),
+      price: z.record(z.string(), z.number()), // Prices for each segment
     }),
   ),
-  price: z.record(z.string(), z.number()),
 });
 
 const OrderResponseSchema = z.object({
@@ -23,13 +23,13 @@ const OrderResponseSchema = z.object({
 });
 
 class ScheduleSegment {
-  readonly segments: { time: [string, string] }[];
-
-  readonly price: Record<string, number>;
+  readonly segments: {
+    readonly time: [string, string];
+    readonly price: Record<string, number>;
+  }[];
 
   constructor(data: z.infer<typeof ScheduleSegmentSchema>) {
     this.segments = data.segments;
-    this.price = data.price;
   }
 }
 

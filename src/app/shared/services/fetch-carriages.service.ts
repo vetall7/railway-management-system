@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { Carriage } from '@shared/models/carriage.model';
 import { SingleTrip } from '@shared/models/trips.model';
+import { lastValueFrom } from 'rxjs';
 
 import { FetchApiDataService } from './fetch-api-data.service';
 
@@ -21,10 +22,13 @@ export class FetchCarriagesService {
     return this.carriages();
   }
 
-  public fetchCarriages(): void {
-    this.fetchData.fetchCarriages().subscribe((carriages) => {
+  public async fetchCarriages(): Promise<void> {
+    try {
+      const carriages = await lastValueFrom(this.fetchData.fetchCarriages());
       this.carriages.set(carriages);
-    });
+    } catch (error) {
+      console.error('Error fetching carriages:', error);
+    }
   }
 
   public readonly carriagesWithNumberOfSeats = computed(() => {

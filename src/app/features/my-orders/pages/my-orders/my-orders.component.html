@@ -1,3 +1,7 @@
-<p>my-orders works!</p>
+@let allOrders = orders();
 
-{{ this.fetchOrdersService.getOrders() }}
+@if (allOrders) {
+  @for (order of allOrders; track $index) {
+    <app-single-order [order]="order"></app-single-order>
+  }
+}

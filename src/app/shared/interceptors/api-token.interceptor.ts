@@ -10,8 +10,8 @@ export const apiTokenInterceptor: HttpInterceptorFn = (req, next) => {
 
   const tokenReq = req.clone({
     headers: headers.append(
-      'Bearer',
-      window.localStorage.getItem('token') ?? '',
+      'Authorization',
+      `Bearer ${window.localStorage.getItem('token') ?? ''}`,
     ),
   });
 

@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { Station } from '@shared/models/trips.model';
+import { lastValueFrom } from 'rxjs';
 
 import { FetchApiDataService } from './fetch-api-data.service';
 
@@ -10,10 +11,16 @@ export class FetchStationsService {
 
   private readonly fetchDataService = inject(FetchApiDataService);
 
-  public fetchStations(): void {
-    this.fetchDataService.fetchStations().subscribe((stations) => {
+  public async fetchStations(): Promise<void> {
+    try {
+      const stations = await lastValueFrom(
+        this.fetchDataService.fetchStations(),
+      );
       this.stations.set(stations);
-    });
+    } catch (error) {
+      // Handle errors if necessary
+      console.error('Error fetching stations:', error);
+    }
   }
 
   public getCitiesNames(): string[] {

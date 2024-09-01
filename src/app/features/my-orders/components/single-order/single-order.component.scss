@@ -7,7 +7,17 @@
   padding: 2rem;
   border: var(--secondary-border);
   font: var(--primary-sm-font);
-  cursor: pointer;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+.button-wrapper {
+  position: absolute;
+  top: 50%;
+  right: -5rem;
+  transform: translateY(-50%);
 }
 
 .trip {
@@ -87,17 +97,10 @@
 .carriages {
   width: 80%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: center;
   gap: 0.5rem;
-  overflow-x: auto;
-  white-space: nowrap;
   flex: 1;
-}
-
-.price {
-  font: var(--primary-md-font);
-  font-weight: bold;
 }
 
 .carriage {
@@ -112,6 +115,14 @@
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+}
+
+span {
+  font-style: italic;
+}
+
+.value {
+  font-weight: bold;
 }
 
 @media (max-width: 1200px) {
@@ -142,5 +153,9 @@
   .carriages {
     flex-direction: column;
     gap: 0.5rem;
+  }
+  .button-wrapper {
+    position: static;
+    margin-top: 1rem;
   }
 }

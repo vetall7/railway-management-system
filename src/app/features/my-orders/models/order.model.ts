@@ -2,6 +2,8 @@
 import { z } from 'zod';
 
 const OrderSchema = z.object({
+  id: z.number(),
+  userName: z.string(),
   startTripStation: z.string(),
   startTripTime: z.string().datetime(),
   endTripStation: z.string(),
@@ -15,6 +17,10 @@ const OrderSchema = z.object({
 });
 
 export class Order {
+  readonly id: number;
+
+  readonly userName: string;
+
   readonly startTripStation: string;
 
   readonly startTripTime: string;
@@ -36,6 +42,8 @@ export class Order {
   readonly status: 'active' | 'completed' | 'rejected' | 'canceled';
 
   constructor(data: z.infer<typeof OrderSchema>) {
+    this.id = data.id;
+    this.userName = data.userName;
     this.startTripStation = data.startTripStation;
     this.startTripTime = data.startTripTime;
     this.endTripStation = data.endTripStation;
