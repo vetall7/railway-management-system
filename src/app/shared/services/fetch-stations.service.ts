@@ -6,7 +6,7 @@ import { FetchApiDataService } from './fetch-api-data.service';
 
 @Injectable()
 export class FetchStationsService {
-  private stations: WritableSignal<Station[]> = signal([]);
+  private readonly stations: WritableSignal<Station[]> = signal([]);
 
   private readonly fetchDataService = inject(FetchApiDataService);
 

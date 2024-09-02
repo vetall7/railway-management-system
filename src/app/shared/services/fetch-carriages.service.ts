@@ -15,7 +15,7 @@ import { FetchApiDataService } from './fetch-api-data.service';
 export class FetchCarriagesService {
   private readonly fetchData = inject(FetchApiDataService);
 
-  private carriages: WritableSignal<Carriage[] | null> = signal(null);
+  private readonly carriages: WritableSignal<Carriage[] | null> = signal(null);
 
   public get carriagesSignal(): Carriage[] | null {
     return this.carriages();
