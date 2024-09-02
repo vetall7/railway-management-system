@@ -51,7 +51,11 @@ export class SingleTripComponent implements OnInit {
   private getStartTime(): string {
     const trip = this.trip();
     if (trip) {
-      return trip.schedule.segments[0].time[0];
+      const indexOfStartStation = trip.path.findIndex(
+        (station) => station.stationId === trip.from.stationId,
+      );
+
+      return trip.schedule.segments[indexOfStartStation].time[0];
     }
     return '';
   }
@@ -59,7 +63,11 @@ export class SingleTripComponent implements OnInit {
   private getEndTime(): string {
     const trip = this.trip();
     if (trip) {
-      return trip.schedule.segments[trip.schedule.segments.length - 1].time[1];
+      const indexOfEndStation = trip.path.findIndex(
+        (station) => station.stationId === trip.to.stationId,
+      );
+
+      return trip.schedule.segments[indexOfEndStation - 1].time[1];
     }
     return '';
   }
@@ -67,10 +75,8 @@ export class SingleTripComponent implements OnInit {
   private getDuration(): string {
     const trip = this.trip();
     if (trip) {
-      const startTime = new Date(trip.schedule.segments[0].time[0]);
-      const endTime = new Date(
-        trip.schedule.segments[trip.schedule.segments.length - 1].time[1],
-      );
+      const startTime = new Date(this.getStartTime());
+      const endTime = new Date(this.getEndTime());
       const duration = endTime.getTime() - startTime.getTime();
       return `${Math.floor(duration / 60 / 60 / 1000)}h ${Math.floor(duration / 60 / 1000) % 60}m`;
     }
