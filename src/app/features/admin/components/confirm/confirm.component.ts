@@ -22,7 +22,11 @@ import * as AdminActions from '../../store/actions/admin.actions';
 export class ConfirmComponent implements OnInit, OnDestroy {
   @Input() data: number | null = -1;
 
+  @Input() ride: boolean | null = false;
+
   @Output() changed = new EventEmitter<boolean>();
+
+  @Output() yesDelete = new EventEmitter<boolean>();
 
   private store = inject(Store);
 
@@ -50,8 +54,14 @@ export class ConfirmComponent implements OnInit, OnDestroy {
   }
 
   handleClickYes() {
-    this.store.dispatch(AdminActions.deleteRouter({ id: this.data! }));
-    this.handleClickNo();
+    if (this.ride) {
+      this.yesDelete.emit(true);
+      this.changed.emit(false);
+    } else {
+      this.store.dispatch(AdminActions.deleteRouter({ id: this.data! }));
+      this.yesDelete.emit(true);
+      this.handleClickNo();
+    }
   }
 
   handleClickNo() {

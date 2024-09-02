@@ -37,6 +37,7 @@ export const signIn$ = createEffect(
         authService.signin(action.payload).pipe(
           map((response) => {
             window.localStorage.setItem('token', response.token ?? '');
+            window.localStorage.setItem('login', action.payload.email ?? '');
             window.localStorage.setItem(
               'isAuthenticated',
               response.token!.length > 0 ? '1' : '0',

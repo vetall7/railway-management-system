@@ -65,11 +65,21 @@
   }
   <div class="buttons_content">
     @if (fillData$().id >= 0) {
-      <button type="button" class="button" (click)="handleUpdate()">
+      <button
+        type="button"
+        class="button"
+        (click)="handleUpdate()"
+        [ngClass]="{ disabled: !form.valid }"
+      >
         Save
       </button>
     } @else {
-      <button type="button" class="button" (click)="handleSubmit()">
+      <button
+        type="button"
+        class="button"
+        (click)="handleSubmit()"
+        [ngClass]="{ disabled: !form.valid }"
+      >
         Save
       </button>
     }

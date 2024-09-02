@@ -71,6 +71,10 @@ export class RoutesComponent implements OnInit, OnDestroy {
     }
   }
 
+  onClickDelete(el: boolean) {
+    this.showCreate$.set(!el);
+  }
+
   onCancelEdit(show: boolean) {
     this.showCreate$.set(show);
   }

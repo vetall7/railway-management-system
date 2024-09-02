@@ -1,6 +1,7 @@
 import {
-  ICarriagesData,
+  IDataCarriages,
   IDataPostStation,
+  IDataReq,
   IDataRide,
   IDataStation,
   IResponseCreateStation,
@@ -68,8 +69,8 @@ export const updateShowData = createAction(
 );
 
 export const updateCarriages = createAction(
-  '[Admin Page] Update Carriages Data',
-  props<{ carriages: ICarriagesData[] }>(),
+  '[Admin Page] Update Carriages',
+  props<{ carriages: IDataCarriages[] }>(),
 );
 
 export const deleteRouter = createAction(
@@ -142,4 +143,34 @@ export const deleteRide = createAction(
 export const deleteRideInStore = createAction(
   '[Admin Page] Delete Ride In Store',
   props<{ rideId: number }>(),
+);
+
+export const createCarriages = createAction(
+  '[Admin Page] Create Carriages Data',
+  props<{ carriages: IDataCarriages }>(),
+);
+
+export const createCarriagesInStore = createAction(
+  '[Admin Page] Create Carriages Data In Store',
+  props<{ carriages: IDataCarriages; code: IDataReq }>(),
+);
+
+export const updateCarriagesData = createAction(
+  '[Admin Page] Update Carriages Data',
+  props<{ data: IDataCarriages; code: IDataReq }>(),
+);
+
+export const updateCarriagesDataInStore = createAction(
+  '[Admin Page] Update Carriages Data In Store',
+  props<{ data: IDataCarriages; code: IDataReq }>(),
+);
+
+export const deleteCarriages = createAction(
+  '[Admin Page] Delete Carriages',
+  props<{ code: IDataReq }>(),
+);
+
+export const deleteCarriagesInStore = createAction(
+  '[Admin Page] Delete Carriages In Store',
+  props<{ code: IDataReq }>(),
 );

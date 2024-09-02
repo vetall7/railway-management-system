@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 import {
-  ICarriagesData,
+  IDataCarriages,
   IDataRide,
   IDataStation,
   IRoutesData,
@@ -15,7 +15,7 @@ export interface AdminState {
   stations: IDataStation[];
   showData: IDataStation[][];
   routes: IRoutesData[];
-  carriages: ICarriagesData[];
+  carriages: IDataCarriages[];
   ride: IDataRide;
 }
 
@@ -77,6 +77,7 @@ export const adminReducer = createReducer(
     AdminActions.deleteStationInStore,
     (state, { id }): AdminState => ({
       ...state,
+      isAlert: false,
       stations: [
         state.stations.slice(
           0,
@@ -86,6 +87,13 @@ export const adminReducer = createReducer(
           state.stations.findIndex((el) => el.id === id) + 1,
         ),
       ].flat(),
+    }),
+  ),
+  on(
+    AdminActions.deleteStation,
+    (state): AdminState => ({
+      ...state,
+      isAlert: false,
     }),
   ),
   on(
@@ -211,6 +219,56 @@ export const adminReducer = createReducer(
         ...state.ride,
         schedule: [...state.ride.schedule, { rideId, segments: data }],
       },
+    }),
+  ),
+  on(
+    AdminActions.createCarriagesInStore,
+    (state, { carriages, code }): AdminState => ({
+      ...state,
+      carriages: [
+        ...state.carriages,
+        {
+          code: code.code,
+          leftSeats: carriages.leftSeats,
+          name: carriages.name,
+          rightSeats: carriages.rightSeats,
+          rows: carriages.rows,
+        },
+      ],
+    }),
+  ),
+  on(
+    AdminActions.updateCarriagesDataInStore,
+    (state, { data, code }): AdminState => ({
+      ...state,
+      carriages: [
+        ...state.carriages.map((el) => {
+          if (el.code === code.code) {
+            return {
+              code: code.code,
+              leftSeats: data.leftSeats,
+              name: data.name,
+              rightSeats: data.rightSeats,
+              rows: data.rows,
+            };
+          }
+          return el;
+        }),
+      ],
+    }),
+  ),
+  on(
+    AdminActions.deleteCarriages,
+    (state): AdminState => ({
+      ...state,
+      isAlert: false,
+    }),
+  ),
+  on(
+    AdminActions.deleteCarriagesInStore,
+    (state, { code }): AdminState => ({
+      ...state,
+      carriages: [...state.carriages.filter((el) => el.code !== code.code)],
     }),
   ),
 );

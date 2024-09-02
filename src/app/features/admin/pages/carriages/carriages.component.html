@@ -1,3 +1,87 @@
+@if (loading$ | async) {
+  <app-loader />
+}
+
+@if (alert$ | async) {
+  <app-message
+    [error]="true"
+    [text]="'Cannot delete carriage with active rides'"
+  />
+}
+
 <div class="wrapper">
   <app-navigation />
+  <div class="carries">
+    <button type="button" class="button" (click)="handleClickCreate()">
+      {{ !show() ? 'Create' : 'Cancel' }}
+    </button>
+    @if (show()) {
+      <form [formGroup]="form" class="form" (submit)="handleSubmit()">
+        <div class="form__line">
+          <label for="name" class="line__label">Name</label>
+          <input
+            type="text"
+            id="name"
+            class="line__input"
+            [value]="nameUser"
+            formControlName="name"
+          />
+        </div>
+        <div class="form__line">
+          <label for="rows" class="line__label">Rows</label>
+          <input
+            type="number"
+            id="rows"
+            class="line__input"
+            formControlName="rows"
+            [value]="rowsUser"
+            (input)="changeInput()"
+            min="1"
+          />
+        </div>
+        <div class="form__line">
+          <label for="leftSeats" class="line__label">Left Seats</label>
+          <input
+            type="number"
+            id="leftSeats"
+            class="line__input"
+            formControlName="leftSeats"
+            [value]="leftSeatsUser"
+            (input)="changeInput()"
+            min="1"
+          />
+        </div>
+        <div class="form__line">
+          <label for="rightSeats" class="line__label">Right Seats</label>
+          <input
+            type="number"
+            id="rightSeats"
+            class="line__input"
+            formControlName="rightSeats"
+            [value]="rightSeatsUser"
+            (input)="changeInput()"
+            min="1"
+          />
+        </div>
+        <div class="view">
+          <app-carriage-view [data]="viewCreate" />
+        </div>
+        <button
+          type="button"
+          class="button"
+          (click)="handleSubmit()"
+          [ngClass]="{ disabled: !form.valid }"
+        >
+          {{ this.updateCarriage() ? 'Update' : 'Save' }}
+        </button>
+      </form>
+    }
+    @for (val of data$ | async; track val.code) {
+      <app-carriage-info
+        [data]="val"
+        (changed)="onChanged($event)"
+        (changedDelete)="onChangedDelete($event)"
+      />
+    }
+  </div>
 </div>

@@ -1,12 +1,14 @@
 /* eslint-disable arrow-body-style */
 import { inject, Injectable } from '@angular/core';
 import {
-  ICarriagesData,
+  IDataCarriages,
+  IDataReq,
   IDataRide,
   IDataStation,
   IResponseCreateStation,
   IRoutesData,
 } from '@features/admin/models';
+import { CarriageService } from '@features/admin/services/carriage.service';
 import { RideService } from '@features/admin/services/ride.service';
 import { RouteService } from '@features/admin/services/route.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -20,6 +22,7 @@ export class AdminEffects {
   constructor(
     private stationService: StationService,
     private routeService: RouteService,
+    private carriageService: CarriageService,
     private rideService: RideService,
   ) {}
 
@@ -28,7 +31,6 @@ export class AdminEffects {
   getAllStations$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AdminActions.getStations, AdminActions.updateRide),
-      switchMap(() => this.stationService.login()),
       switchMap(() =>
         this.stationService.getStations().pipe(
           map((res) =>
@@ -66,7 +68,11 @@ export class AdminEffects {
 
   getAllRoutes$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(AdminActions.getRoutes, AdminActions.updateStations),
+      ofType(
+        AdminActions.getRoutes,
+        AdminActions.updateStations,
+        AdminActions.getCarriages,
+      ),
       switchMap(() =>
         this.routeService.getRoutes().pipe(
           map((res) =>
@@ -87,10 +93,10 @@ export class AdminEffects {
     return this.actions$.pipe(
       ofType(AdminActions.getCarriages, AdminActions.updateStations),
       switchMap(() =>
-        this.routeService.getCarriages().pipe(
+        this.carriageService.getCarriages().pipe(
           map((res) =>
             AdminActions.updateCarriages({
-              carriages: [...(res as ICarriagesData[])],
+              carriages: [...(res as unknown as IDataCarriages[])],
             }),
           ),
           catchError(() => of(AdminActions.failed())),
@@ -122,6 +128,26 @@ export class AdminEffects {
     );
   });
 
+  addCarriages$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AdminActions.createCarriages),
+      switchMap((req) =>
+        this.carriageService.createCarriage(req.carriages).pipe(
+          map((res) =>
+            AdminActions.createCarriagesInStore({
+              carriages: req.carriages,
+              code: res as IDataReq,
+            }),
+          ),
+          catchError(() => of(AdminActions.failed())),
+          finalize(() =>
+            of(AdminActions.setLoadingState({ isLoading: false })),
+          ),
+        ),
+      ),
+    );
+  });
+
   deleteStation$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AdminActions.deleteStation),
@@ -130,6 +156,25 @@ export class AdminEffects {
           map(() =>
             AdminActions.deleteStationInStore({
               id: req.id,
+            }),
+          ),
+          catchError(() => of(AdminActions.failed())),
+          finalize(() =>
+            of(AdminActions.setLoadingState({ isLoading: false })),
+          ),
+        ),
+      ),
+    );
+  });
+
+  deleteCarriages$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AdminActions.deleteCarriages),
+      switchMap((req) =>
+        this.carriageService.deleteCarriage(req.code.code).pipe(
+          map(() =>
+            AdminActions.deleteCarriagesInStore({
+              code: req.code,
             }),
           ),
           catchError(() => of(AdminActions.failed())),
@@ -187,6 +232,26 @@ export class AdminEffects {
           map(() =>
             AdminActions.updateRouterInStore({
               data: req.data,
+            }),
+          ),
+          catchError(() => of(AdminActions.failed())),
+          finalize(() =>
+            of(AdminActions.setLoadingState({ isLoading: false })),
+          ),
+        ),
+      ),
+    );
+  });
+
+  updateCarriages$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AdminActions.updateCarriagesData),
+      switchMap((req) =>
+        this.carriageService.updateCarriage(req.code.code, req.data).pipe(
+          map((res) =>
+            AdminActions.updateCarriagesDataInStore({
+              data: req.data,
+              code: res as IDataReq,
             }),
           ),
           catchError(() => of(AdminActions.failed())),
@@ -277,6 +342,9 @@ export class AdminEffects {
         AdminActions.updateRideData,
         AdminActions.createRide,
         AdminActions.deleteRide,
+        AdminActions.createCarriages,
+        AdminActions.updateCarriagesData,
+        AdminActions.deleteCarriages,
       ),
       map(() => AdminActions.setLoadingState({ isLoading: true })),
     );
@@ -294,6 +362,9 @@ export class AdminEffects {
         AdminActions.updateRideDataInStore,
         AdminActions.createRideInStore,
         AdminActions.deleteRideInStore,
+        AdminActions.createCarriagesInStore,
+        AdminActions.updateCarriagesDataInStore,
+        AdminActions.deleteCarriagesInStore,
       ),
       map(() => AdminActions.setLoadingState({ isLoading: false })),
     );
