@@ -3,15 +3,24 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
 import {
+  CarriageInfoComponent,
+  CarriageViewComponent,
+  ConfirmComponent,
+  FormRouterComponent,
   FormStationComponent,
   LoaderComponent,
   MessageComponent,
   NavigationComponent,
+  RideCreateComponent,
+  RideInfoComponent,
+  RideInfoContentComponent,
+  RouterInfoComponent,
   StationInfoComponent,
 } from '@features/admin/components';
 import {
   AdminComponent,
   CarriagesComponent,
+  RidesComponent,
   RoutesComponent,
   StationsComponent,
 } from '@features/admin/pages';
@@ -33,6 +42,15 @@ import { AdminRoutingModule } from './admin-routing.module';
     StationInfoComponent,
     LoaderComponent,
     MessageComponent,
+    FormRouterComponent,
+    RouterInfoComponent,
+    ConfirmComponent,
+    RidesComponent,
+    RideInfoComponent,
+    RideInfoContentComponent,
+    RideCreateComponent,
+    CarriageInfoComponent,
+    CarriageViewComponent,
   ],
   imports: [
     CommonModule,

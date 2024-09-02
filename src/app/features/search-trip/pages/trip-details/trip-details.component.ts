@@ -1,8 +1,181 @@
-import { Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  OnInit,
+  Signal,
+  signal,
+  WritableSignal,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import {
+  ICarListItem,
+  ICarModalDataInfo,
+  IQuery,
+  IRideCarriage,
+  IRideError,
+  IRideInformation,
+  IRideSeatsInfo,
+} from '@features/search-trip/models';
+import { IRideCarriageData } from '@features/search-trip/models/ride-carriage-info.model';
+import { SearchTripDetailService } from '@features/search-trip/services/search-trip-detail.service';
+import { CarService } from '@shared/services';
+import { MessageService } from 'primeng/api';
+
+import { TripDetailFacade } from '../../../../store/trip-detail/facades';
 
 @Component({
   selector: 'app-trip-details',
   templateUrl: './trip-details.component.html',
   styleUrl: './trip-details.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TripDetailsComponent {}
+export class TripDetailsComponent implements OnInit {
+  private readonly tokeId: string = 'id';
+
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
+
+  private readonly router = inject(Router);
+
+  private readonly message = inject(MessageService);
+
+  private readonly tripDetailFacade = inject(TripDetailFacade);
+
+  private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+
+  public isLoading: WritableSignal<boolean> = signal(false);
+
+  public readonly carriageData: WritableSignal<IRideCarriageData[]> = signal(
+    [],
+  );
+
+  private readonly car = inject(CarService);
+
+  public calculateCarriageSeats: Signal<IRideSeatsInfo[]> = computed(() => {
+    return this.carriageData().map((carriage: IRideCarriageData) => {
+      return {
+        type: carriage.code,
+        seats: carriage.rows * (carriage.leftSeats + carriage.rightSeats),
+      };
+    });
+  });
+
+  public getCalculateCarList: Signal<Record<string, ICarListItem[]>> = computed(
+    () => {
+      return this.searchTrip.calculateCarList(
+        this.rideData(),
+        this.calculateCarriageSeats(),
+        this.getAllOccupiedSeats(),
+      );
+    },
+  );
+
+  public orderSelected: WritableSignal<number | null> = signal(null);
+
+  public getAllOccupiedSeats: Signal<number[]> = computed(() => {
+    return this.searchTrip.getAllOccupiedSeats(
+      this.rideData(),
+      this.orderSelected() ?? 0,
+    );
+  });
+
+  private readonly searchTrip = inject(SearchTripDetailService);
+
+  public from: WritableSignal<number | null> = signal(null);
+
+  public to: WritableSignal<number | null> = signal(null);
+
+  public modalData!: ICarModalDataInfo;
+
+  public rideData: Signal<IRideInformation | null> = computed(() => {
+    return this.searchTrip.setTrainDates(
+      this.tripDetailFacade.rideData(),
+      this.from(),
+      this.to(),
+    );
+  });
+
+  public isErrorParam: Signal<boolean> = computed(
+    () =>
+      /* eslint-disable operator-linebreak */
+      !!this.rideData()?.path.includes(this.from() ?? 0) &&
+      !!this.rideData()?.path.includes(this.to() ?? 0),
+  );
+
+  public carriageTypeInfo: Signal<IRideCarriage[] | null> = computed(() => {
+    return this.searchTrip.getCarriageData(
+      this.tripDetailFacade.rideData(),
+      this.getCalculateCarList(),
+    );
+  });
+
+  public rideError: Signal<IRideError> = this.tripDetailFacade.rideError;
+
+  public orderId: WritableSignal<string | null> = signal(null);
+
+  public ngOnInit(): void {
+    this.searchTrip.getCarriage().subscribe((value) => {
+      this.carriageData.set(value);
+      this.isLoading.set(true);
+    });
+    this.getParam();
+    this.loadRide();
+  }
+
+  private getParam(): void {
+    this.activatedRoute.queryParams
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value: IQuery | Params) => {
+        this.from?.set(+value.from);
+        this.to?.set(+value.to);
+      });
+  }
+
+  private loadRide(): void {
+    const id = this.activatedRoute.snapshot.paramMap.get(this.tokeId);
+    this.tripDetailFacade.loadRide(id ?? '');
+  }
+
+  public clearSelected() {
+    this.car.selected = null;
+  }
+
+  public createOrder(modalData: ICarModalDataInfo): void {
+    // eslint-disable-next-line no-undef
+    if (localStorage.getItem('token')?.length) {
+      this.searchTrip
+        .createOrder({
+          rideId: this.rideData()?.rideId ?? 0,
+          seat: modalData.numberSeat,
+          stationStart: this.from() ?? 0,
+          stationEnd: this.to() ?? 0,
+        })
+        .subscribe(
+          (value) => {
+            if (value.id) {
+              this.orderSelected.set(modalData.numberSeat);
+              this.modalData = {} as ICarModalDataInfo;
+              this.message.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Order created success!',
+              });
+              this.orderId.set(value.id);
+            }
+          },
+          (error) => {
+            this.message.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: error.error.message,
+            });
+          },
+        );
+    } else {
+      this.router.navigate(['/auth/signin']);
+    }
+  }
+}

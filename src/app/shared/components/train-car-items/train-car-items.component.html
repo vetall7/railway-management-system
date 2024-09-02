@@ -1,0 +1,11 @@
+<button
+  class="train-car-item-wrapper"
+  (click)="addSelectedSeat(itemNumber)"
+  [ngClass]="{
+    occupied: isOccupied || !isSelectedValue(allOccupiedSeats),
+    selected: isSelected() === itemNumber && isSelectedValue(allOccupiedSeats),
+  }"
+  [disabled]="isOccupied"
+>
+  {{ itemNumber }}
+</button>
