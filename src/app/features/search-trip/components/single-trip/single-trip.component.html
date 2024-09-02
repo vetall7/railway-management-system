@@ -45,10 +45,14 @@
         carriage of carriagesWithNumberOfAvailableSeats | keyvalue;
         track $index
       ) {
-        <div class="carriage">
-          {{ carriage.key }}: {{ carriage.value }}
-          <span class="price"> {{ getPrice(carriage.key) }}$ </span>
-        </div>
+        @if (carriage.value > 0) {
+          <div class="carriage">
+            {{ carriage.key }}: {{ carriage.value }}
+            <span class="price">
+              {{ getPrice(carriage.key) | currency: '' : true }}
+            </span>
+          </div>
+        }
       }
     </div>
   </div>
