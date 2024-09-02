@@ -1,0 +1,32 @@
+.trip-detail-wrapper {
+  .trip-detail-header {
+    height: 100px;
+    border-bottom: 1px solid var(--color-secondary-a30);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    min-width: 900px;
+    padding: 0 64px;
+  }
+
+  .trip-back {
+    width: 30px;
+    height: 30px;
+    display: block;
+    border: 1px solid var(--color-secondary-a30);
+    border-radius: 5px;
+    text-align: center;
+    padding: 2px;
+    color: var(--color-secondary-a90);
+  }
+
+  .trip-detail-book {
+    position: fixed;
+    bottom: 10%;
+    right: 2%;
+  }
+}
+.trip-detail-error {
+  text-align: center;
+  padding-top: 100px;
+}

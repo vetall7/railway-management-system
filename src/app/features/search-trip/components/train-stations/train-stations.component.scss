@@ -1,0 +1,24 @@
+.train-station-wrapper {
+  font-weight: 500;
+
+  .train-station-city {
+    padding: 0 5px;
+  }
+
+  .train-station-indelicate {
+    font-size: 16px;
+    padding-left: 6px;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+  }
+
+  .train-station-tab-left {
+    padding-left: 10px;
+  }
+
+  .rain-station-route {
+    color: var(--color-primary-a60);
+    cursor: pointer;
+  }
+}
