@@ -23,6 +23,8 @@ import * as AuthSelectors from '../../store/auth.selector';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignupComponent implements OnInit {
+  isShowingErrors = false;
+
   registerForm: FormGroup;
 
   authError$: Observable<AuthError | null>;
@@ -67,29 +69,32 @@ export class SignupComponent implements OnInit {
   }
 
   onRegister() {
-    if (this.registerForm.valid) {
-      const { email, password } = this.registerForm.value;
-      this.store.dispatch(AuthActions.signUp({ payload: { email, password } }));
-
-      combineLatest([this.authError$, this.authResponse$]).subscribe(
-        ([error, response]) => {
-          if (error?.error.message) {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: error.error.message,
-            });
-          } else if (response !== null) {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'You can now sign in',
-            });
-
-            this.router.navigate(['/auth/signin']);
-          }
-        },
-      );
+    this.isShowingErrors = true;
+    if (this.registerForm.invalid) {
+      return;
     }
+
+    const { email, password } = this.registerForm.value;
+    this.store.dispatch(AuthActions.signUp({ payload: { email, password } }));
+
+    combineLatest([this.authError$, this.authResponse$]).subscribe(
+      ([error, response]) => {
+        if (error?.error.message) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: error.error.message,
+          });
+        } else if (response !== null) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'You can now sign in',
+          });
+
+          this.router.navigate(['/auth/signin']);
+        }
+      },
+    );
   }
 }
