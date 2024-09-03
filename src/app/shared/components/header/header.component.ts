@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  DoCheck,
   OnDestroy,
   OnInit,
   signal,
@@ -23,7 +22,7 @@ import { ProfileService } from '../../../features/profile/services/profile.servi
   styleUrl: './header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderComponent implements OnInit, OnDestroy, DoCheck {
+export class HeaderComponent implements OnInit, OnDestroy {
   isLoggedIn = signal(false);
 
   subscription: Subscription | undefined;
@@ -38,6 +37,9 @@ export class HeaderComponent implements OnInit, OnDestroy, DoCheck {
   ngOnInit(): void {
     this.subscription = this.authService.isLoggedIn$.subscribe((status) => {
       this.isLoggedIn.set(status);
+      if (localStorage.getItem('login') === 'admin@admin.com') {
+        this.admin.set(true);
+      }
     });
   }
 
@@ -45,12 +47,6 @@ export class HeaderComponent implements OnInit, OnDestroy, DoCheck {
     this.profileService.logout();
     this.authService.logout();
     this.admin.set(false);
-  }
-
-  ngDoCheck(): void {
-    if (localStorage.getItem('login') === 'admin@admin.com') {
-      this.admin.set(true);
-    }
   }
 
   ngOnDestroy(): void {
