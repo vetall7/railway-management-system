@@ -72,7 +72,7 @@ export class FetchApiDataService {
       .set('fromLongitude', stationFrom.geolocation.longitude)
       .set('toLatitude', stationTo.geolocation.latitude)
       .set('toLongitude', stationTo.geolocation.longitude)
-      .set('time', 0); // should be date, but does not work with the current API
+      .set('time', date); // should be date, but does not work with the current API
 
     return this.httpClient.get(this.urls.search, { params }).pipe(
       map((data) => new RoutesData(data as RoutesData)),

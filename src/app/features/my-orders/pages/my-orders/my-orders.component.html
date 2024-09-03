@@ -1,0 +1,7 @@
+@let allOrders = orders();
+
+@if (allOrders) {
+  @for (order of allOrders; track $index) {
+    <app-single-order [order]="order"></app-single-order>
+  }
+}

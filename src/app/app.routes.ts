@@ -10,6 +10,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'orders',
+    loadChildren: () =>
+      import('./features/my-orders/my-orders.module').then(
+        (m) => m.MyOrdersModule,
+      ),
+  },
+  {
     path: 'auth',
     title: 'Authorization',
     loadChildren: () =>

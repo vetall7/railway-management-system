@@ -42,15 +42,18 @@ export class SearchTripsComponent implements OnInit {
       const cityFrom = this.fetchStationsService.getCityByName(from);
       const cityTo = this.fetchStationsService.getCityByName(to);
 
-      const mergedTime = time
-        ? date.getTime() + new Date(time).getTime()
-        : date.getTime();
+      const mergedTime = date.setHours(
+        time?.getHours() ?? 0,
+        time?.getMinutes() ?? 0,
+        0,
+        0,
+      );
 
       if (cityFrom && cityTo) {
         this.fetchTripsService.fetchTrips(
           cityFrom,
           cityTo,
-          mergedTime.toString(),
+          (mergedTime / 1000).toString(),
         );
       }
     }
