@@ -4,7 +4,7 @@
   </div>
   <nav class="nav">
     <ul>
-      @if (isLoggedIn) {
+      @if (isLoggedIn()) {
         <a routerLink="/profile">
           <span>Profile</span>
         </a>
@@ -12,11 +12,14 @@
           <span>Orders</span>
         </a>
       }
-      @if (!isLoggedIn) {
+      @if (!isLoggedIn()) {
         <a routerLink="/auth/signin">Sign In</a>
         <a routerLink="/auth/signup">Sign Up</a>
       }
-      @if (isLoggedIn) {
+      @if (admin()) {
+        <a routerLink="/admin">Admin</a>
+      }
+      @if (isLoggedIn()) {
         <button (click)="logout()">Log Out</button>
       }
     </ul>
