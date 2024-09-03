@@ -10,6 +10,8 @@ import { AuthService } from '@features/auth/services/auth.service';
 import { ButtonModule } from 'primeng/button';
 import { Subscription } from 'rxjs';
 
+import { ProfileService } from '../../../features/profile/services/profile.service';
+
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -23,7 +25,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   subscription: Subscription | undefined;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private profileService: ProfileService,
+  ) {}
 
   ngOnInit(): void {
     this.subscription = this.authService.isLoggedIn$.subscribe((status) => {
@@ -32,6 +37,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   logout() {
+    this.profileService.logout();
     this.authService.logout();
   }
 
