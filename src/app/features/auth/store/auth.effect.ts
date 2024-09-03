@@ -35,14 +35,15 @@ export const signIn$ = createEffect(
       ofType(AuthActions.signIn),
       mergeMap((action) =>
         authService.signin(action.payload).pipe(
-          map((response) => {
-            window.localStorage.setItem('token', response.token ?? '');
+          map((res) => {
+            window.localStorage.setItem('token', res.token ?? '');
             window.localStorage.setItem('login', action.payload.email ?? '');
             window.localStorage.setItem(
               'isAuthenticated',
-              response.token!.length > 0 ? '1' : '0',
+              res.token!.length > 0 ? '1' : '0',
             );
-            return AuthActions.authSuccess({ response });
+            authService.isLoggedIn.next(true);
+            return AuthActions.authSuccess({ response: res });
           }),
           catchError((error) => of(AuthActions.authFailure({ error }))),
         ),

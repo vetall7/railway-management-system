@@ -1,1 +1,24 @@
-<p>header works!</p>
+<header class="header">
+  <div class="logo">
+    <a routerLink="/">Train A</a>
+  </div>
+  <nav class="nav">
+    <ul>
+      @if (isLoggedIn) {
+        <a routerLink="/profile">
+          <span>Profile</span>
+        </a>
+        <a routerLink="/orders">
+          <span>Orders</span>
+        </a>
+      }
+      @if (!isLoggedIn) {
+        <a routerLink="/auth/signin">Sign In</a>
+        <a routerLink="/auth/signin">Sign Up</a>
+      }
+      @if (isLoggedIn) {
+        <button (click)="logout()">Log Out</button>
+      }
+    </ul>
+  </nav>
+</header>

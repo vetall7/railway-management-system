@@ -1,0 +1,74 @@
+<div class="profile-settings">
+  <h2>Profile Settings</h2>
+
+  <form [formGroup]="profileForm">
+    <div class="profile-info">
+      <div class="p-field p-grid">
+        <label for="name" class="p-col-fixed" style="width: 100px">Name:</label>
+        <div class="p-col">
+          <div class="p-inputgroup">
+            <input id="name" type="text" pInputText formControlName="name" />
+            <span class="p-inputgroup-addon">
+              <button
+                pButton
+                type="button"
+                (click)="onNameChange()"
+                icon="pi pi-save"
+                class="p-button-icon-only"
+                [disabled]="profileForm.invalid"
+              >
+                Save
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-field p-grid">
+        <label for="email" class="p-col-fixed" style="width: 100px"
+          >Email:</label
+        >
+        <div class="p-col">
+          <div class="p-inputgroup">
+            <input id="email" type="email" pInputText formControlName="email" />
+            <span class="p-inputgroup-addon">
+              <button
+                pButton
+                type="button"
+                (click)="onEmailChange()"
+                icon="pi pi-save"
+                class="p-button-icon-only"
+                [disabled]="profileForm.invalid"
+              >
+                Save
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-field p-grid">
+        <label for="email" class="p-col-fixed" style="width: 100px"
+          >Password:</label
+        >
+        <div class="p-col">
+          <div class="p-inputgroup">
+            <input formControlName="password" type="text" pInputText />
+            <span class="p-inputgroup-addon">
+              <button
+                pButton
+                type="button"
+                (click)="onPasswordChange()"
+                icon="pi pi-save"
+                class="p-button-icon-only"
+                [disabled]="profileForm.invalid"
+              >
+                Save
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

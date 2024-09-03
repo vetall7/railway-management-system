@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthError, AuthRes } from '@features/auth/models/auth.model';
+import { ApiError, AuthRes } from '@features/auth/models/auth.model';
 import { Store } from '@ngrx/store';
 import { MessageService } from 'primeng/api';
 import { combineLatest, Observable } from 'rxjs';
@@ -16,11 +16,13 @@ import * as AuthSelectors from '../../store/auth.selector';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SigninComponent {
+  isShowingErrors = false;
+
   loginForm: FormGroup;
 
   authResponse$: Observable<AuthRes | null>;
 
-  authError$: Observable<AuthError | null>;
+  authError$: Observable<ApiError | null>;
 
   authLoading$: Observable<boolean>;
 
@@ -40,29 +42,33 @@ export class SigninComponent {
   }
 
   onLogin() {
-    if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
+    this.isShowingErrors = true;
 
-      this.store.dispatch(AuthActions.signIn({ payload: { email, password } }));
-
-      combineLatest([this.authError$, this.authResponse$]).subscribe(
-        ([error, response]) => {
-          if (error?.error.message) {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: error.error.message,
-            });
-          } else if (response) {
-            this.router.navigate(['/']);
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Login successful. Welcome!',
-            });
-          }
-        },
-      );
+    if (this.loginForm.invalid) {
+      return;
     }
+
+    const { email, password } = this.loginForm.value;
+
+    this.store.dispatch(AuthActions.signIn({ payload: { email, password } }));
+
+    combineLatest([this.authError$, this.authResponse$]).subscribe(
+      ([error, response]) => {
+        if (error?.error.message) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: error.error.message,
+          });
+        } else if (response) {
+          this.router.navigate(['/']);
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Login successful. Welcome!',
+          });
+        }
+      },
+    );
   }
 }

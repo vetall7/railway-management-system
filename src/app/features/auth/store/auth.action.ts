@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 
-import { AuthError, AuthPayload, AuthRes } from '../models/auth.model';
+import { ApiError, AuthPayload, AuthRes } from '../models/auth.model';
 
 export const signUp = createAction(
   '[Auth] Sign Up',
@@ -17,5 +17,5 @@ export const authSuccess = createAction(
 );
 export const authFailure = createAction(
   '[Auth] Auth Failure',
-  props<{ error: AuthError }>(),
+  props<{ error: ApiError }>(),
 );

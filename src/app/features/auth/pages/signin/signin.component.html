@@ -10,14 +10,8 @@
         type="email"
         placeholder="hello@world.com"
       />
-      @if (loginForm.get('email')?.invalid) {
+      @if (loginForm.get('email')?.hasError('required') && isShowingErrors) {
         <small class="p-error">Enter a valid email</small>
-      }
-      @if (
-        authError$ | async;
-        as authError && authError.error.reason === 'userNotFound'
-      ) {
-        <small class="p-error">User not found</small>
       }
     </div>
 
@@ -28,22 +22,20 @@
         formControlName="password"
         [toggleMask]="true"
         [feedback]="false"
+        styleClass="test"
       />
-      @if (loginForm.get('password')?.invalid) {
+      @if (loginForm.get('password')?.invalid && isShowingErrors) {
         <small class="p-error">Password is required</small>
       }
     </div>
 
-    <div class="p-field">
-      <p-button
-        pButton
-        type="submit"
-        label="Sign In"
-        [disabled]="loginForm.invalid"
-      />
-    </div>
+    <p-button
+      pButton
+      type="submit"
+      label="Sign In"
+      [disabled]="loginForm.invalid"
+    />
   </form>
-  <div class="p-field">
-    <a routerLink="/auth/signup">Sign Up</a>
-  </div>
+
+  <a routerLink="/auth/signup">Sign Up</a>
 </div>

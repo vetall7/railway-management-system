@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from '@shared/guards/auth.guard';
 import { permissionGuard } from '@shared/guards/permission.guard';
 
 export const routes: Routes = [
@@ -28,6 +29,13 @@ export const routes: Routes = [
     canActivate: [permissionGuard],
     loadChildren: () =>
       import('./features/admin/admin.module').then((m) => m.AdminModule),
+  },
+  {
+    path: 'profile',
+    title: 'Profile',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./features/profile/profile.module').then((m) => m.ProfileModule),
   },
   {
     path: '**',

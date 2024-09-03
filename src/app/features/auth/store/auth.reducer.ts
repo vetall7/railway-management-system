@@ -1,12 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { AuthError, AuthRes } from '../models/auth.model';
+import { ApiError, AuthRes } from '../models/auth.model';
 
 import * as AuthActions from './auth.action';
 
 export interface AuthState {
   response: AuthRes | null;
-  error: AuthError | null;
+  error: ApiError | null;
   isLoading: boolean;
 }
 

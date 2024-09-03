@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthError } from '@features/auth/models/auth.model';
+import { ApiError } from '@features/auth/models/auth.model';
 import { Store } from '@ngrx/store';
 import { MessageService } from 'primeng/api';
 import { combineLatest, Observable } from 'rxjs';
@@ -23,9 +23,11 @@ import * as AuthSelectors from '../../store/auth.selector';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignupComponent implements OnInit {
+  isShowingErrors = false;
+
   registerForm: FormGroup;
 
-  authError$: Observable<AuthError | null>;
+  authError$: Observable<ApiError | null>;
 
   authLoading$: Observable<boolean>;
 
@@ -67,29 +69,32 @@ export class SignupComponent implements OnInit {
   }
 
   onRegister() {
-    if (this.registerForm.valid) {
-      const { email, password } = this.registerForm.value;
-      this.store.dispatch(AuthActions.signUp({ payload: { email, password } }));
-
-      combineLatest([this.authError$, this.authResponse$]).subscribe(
-        ([error, response]) => {
-          if (error?.error.message) {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: error.error.message,
-            });
-          } else if (response !== null) {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'You can now sign in',
-            });
-
-            this.router.navigate(['/auth/signin']);
-          }
-        },
-      );
+    this.isShowingErrors = true;
+    if (this.registerForm.invalid) {
+      return;
     }
+
+    const { email, password } = this.registerForm.value;
+    this.store.dispatch(AuthActions.signUp({ payload: { email, password } }));
+
+    combineLatest([this.authError$, this.authResponse$]).subscribe(
+      ([error, response]) => {
+        if (error?.error.message) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: error.error.message,
+          });
+        } else if (response !== null) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'You can now sign in',
+          });
+
+          this.router.navigate(['/auth/signin']);
+        }
+      },
+    );
   }
 }

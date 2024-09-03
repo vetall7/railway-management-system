@@ -10,7 +10,7 @@
         type="email"
         placeholder="hello@world.com"
       />
-      @if (registerForm.get('email')?.invalid) {
+      @if (registerForm.get('email')?.invalid && isShowingErrors) {
         <small class="p-error">Enter a valid email</small>
       }
     </div>
@@ -23,7 +23,7 @@
         [toggleMask]="true"
         [feedback]="false"
       />
-      @if (registerForm.get('password')?.invalid) {
+      @if (registerForm.get('password')?.invalid && isShowingErrors) {
         <small class="p-error">Password is required</small>
       }
     </div>
@@ -35,7 +35,7 @@
         formControlName="repeatPassword"
         [feedback]="false"
       />
-      @if (registerForm.get('repeatPassword')?.invalid) {
+      @if (registerForm.get('repeatPassword')?.invalid && isShowingErrors) {
         <small class="p-error">Passwords do not match</small>
       }
     </div>
