@@ -91,7 +91,7 @@
 </form>
 
 @if (this.fetchTripsService.isNotFoundSig()) {
-  <app-no-trips></app-no-trips>
+  <app-no-trips [message]="'There is no such trip'"></app-no-trips>
 } @else {
   <app-date-selector class="dates-board"></app-date-selector>
 }

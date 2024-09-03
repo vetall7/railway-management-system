@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MyOrdersComponent } from '@features/my-orders/pages';
+import { NoTripsComponent } from '@shared/components';
 import {
   AuthenticationService,
   FetchCarriagesService,
@@ -31,6 +32,7 @@ import { MyOrdersRoutingModule } from './my-orders-routing.module';
     ToastModule,
     ConfirmPopupModule,
     TagModule,
+    NoTripsComponent,
   ],
   providers: [
     FetchDataService,

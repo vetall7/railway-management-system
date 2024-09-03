@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import {
   DateSelectorComponent,
-  NoTripsComponent,
   SingleTripComponent,
   TripDetailsDialogComponent,
 } from '@features/search-trip/components';
@@ -20,7 +19,7 @@ import { FindCarriageTypePipe } from '@features/search-trip/pipes';
 import { SearchTripRoutingModule } from '@features/search-trip/search-trip-routing.module';
 import { FetchTripsService } from '@features/search-trip/services';
 import { SearchTripDetailService } from '@features/search-trip/services/search-trip-detail.service';
-import { TrainCarComponent } from '@shared/components';
+import { NoTripsComponent, TrainCarComponent } from '@shared/components';
 import {
   FetchApiDataService,
   FetchCarriagesService,
@@ -41,7 +40,6 @@ import { TabViewModule } from 'primeng/tabview';
     SingleTripComponent,
     DateSelectorComponent,
     TripDetailsDialogComponent,
-    NoTripsComponent,
     TrainStationsComponent,
     TripDetailsComponent,
     CarriageTypeTabsComponent,
@@ -63,6 +61,7 @@ import { TabViewModule } from 'primeng/tabview';
     TrainCarComponent,
     FindCarriageTypePipe,
     Button,
+    NoTripsComponent,
   ],
   exports: [SearchTripsComponent],
   providers: [

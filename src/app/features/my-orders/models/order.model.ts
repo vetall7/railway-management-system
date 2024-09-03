@@ -5,7 +5,7 @@ const StatusSchema = z.enum(['active', 'completed', 'rejected', 'canceled']);
 
 const OrderSchema = z.object({
   id: z.number(),
-  userName: z.string().optional(),
+  userName: z.string().nullable(),
   startTripStation: z.string(),
   startTripTime: z.string().datetime(),
   endTripStation: z.string(),
@@ -23,7 +23,7 @@ export type Status = 'active' | 'completed' | 'rejected' | 'canceled';
 export class Order {
   readonly id: number;
 
-  readonly userName: string | undefined;
+  readonly userName: string | null;
 
   readonly startTripStation: string;
 

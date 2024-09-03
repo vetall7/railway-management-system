@@ -52,7 +52,7 @@ export class FetchOrdersService {
 
     if (orderResponse.length > 0) {
       const orders = orderResponse.map((order) => new Order({
-        userName: this.getUserName(order),
+        userName: this.getUserEmail(order),
         id: order.id,
         startTripStation: this.getStartAndEndStations(order)[0],
         startTripTime: this.getStartTimeAndEndTime(order)[0],
@@ -78,12 +78,12 @@ export class FetchOrdersService {
     return [];
   });
 
-  private getUserName(order: OrderResponse): string | undefined {
+  private getUserEmail(order: OrderResponse): string | null {
     if (!this.authService.isManager()) {
-      return undefined;
+      return null;
     }
     const user = this.fetchUsersService.getUserById(order.userId);
-    return user ? user.name : '';
+    return user ? user.email : 'no info';
   }
 
   private getStartAndEndStations(order: OrderResponse): [string, string] {
