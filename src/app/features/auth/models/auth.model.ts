@@ -17,7 +17,7 @@ interface Headers {
   lazyUpdate?: null;
 }
 
-export interface AuthError {
+export interface ApiError {
   headers: Headers;
   status: number;
   statusText: string;

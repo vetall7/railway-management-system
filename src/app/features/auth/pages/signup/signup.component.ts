@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthError } from '@features/auth/models/auth.model';
+import { ApiError } from '@features/auth/models/auth.model';
 import { Store } from '@ngrx/store';
 import { MessageService } from 'primeng/api';
 import { combineLatest, Observable } from 'rxjs';
@@ -27,7 +27,7 @@ export class SignupComponent implements OnInit {
 
   registerForm: FormGroup;
 
-  authError$: Observable<AuthError | null>;
+  authError$: Observable<ApiError | null>;
 
   authLoading$: Observable<boolean>;
 
