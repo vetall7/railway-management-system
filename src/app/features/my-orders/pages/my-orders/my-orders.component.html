@@ -1,7 +1,9 @@
 @let allOrders = orders();
 
-@if (allOrders) {
+@if (allOrders.length > 0) {
   @for (order of allOrders; track $index) {
     <app-single-order [order]="order"></app-single-order>
   }
+} @else {
+  <app-no-trips [message]="'You have no orders'"></app-no-trips>
 }
