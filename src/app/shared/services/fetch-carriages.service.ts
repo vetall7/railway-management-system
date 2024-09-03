@@ -16,7 +16,7 @@ import { FetchApiDataService } from './fetch-api-data.service';
 export class FetchCarriagesService {
   private readonly fetchData = inject(FetchApiDataService);
 
-  private carriages: WritableSignal<Carriage[] | null> = signal(null);
+  private readonly carriages: WritableSignal<Carriage[] | null> = signal(null);
 
   public get carriagesSignal(): Carriage[] | null {
     return this.carriages();
@@ -79,15 +79,21 @@ export class FetchCarriagesService {
       allCariages.forEach((carriage) => {
         const numberOfSeats = carriagesWithNumberOfSeats.get(carriage);
         if (numberOfSeats) {
-          const numberOfOccupiedSeatsInCarriage = allOccupiedSeats.slice(
-            currentCarriageStartIndex,
-            currentCarriageStartIndex + numberOfSeats,
+          const numberOfOccupiedSeatsInCarriage = allOccupiedSeats.filter(
+            (seat) => seat > currentCarriageStartIndex
+            && seat < currentCarriageStartIndex + numberOfSeats,
           ).length;
           const numberOfAvailableSeats = numberOfSeats - numberOfOccupiedSeatsInCarriage;
-          carriagesWithNumberOfAvailableSeats.set(
-            carriage,
-            numberOfAvailableSeats,
-          );
+          const sameCarriageType = carriagesWithNumberOfAvailableSeats.get(carriage);
+          if (sameCarriageType) {
+            carriagesWithNumberOfAvailableSeats.set(
+              carriage,
+              sameCarriageType
+              + numberOfAvailableSeats,
+            );
+          } else {
+            carriagesWithNumberOfAvailableSeats.set(carriage, numberOfAvailableSeats);
+          }
           currentCarriageStartIndex += numberOfSeats;
         }
       });

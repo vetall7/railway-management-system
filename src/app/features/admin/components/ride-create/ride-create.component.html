@@ -1,0 +1,35 @@
+<div class="wrapper">
+  <div class="content">
+    @for (item of data.path; track $index) {
+      @if ($index !== data.path.length - 1) {
+        <app-ride-info-content
+          [index]="$index"
+          [name]="(stationName$ | async)?.[$index]"
+          [create]="true"
+          [segment]="(segment$ | async)?.price"
+          [pos]="
+            $index === 0
+              ? 'start'
+              : data.path.length - 2 === $index
+                ? 'finish'
+                : ''
+          "
+          (changedCreate)="onChangeData($event)"
+        />
+      }
+    }
+  </div>
+  <div class="button_content">
+    <button
+      type="button"
+      class="button"
+      [ngClass]="{ disabled: disabled() }"
+      (click)="handleClickCreate()"
+    >
+      Create
+    </button>
+    <button type="button" class="button" (click)="handleClickCancel()">
+      Cancel
+    </button>
+  </div>
+</div>

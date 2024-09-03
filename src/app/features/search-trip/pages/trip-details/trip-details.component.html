@@ -1,1 +1,34 @@
-<p>trip-details works!</p>
+@if (isLoading()) {
+  @if (!!rideData()?.rideId && isErrorParam()) {
+    <div class="trip-detail-wrapper">
+      <div class="trip-detail-header">
+        <a [routerLink]="['']" class="trip-back"
+          ><i class="pi pi-chevron-left"></i
+        ></a>
+        <app-train-stations [rideData]="rideData()" />
+      </div>
+
+      <app-carriage-type-tabs
+        (modalDataEmit)="modalData = $event"
+        [allOccupiedSeats]="getAllOccupiedSeats()"
+        [carList]="getCalculateCarList()"
+        [dataCarriageSeats]="carriageData()"
+        [carriageTypeData]="carriageTypeInfo()"
+      />
+      <app-book-seat
+        [modalData]="modalData"
+        class="trip-detail-book"
+        (clearSelectedEmit)="clearSelected()"
+        (createOrderEmit)="createOrder($event)"
+      ></app-book-seat>
+    </div>
+  } @else {
+    <div>Uncorrected Param</div>
+  }
+  @if (rideError().isError) {
+    <div class="trip-detail-error">
+      <div>Message: {{ rideError().message }}</div>
+      <div>Reason: {{ rideError().message }}</div>
+    </div>
+  }
+}

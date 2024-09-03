@@ -16,6 +16,7 @@ import { ToastModule } from 'primeng/toast';
 import { environment } from '../environments/environment';
 
 import { ENVIRONMENT } from './shared/services/environment.service';
+import { TripDetailStoreModule } from './store/trip-detail/trip-detail-store.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -35,6 +36,8 @@ import { AppRoutingModule } from './app-routing.module';
       logOnly: environment.isProduction,
     }),
     CoreModule,
+    TripDetailStoreModule,
+    SearchTripModule,
   ],
   providers: [
     { provide: ENVIRONMENT, useValue: environment },

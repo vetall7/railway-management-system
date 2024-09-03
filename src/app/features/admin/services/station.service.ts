@@ -6,17 +6,13 @@ import {
   IDataStation,
   IResponseCreateStation,
 } from '@features/admin/models';
-import { Store } from '@ngrx/store';
-import { catchError, Observable, of, retry, tap } from 'rxjs';
+import { catchError, Observable, of, retry } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StationService {
-  constructor(
-    private http: HttpClient,
-    private store: Store,
-  ) {}
+  constructor(private http: HttpClient) {}
 
   getStations(): Observable<IDataStation[] | string> {
     return this.http.get<IDataStation[]>('/api/station').pipe(
@@ -29,7 +25,7 @@ export class StationService {
     return this.http
       .delete<IDataStation[]>(`/api/station/${id}`, {
         headers: {
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem('token')!)}`,
+          Authorization: `Bearer ${localStorage.getItem('token')!}`,
         },
       })
       .pipe(
@@ -52,26 +48,12 @@ export class StationService {
         },
         {
           headers: {
-            Authorization: `Bearer ${JSON.parse(localStorage.getItem('token')!)}`,
+            Authorization: `Bearer ${localStorage.getItem('token')!}`,
           },
         },
       )
       .pipe(
         retry(2),
-        catchError((e: HttpErrorResponse) => of(`Bad Promise: ${e}`)),
-      );
-  }
-
-  login(): Observable<{ token: string } | string> {
-    return this.http
-      .post<{ token: string }>('/api/signin', {
-        email: 'admin@admin.com',
-        password: 'my-password',
-      })
-      .pipe(
-        tap((res) => {
-          localStorage.setItem('token', JSON.stringify(res.token));
-        }),
         catchError((e: HttpErrorResponse) => of(`Bad Promise: ${e}`)),
       );
   }
