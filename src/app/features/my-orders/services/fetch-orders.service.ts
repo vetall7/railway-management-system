@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable prettier/prettier */
 import {
   computed,
@@ -86,20 +87,25 @@ export class FetchOrdersService {
   }
 
   private getStartAndEndStations(order: OrderResponse): [string, string] {
-    const startStation = this.fetchStationsService.getCityById(order.path[0]);
-    const endStation = this.fetchStationsService.getCityById(
-      order.path[order.path.length - 1],
-    );
+    const startStation = this.fetchStationsService.getCityById(order.stationStart);
+    const endStation = this.fetchStationsService.getCityById(order.stationEnd);
     if (!startStation || !endStation) {
       throw new Error('City not found');
     }
     return [startStation.city, endStation.city];
   }
 
+  private getCityIndexInPathArray(cityId: number, order: OrderResponse): number {
+    return order.path.findIndex((pathCityId) => pathCityId === cityId);
+  }
+
   // eslint-disable-next-line class-methods-use-this
   private getStartTimeAndEndTime(order: OrderResponse): [string, string] {
-    const startTime = order.schedule.segments[0].time[0];
-    const endTime = order.schedule.segments[order.schedule.segments.length - 1].time[1];
+    const startIndex = this.getCityIndexInPathArray(order.stationStart, order);
+    const endIndex = this.getCityIndexInPathArray(order.stationEnd, order);
+    const startTime = order.schedule.segments[startIndex].time[0];
+    const endTime = order.schedule.segments[endIndex - 1].time[1];
+
     return [startTime, endTime];
   }
 
@@ -178,13 +184,15 @@ export class FetchOrdersService {
   }
 
   private getPrice(order: OrderResponse): number {
+    const startIndex = this.getCityIndexInPathArray(order.stationStart, order);
+    const endIndex = this.getCityIndexInPathArray(order.stationEnd, order);
     const carriageType = this.getCarriageType(order);
     let price = 0;
-    order.schedule.segments.forEach((segment) => {
-      if (segment.price[carriageType]) {
-        price += segment.price[carriageType];
-      }
-    });
+
+    for (let i = startIndex; i < endIndex; i += 1) {
+      price += order.schedule.segments[i].price[carriageType];
+    }
+
     return price;
   }
 

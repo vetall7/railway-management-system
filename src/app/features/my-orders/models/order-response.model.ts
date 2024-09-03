@@ -13,6 +13,8 @@ const ScheduleSegmentSchema = z.object({
 const OrderResponseSchema = z.object({
   id: z.number(),
   rideId: z.number(),
+  stationStart: z.number(),
+  stationEnd: z.number(),
   routeId: z.number(),
   seatId: z.number(),
   userId: z.number(),
@@ -36,6 +38,10 @@ class ScheduleSegment {
 export class OrderResponse {
   readonly id: number;
 
+  readonly stationStart: number;
+
+  readonly stationEnd: number;
+
   readonly rideId: number;
 
   readonly routeId: number;
@@ -55,6 +61,8 @@ export class OrderResponse {
   constructor(data: z.infer<typeof OrderResponseSchema>) {
     this.id = data.id;
     this.rideId = data.rideId;
+    this.stationStart = data.stationStart;
+    this.stationEnd = data.stationEnd;
     this.routeId = data.routeId;
     this.seatId = data.seatId;
     this.userId = data.userId;
