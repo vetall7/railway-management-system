@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 const UserSchema = z.object({
   id: z.number(),
-  name: z.string(),
+  name: z.string().nullable(),
   email: z.string().email(),
   role: z.enum(['user', 'manager']),
 });
@@ -10,7 +10,7 @@ const UserSchema = z.object({
 export class User {
   readonly id: number;
 
-  readonly name: string;
+  readonly name: string | null;
 
   readonly email: string;
 

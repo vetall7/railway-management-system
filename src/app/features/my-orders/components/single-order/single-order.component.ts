@@ -27,10 +27,8 @@ export class SingleOrderComponent implements OnInit {
           // eslint-disable-next-line no-alert, no-undef, no-restricted-globals
           alert(error);
           this.fetchOrdersService.errorSig = '';
-          this.changeStatus('canceled');
-          this.isDeletable = false;
-        } else if (error !== '') {
-          this.changeStatus('canceled');
+          this.changeStatus('active');
+          this.isDeletable = true;
         }
       },
       { allowSignalWrites: true },
@@ -42,8 +40,7 @@ export class SingleOrderComponent implements OnInit {
     if (order) {
       this.isDeletable = order.status === 'active';
     }
-    this.isManager = false; // TODO
-    // this.isManager = this.authService.isManager();
+    this.isManager = this.authService.isManager();
   }
 
   protected getIsDeletable(): boolean {
@@ -56,6 +53,8 @@ export class SingleOrderComponent implements OnInit {
       // eslint-disable-next-line no-alert, no-undef, no-restricted-globals
       if (confirm('Are you sure you want to cancel this order?')) {
         this.fetchOrdersService.cancelOrder(order.id);
+        this.changeStatus('canceled');
+        this.isDeletable = false;
       }
     }
   }
