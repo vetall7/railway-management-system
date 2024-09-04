@@ -6,6 +6,6 @@ export class AuthenticationService {
   private readonly storage = inject<Storage>(STORAGE);
 
   public isManager(): boolean {
-    return this.storage.getItem('isManager') === 'true'; // TODO : is token correct?
+    return this.storage.getItem('login') === 'admin@admin.com';
   }
 }
