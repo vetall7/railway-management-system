@@ -5,7 +5,7 @@
     [(activeIndex)]="activeTabIndex"
     [scrollable]="true"
   >
-    @for (date of getAvailableDates(); track $index) {
+    @for (date of dates; track $index) {
       @let currentDate = date | date: 'EEEE, MMM d';
       @if (currentDate) {
         <p-tabPanel [header]="currentDate">

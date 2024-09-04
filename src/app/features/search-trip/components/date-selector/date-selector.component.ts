@@ -34,8 +34,17 @@ export class DateSelectorComponent implements OnInit {
     const trips = this.fetchTripsService.tripsSignal;
     if (trips) {
       trips.forEach((trip) => {
+        const from = trip.from.stationId;
+        const fromIndexInPath = trip.path.findIndex(
+          (station) => station.stationId === from,
+        );
         const date = new Date(
-          new Date(trip.schedule.segments[0].time[0]).setHours(0, 0, 0, 0),
+          new Date(trip.schedule.segments[fromIndexInPath].time[0]).setHours(
+            0,
+            0,
+            0,
+            0,
+          ),
         ).toISOString();
         if (map.has(date)) {
           const dateTrips = map.get(date);
