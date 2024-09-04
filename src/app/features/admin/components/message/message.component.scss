@@ -6,8 +6,9 @@
 .alert {
   width: 100%;
   position: fixed;
+  padding: 5px;
   top: 0;
-  height: 30px;
+  left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,6 +16,7 @@
   color: var(--primary-button-text-color);
   max-width: 1440px;
   z-index: 9999;
+  text-align: center;
 }
 
 .error {

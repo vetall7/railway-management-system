@@ -1,3 +1,11 @@
+@if (alert()) {
+  <app-message [error]="true" [text]="alertText()" />
+}
+
+@if (alertPrice()) {
+  <app-message [error]="true" [text]="alertTextPrice()" />
+}
+
 <div class="wrapper">
   <div class="name">{{ name }}</div>
   <div class="time">
@@ -9,7 +17,7 @@
         fill="currentColor"
         data-icon="save"
         aria-hidden="true"
-        class="save"
+        class="save save_time"
         (click)="handleClickSaveTime()"
       >
         <path
@@ -23,7 +31,7 @@
         fill="currentColor"
         data-icon="edit"
         aria-hidden="true"
-        class="edit"
+        class="edit edit_time"
         (click)="handleClickEditTime()"
       >
         <path
@@ -46,12 +54,12 @@
             type="datetime-local"
             name="departure"
             id="departure"
-            [value]="segment?.time?.[1] | date: 'yyyy-MM-ddThh:mm'"
+            [value]="segment?.time?.[1] | date: 'yyyy-MM-ddTHH:mm' : '-0000'"
             (change)="handleChangeTime($event)"
           />
         } @else {
           <span>
-            {{ segment?.time?.[1] | date: 'yyyy-MM-dd h:mm a' }}
+            {{ segment?.time?.[1] | date: 'yyyy-MM-dd h:mm a' : '-0000' }}
           </span>
         }
       </p>
@@ -70,12 +78,12 @@
             type="datetime-local"
             name="arrival"
             id="arrival"
-            [value]="segment?.time?.[0] | date: 'yyyy-MM-ddThh:mm'"
+            [value]="segment?.time?.[0] | date: 'yyyy-MM-ddTHH:mm' : '-0000'"
             (change)="handleChangeTime($event)"
           />
         } @else {
           <span>
-            {{ segment?.time?.[0] | date: 'yyyy-MM-dd h:mm a' }}
+            {{ segment?.time?.[0] | date: 'yyyy-MM-dd h:mm a' : '-0000' }}
           </span>
         }
       </p>
@@ -94,12 +102,12 @@
             type="datetime-local"
             name="arrival"
             id="arrival"
-            [value]="segment?.time?.[0] | date: 'yyyy-MM-ddThh:mm'"
+            [value]="segment?.time?.[0] | date: 'yyyy-MM-ddTHH:mm' : '-0000'"
             (change)="handleChangeTime($event)"
           />
         } @else {
           <span>
-            {{ segment?.time?.[0] | date: 'yyyy-MM-dd h:mm a' }}
+            {{ segment?.time?.[0] | date: 'yyyy-MM-dd h:mm a' : '-0000' }}
           </span>
         }
       </p>
@@ -117,12 +125,12 @@
             type="datetime-local"
             name="departure"
             id="departure"
-            [value]="segment?.time?.[1] | date: 'yyyy-MM-ddThh:mm'"
+            [value]="segment?.time?.[1] | date: 'yyyy-MM-ddTHH:mm' : '-0000'"
             (change)="handleChangeTime($event)"
           />
         } @else {
           <span>
-            {{ segment?.time?.[1] | date: 'yyyy-MM-dd h:mm a' }}
+            {{ segment?.time?.[1] | date: 'yyyy-MM-dd h:mm a' : '-0000' }}
           </span>
         }
       </p>
@@ -137,7 +145,7 @@
         fill="currentColor"
         data-icon="save"
         aria-hidden="true"
-        class="save"
+        class="save save_price"
         (click)="handleClickSavePrice()"
       >
         <path
@@ -151,7 +159,7 @@
         fill="currentColor"
         data-icon="edit"
         aria-hidden="true"
-        class="edit"
+        class="edit edit_price"
         (click)="handleClickEditPrice()"
       >
         <path
