@@ -19,8 +19,11 @@
       @if (admin()) {
         <a routerLink="/admin">Admin</a>
       }
+      @if (!isHomeRoute()) {
+        <a routerLink="/">Home</a>
+      }
       @if (isLoggedIn()) {
-        <button (click)="logout()">Log Out</button>
+        <p-button (click)="logout()" size="small">Log Out</p-button>
       }
     </ul>
   </nav>
