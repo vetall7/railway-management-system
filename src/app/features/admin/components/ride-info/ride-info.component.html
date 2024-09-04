@@ -29,6 +29,8 @@
         [index]="$index"
         [name]="(stationName$ | async)?.[$index]"
         [segment]="item"
+        [segmentPrev]="data!.segments[$index - 1]"
+        [segmentNext]="data!.segments[$index + 1]"
         [pos]="
           $index === 0
             ? 'start'
@@ -36,7 +38,11 @@
               ? 'finish'
               : ''
         "
+        [openEditTimeForm]="editTime()"
+        [openEditPriceForm]="editPrice()"
         (changed)="onChangeData($event)"
+        (openEditTime)="onEditTime($event)"
+        (openEditPrice)="onEditPrice($event)"
       />
     }
   </div>

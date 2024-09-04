@@ -41,6 +41,10 @@ export class RideInfoComponent implements OnInit {
 
   stationName$ = this.store.select(AdminSelectors.selectGetRideStation);
 
+  editTime = signal<boolean>(false);
+
+  editPrice = signal<boolean>(false);
+
   ngOnInit(): void {
     this.segments.set(this.data!.segments);
   }
@@ -77,5 +81,13 @@ export class RideInfoComponent implements OnInit {
         }),
       );
     }
+  }
+
+  onEditTime(el: boolean) {
+    this.editTime.set(el);
+  }
+
+  onEditPrice(el: boolean) {
+    this.editPrice.set(el);
   }
 }
