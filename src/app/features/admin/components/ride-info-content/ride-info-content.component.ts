@@ -100,14 +100,14 @@ export class RideInfoContentComponent implements OnInit, DoCheck {
     if (this.create) {
       if (this.pos === 'start') {
         this.timeSend.set([
-          '2024-08-13T01:17:29.906Z',
+          `${target.value}:28.906Z`,
           `${target.value}:29.906Z`,
         ]);
       }
       if (this.pos === 'finish') {
         this.timeSend.set([
           `${target.value}:29.906Z`,
-          '2024-08-13T01:17:29.906Z',
+          `${target.value}:30.906Z`,
         ]);
       }
       const data = {
