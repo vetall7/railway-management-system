@@ -44,3 +44,17 @@
     cursor: default;
   }
 }
+
+.error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  align-items: center;
+
+  .message {
+    margin-bottom: 5px;
+    text-align: center;
+  }
+}

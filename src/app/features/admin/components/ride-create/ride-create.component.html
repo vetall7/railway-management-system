@@ -19,6 +19,18 @@
       }
     }
   </div>
+  <div class="error">
+    @if (checkTime()) {
+      <p class="message">
+        At each station, the departure time must be greater than the arrival
+        time, and the arrival time at each station must be greater than the
+        departure time from the previous station.
+      </p>
+    }
+    @if (checkPrice()) {
+      <p class="message">The price must be greater than 0.</p>
+    }
+  </div>
   <div class="button_content">
     <button
       type="button"

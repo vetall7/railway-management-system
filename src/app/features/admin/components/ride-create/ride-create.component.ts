@@ -53,6 +53,10 @@ export class RideCreateComponent implements OnInit {
 
   disabled = signal<boolean>(true);
 
+  checkPrice = signal<boolean>(true);
+
+  checkTime = signal<boolean>(true);
+
   ngOnInit(): void {
     this.create.set(
       new Array(this.data!.path.length - 1).fill({
@@ -71,6 +75,8 @@ export class RideCreateComponent implements OnInit {
 
     if (this.checkData()) {
       this.disabled.set(false);
+    } else {
+      this.disabled.set(true);
     }
   }
 
@@ -80,6 +86,17 @@ export class RideCreateComponent implements OnInit {
 
   checkData() {
     const a = this.create();
+    const correctTime = a
+      .map((el) => [
+        new Date(el.time[0]).getTime(),
+        new Date(el.time[1]).getTime(),
+      ])
+      .flat();
+    const b = correctTime
+      .slice(1)
+      .map((el, i) => el - correctTime[i])
+      .every((el) => el > 0);
+    this.checkTime.set(!b);
     const times = a
       .map((el) => el.time)
       .flat()
@@ -89,7 +106,9 @@ export class RideCreateComponent implements OnInit {
       .flat()
       .every((el) => el > 0);
 
-    return times && price;
+    this.checkPrice.set(!price);
+
+    return times && price && b;
   }
 
   handleClickCreate() {
