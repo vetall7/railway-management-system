@@ -3,14 +3,17 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
+  inject,
   OnDestroy,
   OnInit,
   signal,
 } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { AuthService } from '@features/auth/services/auth.service';
 import { ButtonModule } from 'primeng/button';
-import { Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 
 import { ProfileService } from '../../../features/profile/services/profile.service';
 
@@ -29,9 +32,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   admin = signal(false);
 
+  isHomeRoute = signal(false);
+
+  destroyRef = inject(DestroyRef);
+
   constructor(
     private authService: AuthService,
     private profileService: ProfileService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +49,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.admin.set(true);
       }
     });
+
+    this.router.events
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter((event) => event instanceof NavigationEnd),
+      )
+      .subscribe(() => {
+        this.isHomeRoute.set(this.router.url === '/');
+      });
   }
 
   logout() {
