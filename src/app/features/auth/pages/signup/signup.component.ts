@@ -40,8 +40,16 @@ export class SignupComponent implements OnInit {
   ) {
     this.registerForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required]),
-      repeatPassword: new FormControl('', [Validators.required]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(30),
+      ]),
+      repeatPassword: new FormControl('', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(30),
+      ]),
     });
 
     this.authError$ = this.store.select(AuthSelectors.selectAuthError);
@@ -80,12 +88,14 @@ export class SignupComponent implements OnInit {
     combineLatest([this.authError$, this.authResponse$]).subscribe(
       ([error, response]) => {
         if (error?.error.message) {
+          this.messageService.clear();
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
             detail: error.error.message,
           });
         } else if (response !== null) {
+          this.messageService.clear();
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
@@ -96,5 +106,10 @@ export class SignupComponent implements OnInit {
         }
       },
     );
+  }
+
+  protected isPasswordMatch(pattern: string): boolean {
+    const regex = new RegExp(pattern);
+    return regex.test(this.registerForm.get('password')?.value || '');
   }
 }
