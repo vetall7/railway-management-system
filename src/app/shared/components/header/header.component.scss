@@ -20,74 +20,6 @@ $mobile-breakpoint: 768px;
       color: #333;
     }
   }
-
-  .nav {
-    ul {
-      gap: 2rem;
-      display: flex;
-      align-items: center;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-
-      li {
-        margin-left: 1.5rem;
-
-        .profile {
-          font-weight: bold;
-          color: #007bff;
-        }
-
-        a {
-          text-decoration: none;
-          color: #007bff;
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-
-        button {
-          background-color: #007bff;
-          color: #fff;
-          border: none;
-          padding: 0.5rem 1rem;
-          border-radius: 4px;
-          cursor: pointer;
-
-          &:hover {
-            background-color: #0056b3;
-          }
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: $mobile-breakpoint) {
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-    height: auto;
-
-    .nav {
-      width: 100%;
-      ul {
-        width: 100%;
-        flex-direction: column;
-        li {
-          margin-left: 0;
-          margin-top: 0.2rem;
-          text-align: left;
-
-          button,
-          a {
-            width: 100%;
-            text-align: center;
-          }
-        }
-      }
-    }
-  }
 }
 
 #menuToggle {
@@ -102,10 +34,12 @@ $mobile-breakpoint: 768px;
   user-select: none;
 }
 
+.link {
+  color: #232323;
+}
+
 #menuToggle a {
   text-decoration: none;
-  color: #232323;
-
   transition: color 0.3s ease;
 }
 
@@ -190,21 +124,20 @@ $mobile-breakpoint: 768px;
   * at the top left of the screen
   */
 #menu {
-  position: absolute;
+  position: fixed;
+  top: -2rem;
+  right: 0;
   width: 300px;
-  margin: -100px 0 0 -200px;
   padding: 50px;
-  padding-top: 125px;
-
+  padding-top: 100px;
   background: #ededed;
   list-style-type: none;
-  -webkit-font-smoothing: antialiased;
-  /* to stop flickering of text in safari */
-
-  transform-origin: 100% 0%;
-  transform: translate(100%);
-
+  transform: translateX(100%); /* Hidden off the right side */
   transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+}
+
+#menuToggle input:checked ~ #menu {
+  transform: translateX(0); /* Slide in from the right */
 }
 
 #menu li {
@@ -217,4 +150,8 @@ $mobile-breakpoint: 768px;
   */
 #menuToggle input:checked ~ ul {
   transform: none;
+}
+
+.log-out {
+  color: red;
 }
