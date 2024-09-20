@@ -2,29 +2,39 @@
   <div class="logo">
     <a routerLink="/">Train A</a>
   </div>
-  <nav class="nav">
-    <ul>
-      @if (isLoggedIn()) {
-        <a routerLink="/profile">
-          <span>Profile</span>
-        </a>
-        <a routerLink="/orders">
-          <span>Orders</span>
-        </a>
-      }
-      @if (!isLoggedIn()) {
-        <a routerLink="/auth/signin">Sign In</a>
-        <a routerLink="/auth/signup">Sign Up</a>
-      }
-      @if (admin()) {
-        <a routerLink="/admin">Admin</a>
-      }
-      @if (!isHomeRoute()) {
-        <a routerLink="/">Home</a>
-      }
-      @if (isLoggedIn()) {
-        <p-button (click)="logout()" size="small">Log Out</p-button>
-      }
-    </ul>
+  <nav role="navigation">
+    <div id="menuToggle">
+      <input type="checkbox" />
+      <span></span>
+      <span></span>
+      <span></span>
+      <ul id="menu">
+        @if (isLoggedIn()) {
+          <li>
+            <a routerLink="/profile">
+              <span>Profile</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/orders">
+              <span>Orders</span>
+            </a>
+          </li>
+        }
+        @if (!isLoggedIn()) {
+          <li><a routerLink="/auth/signin">Sign In</a></li>
+          <li><a routerLink="/auth/signup">Sign Up</a></li>
+        }
+        @if (admin()) {
+          <li><a routerLink="/admin">Admin</a></li>
+        }
+        @if (!isHomeRoute()) {
+          <li><a routerLink="/">Home</a></li>
+        }
+        @if (isLoggedIn()) {
+          <li><p-button (click)="logout()" size="small">Log Out</p-button></li>
+        }
+      </ul>
+    </div>
   </nav>
 </header>
