@@ -22,7 +22,7 @@ h1 {
   letter-spacing: -1px;
 }
 .login-root a {
-  color: #ffffff;
+  color: var(--primary-link-color);
   text-decoration: unset;
 }
 .login-root {

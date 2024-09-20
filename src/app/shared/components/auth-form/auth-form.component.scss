@@ -1,23 +1,15 @@
 * {
   padding: 0;
   margin: 0;
-  color: #1a1f36;
   box-sizing: border-box;
   word-wrap: break-word;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    Segoe UI,
-    Roboto,
-    Helvetica Neue,
-    Ubuntu,
-    sans-serif;
+  font-family: var(--secondary-font-family);
 }
 h1 {
   letter-spacing: -1px;
 }
 a {
-  color: #5469d4;
+  color: var(--primary-link-color);
   text-decoration: unset;
 }
 .login-root {
@@ -27,7 +19,7 @@ a {
   overflow: hidden;
 }
 .loginbackground {
-  min-height: 692px;
+  min-height: 70vh;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -69,19 +61,19 @@ a {
   box-shadow: inset 0 0 0 2px #e3e8ee;
 }
 .box-background--blue {
-  background-color: #5469d4;
+  background-color: var(--first-rectangle-color);
 }
 .box-background--white {
-  background-color: #ffffff;
+  background-color: var(--fifth-rectangle-color);
 }
 .box-background--blue800 {
-  background-color: #212d63;
+  background-color: var(--second-rectangle-color);
 }
 .box-background--gray100 {
-  background-color: #e3e8ee;
+  background-color: var(--third-rectangle-color);
 }
 .box-background--cyan200 {
-  background-color: #7fd3ed;
+  background-color: var(--forth-rectangle-color);
 }
 .padding-top--64 {
   padding-top: 64px;

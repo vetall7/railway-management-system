@@ -74,6 +74,20 @@
   --secondary-sm-font: var(--primary-sm-font-weight) var(--primary-sm-font-size) /
     var(--primary-sm-font-height) var(--secondary-font-family);
 
+  --secondary-font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Helvetica Neue, Ubuntu, sans-serif;
+
+  --thirdly-sm-font: var(--primary-sm-font-weight) var(--primary-sm-font-size) /
+    var(--primary-sm-font-height) var(--secondary-font-family);
+
   --primary-border: 2px solid var(--primary-border-color);
   --secondary-border: 2px solid var(--secondary-border-color);
+
+  --primary-link-color: var(--color-primary-a40);
+
+  --first-rectangle-color: #5469d4;
+  --second-rectangle-color: #212d63;
+  --third-rectangle-color: #e3e8ee;
+  --fourth-rectangle-color: #7fd3ed;
+  --fifth-rectangle-color: #ffffff;
 }
