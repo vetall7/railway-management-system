@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  forwardRef,
   inject,
   Input,
   OnInit,
@@ -19,7 +20,7 @@ import { CarService } from '@shared/services';
 @Component({
   selector: 'app-train-car',
   standalone: true,
-  imports: [TrainCarItemsComponent, NgClass],
+  imports: [forwardRef(() => TrainCarItemsComponent), NgClass],
   templateUrl: './train-car.component.html',
   styleUrl: './train-car.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

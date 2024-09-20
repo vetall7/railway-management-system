@@ -1,7 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { AuthFormComponent } from '@shared/components';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
@@ -22,6 +24,8 @@ import { AuthRoutingModule } from './auth-routing.module';
     ReactiveFormsModule,
     StoreModule.forFeature('auth', authReducer),
     EffectsModule.forFeature([authEffects]),
+    AuthFormComponent,
+    CommonModule,
   ],
 })
 export class AuthModule {}

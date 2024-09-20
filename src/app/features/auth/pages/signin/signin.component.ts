@@ -33,7 +33,11 @@ export class SigninComponent {
   ) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(30),
+      ]),
     });
 
     this.authResponse$ = this.store.select(AuthSelectors.selectAuthResponse);
@@ -55,6 +59,7 @@ export class SigninComponent {
     combineLatest([this.authError$, this.authResponse$]).subscribe(
       ([error, response]) => {
         if (error?.error.message) {
+          this.messageService.clear();
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
@@ -62,6 +67,7 @@ export class SigninComponent {
           });
         } else if (response) {
           this.router.navigate(['/']);
+          this.messageService.clear();
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
