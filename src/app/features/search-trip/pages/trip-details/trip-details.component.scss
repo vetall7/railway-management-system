@@ -30,3 +30,13 @@
   text-align: center;
   padding-top: 100px;
 }
+.carriage-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0 auto;
+  width: 80rem;
+  max-width: 90%;
+  padding: 2%;
+}

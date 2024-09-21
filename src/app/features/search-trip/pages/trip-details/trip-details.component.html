@@ -9,6 +9,7 @@
       </div>
 
       <app-carriage-type-tabs
+        class="carriage-selector"
         (modalDataEmit)="modalData = $event"
         [allOccupiedSeats]="getAllOccupiedSeats()"
         [carList]="getCalculateCarList()"

@@ -1,13 +1,10 @@
 <div class="carrier-type-wrapper">
-  <p-tabView styleClass="carrier-type-tab">
+  <p-tabView class="custom-tabview">
     @for (type of carriageTypeData; track $index) {
       <p-tabPanel>
         <ng-template pTemplate="header">
           <div>
             {{ type.typeName }}
-            <span>occupiedSeats : {{ type.occupiedSeats }}</span>
-          </div>
-          <div>
             {{ type.price | currency }}
           </div>
         </ng-template>
