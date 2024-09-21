@@ -153,6 +153,14 @@ label {
     background-color: #e9ebf0;
   }
 
+  input[type='submit'] {
+    color: white;
+  }
+
+  ::ng-deep .p-button-label {
+    color: white;
+  }
+
   .valid {
     color: var(--primary-success-border-color);
   }
