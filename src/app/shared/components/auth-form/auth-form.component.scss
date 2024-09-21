@@ -46,3 +46,152 @@ label {
   text-align: right;
   margin-bottom: 10px;
 }
+
+:host ::ng-deep {
+  .back {
+    width: 30px;
+    height: 30px;
+    display: block;
+    border: 1px solid var(--color-secondary-a10);
+    border-right: none;
+    border-radius: 5px;
+    text-align: center;
+    padding: 2px;
+    color: var(--color-secondary-a90);
+
+    position: absolute;
+    top: -4.3rem;
+    left: -4.85rem;
+    background-color: #ffffff;
+
+    border-radius: 10px 0px 0px 10px;
+  }
+
+  form {
+    position: relative;
+  }
+
+  span {
+    display: block;
+    font-size: 20px;
+    line-height: 28px;
+    color: #1a1f36;
+  }
+  label {
+    margin-bottom: 10px;
+  }
+  .reset-pass a,
+  label {
+    font-size: 14px;
+    font-weight: 600;
+    display: block;
+  }
+  .reset-pass > a {
+    text-align: right;
+    margin-bottom: 10px;
+  }
+  a {
+    color: #5469d4;
+    text-decoration: unset;
+  }
+
+  .padding-top--64 {
+    padding-top: 64px;
+  }
+  .padding-top--24 {
+    padding-top: 24px;
+  }
+  .padding-top--48 {
+    padding-top: 48px;
+  }
+  .padding-bottom--24 {
+    padding-bottom: 24px;
+  }
+  .padding-horizontal--48 {
+    padding: 48px;
+  }
+  .padding-bottom--15 {
+    padding-bottom: 15px;
+  }
+
+  .field {
+    width: 100%;
+  }
+
+  .field {
+    ::ng-deep .p-inputtext {
+      width: 100%;
+    }
+    ::ng-deep .p-password {
+      width: 100%;
+    }
+    ::ng-deep p-button {
+      width: 100%;
+    }
+    ::ng-deep button {
+      width: 100%;
+    }
+  }
+
+  a.ssolink {
+    display: block;
+    text-align: center;
+    font-weight: 600;
+  }
+  .footer-link span {
+    font-size: 14px;
+    text-align: center;
+  }
+  .listing a {
+    color: #697386;
+    font-weight: 600;
+    margin: 0 10px;
+  }
+
+  input.ng-valid {
+    border-color: var(--primary-success-border-color);
+    background-color: #e9ebf0;
+  }
+
+  input[type='submit'] {
+    color: white;
+  }
+
+  ::ng-deep .p-button-label {
+    color: white;
+  }
+
+  .valid {
+    color: var(--primary-success-border-color);
+  }
+
+  .invalid {
+    color: var(--primary-error-border-color);
+  }
+
+  .ng-valid {
+    ::ng-deep input {
+      border-color: var(--primary-success-border-color);
+    }
+  }
+
+  @media (max-width: 700px) {
+    .back {
+      top: -4.3rem;
+      left: -3rem;
+      border: none;
+    }
+  }
+  .field-checkbox input {
+    width: 20px;
+    height: 15px;
+    margin-right: 5px;
+    box-shadow: unset;
+    min-height: unset;
+  }
+  .field-checkbox label {
+    display: flex;
+    align-items: center;
+    margin: 0;
+  }
+}
