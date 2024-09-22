@@ -1,11 +1,11 @@
 .trip-detail-wrapper {
   .trip-detail-header {
-    height: 100px;
+    height: 8rem;
     border-bottom: 1px solid var(--color-secondary-a30);
     display: flex;
     align-items: center;
     gap: 20px;
-    min-width: 900px;
+    min-width: 70%;
     padding: 0 64px;
   }
 
@@ -38,5 +38,5 @@
   margin: 0 auto;
   width: 80rem;
   max-width: 90%;
-  padding: 2%;
+  padding: 2rem;
 }

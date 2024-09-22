@@ -2,9 +2,7 @@
   @if (!!rideData()?.rideId && isErrorParam()) {
     <div class="trip-detail-wrapper">
       <div class="trip-detail-header">
-        <a [routerLink]="['']" class="trip-back"
-          ><i class="pi pi-chevron-left"></i
-        ></a>
+        <a [routerLink]="['']" class="trip-back"><i class="pi pi-chevron-left"></i></a>
         <app-train-stations [rideData]="rideData()" />
       </div>
 
@@ -18,7 +16,7 @@
       />
       <app-book-seat
         [modalData]="modalData"
-        class="trip-detail-book"
+        class="trip-detail-book draggable"
         (clearSelectedEmit)="clearSelected()"
         (createOrderEmit)="createOrder($event)"
       ></app-book-seat>

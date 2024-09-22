@@ -6,7 +6,7 @@
   <div class="train-seats-wrapper">
     <div class="train-seats-wrapper-items">
       @for (itemGroup of rightSeatsGroup; track $index) {
-        <div>
+        <div class="group">
           @for (item of itemGroup; track $index) {
             <app-train-car-items
               [allOccupiedSeats]="allOccupiedSeats"
