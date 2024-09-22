@@ -9,8 +9,7 @@ describe('SearchTripsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SearchTripsComponent],
-    })
-      .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SearchTripsComponent);
     component = fixture.componentInstance;

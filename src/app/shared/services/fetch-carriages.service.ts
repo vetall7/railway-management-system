@@ -80,19 +80,22 @@ export class FetchCarriagesService {
         const numberOfSeats = carriagesWithNumberOfSeats.get(carriage);
         if (numberOfSeats) {
           const numberOfOccupiedSeatsInCarriage = allOccupiedSeats.filter(
-            (seat) => seat > currentCarriageStartIndex
-            && seat < currentCarriageStartIndex + numberOfSeats,
+            (seat) =>
+              seat > currentCarriageStartIndex
+              && seat < currentCarriageStartIndex + numberOfSeats,
           ).length;
           const numberOfAvailableSeats = numberOfSeats - numberOfOccupiedSeatsInCarriage;
           const sameCarriageType = carriagesWithNumberOfAvailableSeats.get(carriage);
           if (sameCarriageType) {
             carriagesWithNumberOfAvailableSeats.set(
               carriage,
-              sameCarriageType
-              + numberOfAvailableSeats,
+              sameCarriageType + numberOfAvailableSeats,
             );
           } else {
-            carriagesWithNumberOfAvailableSeats.set(carriage, numberOfAvailableSeats);
+            carriagesWithNumberOfAvailableSeats.set(
+              carriage,
+              numberOfAvailableSeats,
+            );
           }
           currentCarriageStartIndex += numberOfSeats;
         }

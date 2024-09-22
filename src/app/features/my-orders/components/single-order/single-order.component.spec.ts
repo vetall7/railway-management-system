@@ -9,8 +9,7 @@ describe('SingleOrderComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SingleOrderComponent],
-    })
-      .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SingleOrderComponent);
     component = fixture.componentInstance;

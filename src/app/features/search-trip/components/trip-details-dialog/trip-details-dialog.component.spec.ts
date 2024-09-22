@@ -9,8 +9,7 @@ describe('TripDetailsDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TripDetailsDialogComponent],
-    })
-      .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(TripDetailsDialogComponent);
     component = fixture.componentInstance;

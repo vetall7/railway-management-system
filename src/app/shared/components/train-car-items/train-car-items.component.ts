@@ -28,6 +28,8 @@ export class TrainCarItemsComponent implements OnInit {
 
   @Input() public allOccupiedSeats!: number[];
 
+  @Input() public seatIndexRelativeToCar!: number;
+
   public isSelected: WritableSignal<number | null> = signal(null);
 
   @Output() public selectedSeatEmit = new EventEmitter<number>();
@@ -44,11 +46,9 @@ export class TrainCarItemsComponent implements OnInit {
 
   ngOnInit(): void {
     this.isOccupied = this.allOccupiedSeats.includes(this.itemNumber);
-    this.car.selected$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((selected) => {
-        this.isSelected.set(selected);
-      });
+    this.car.selected$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((selected) => {
+      this.isSelected.set(selected);
+    });
   }
 
   public isSelectedValue(allSeats: number[]) {
