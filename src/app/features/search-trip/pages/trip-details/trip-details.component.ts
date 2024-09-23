@@ -48,11 +48,19 @@ export class TripDetailsComponent implements OnInit {
 
   public isLoading: WritableSignal<boolean> = signal(false);
 
-  public readonly carriageData: WritableSignal<IRideCarriageData[]> = signal(
-    [],
-  );
+  public readonly carriageData: WritableSignal<IRideCarriageData[]> = signal([]);
+
+  private readonly isSeatBookingVisible = signal(false);
 
   private readonly car = inject(CarService);
+
+  protected get isSeatBookingVisibleSig(): Signal<boolean> {
+    return this.isSeatBookingVisible;
+  }
+
+  protected set isSeatBookingVisibleSig(value: boolean) {
+    this.isSeatBookingVisible.set(value);
+  }
 
   public calculateCarriageSeats: Signal<IRideSeatsInfo[]> = computed(() => {
     return this.carriageData().map((carriage: IRideCarriageData) => {
@@ -63,23 +71,18 @@ export class TripDetailsComponent implements OnInit {
     });
   });
 
-  public getCalculateCarList: Signal<Record<string, ICarListItem[]>> = computed(
-    () => {
-      return this.searchTrip.calculateCarList(
-        this.rideData(),
-        this.calculateCarriageSeats(),
-        this.getAllOccupiedSeats(),
-      );
-    },
-  );
+  public getCalculateCarList: Signal<Record<string, ICarListItem[]>> = computed(() => {
+    return this.searchTrip.calculateCarList(
+      this.rideData(),
+      this.calculateCarriageSeats(),
+      this.getAllOccupiedSeats(),
+    );
+  });
 
   public orderSelected: WritableSignal<number | null> = signal(null);
 
   public getAllOccupiedSeats: Signal<number[]> = computed(() => {
-    return this.searchTrip.getAllOccupiedSeats(
-      this.rideData(),
-      this.orderSelected() ?? 0,
-    );
+    return this.searchTrip.getAllOccupiedSeats(this.rideData(), this.orderSelected() ?? 0);
   });
 
   private readonly searchTrip = inject(SearchTripDetailService);
@@ -91,11 +94,7 @@ export class TripDetailsComponent implements OnInit {
   public modalData!: ICarModalDataInfo;
 
   public rideData: Signal<IRideInformation | null> = computed(() => {
-    return this.searchTrip.setTrainDates(
-      this.tripDetailFacade.rideData(),
-      this.from(),
-      this.to(),
-    );
+    return this.searchTrip.setTrainDates(this.tripDetailFacade.rideData(), this.from(), this.to());
   });
 
   public isErrorParam: Signal<boolean> = computed(

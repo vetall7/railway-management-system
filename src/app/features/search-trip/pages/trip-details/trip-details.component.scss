@@ -40,3 +40,15 @@
   max-width: 90%;
   padding: 2rem;
 }
+
+.stepper {
+  ::ng-deep .p-stepper-panels {
+    background: none;
+  }
+  ::ng-deep .p-stepper-nav {
+    margin-top: 1rem;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

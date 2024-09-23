@@ -11,20 +11,13 @@ import {
 import { BookSeatComponent } from '@features/search-trip/components/book-seat/book-seat.component';
 import { CarriageTypeTabsComponent } from '@features/search-trip/components/carriage-type-tabs/carriage-type-tabs.component';
 import { TrainStationsComponent } from '@features/search-trip/components/train-stations/train-stations.component';
-import {
-  SearchTripsComponent,
-  TripDetailsComponent,
-} from '@features/search-trip/pages';
+import { SearchTripsComponent, TripDetailsComponent } from '@features/search-trip/pages';
 import { FindCarriageTypePipe } from '@features/search-trip/pipes';
 import { SearchTripRoutingModule } from '@features/search-trip/search-trip-routing.module';
 import { FetchTripsService } from '@features/search-trip/services';
 import { SearchTripDetailService } from '@features/search-trip/services/search-trip-detail.service';
 import { NoTripsComponent, TrainCarComponent } from '@shared/components';
-import {
-  FetchApiDataService,
-  FetchCarriagesService,
-  FetchStationsService,
-} from '@shared/services';
+import { FetchApiDataService, FetchCarriagesService, FetchStationsService } from '@shared/services';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { Button } from 'primeng/button';
@@ -32,6 +25,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { StepperModule } from 'primeng/stepper';
 import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
@@ -62,6 +56,7 @@ import { TabViewModule } from 'primeng/tabview';
     FindCarriageTypePipe,
     Button,
     NoTripsComponent,
+    StepperModule,
   ],
   exports: [SearchTripsComponent],
   providers: [
