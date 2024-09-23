@@ -9,8 +9,7 @@ describe('RouterInfoComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterInfoComponent],
-    })
-      .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RouterInfoComponent);
     component = fixture.componentInstance;

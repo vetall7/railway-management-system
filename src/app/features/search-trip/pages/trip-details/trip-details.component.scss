@@ -1,11 +1,11 @@
 .trip-detail-wrapper {
   .trip-detail-header {
-    height: 100px;
+    height: 8%;
     border-bottom: 1px solid var(--color-secondary-a30);
     display: flex;
     align-items: center;
     gap: 20px;
-    min-width: 900px;
+    min-width: 70%;
     padding: 0 64px;
   }
 
@@ -19,14 +19,44 @@
     padding: 2px;
     color: var(--color-secondary-a90);
   }
-
-  .trip-detail-book {
-    position: fixed;
-    bottom: 10%;
-    right: 2%;
-  }
 }
 .trip-detail-error {
   text-align: center;
   padding-top: 100px;
+}
+
+.dates-board {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0 auto;
+  width: 80rem;
+  max-width: 90%;
+  font: var(--primary-lg-font);
+  padding: 2%;
+}
+
+.stepper {
+  ::ng-deep .p-stepper-panels {
+    background: none;
+  }
+  ::ng-deep .p-stepper-nav {
+    margin-top: 1rem;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.next-step-button {
+  position: fixed;
+  bottom: 50%;
+  right: 2%;
+}
+
+.back-step-button {
+  position: fixed;
+  bottom: 50%;
+  left: 2%;
 }

@@ -9,8 +9,7 @@ describe('CarriageInfoComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CarriageInfoComponent],
-    })
-      .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CarriageInfoComponent);
     component = fixture.componentInstance;

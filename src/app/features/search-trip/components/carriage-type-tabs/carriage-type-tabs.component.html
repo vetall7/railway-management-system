@@ -1,25 +1,20 @@
-<div class="carrier-type-wrapper">
-  <p-tabView styleClass="carrier-type-tab">
-    @for (type of carriageTypeData; track $index) {
-      <p-tabPanel>
-        <ng-template pTemplate="header">
-          <div>
-            {{ type.typeName }}
-            <span>occupiedSeats : {{ type.occupiedSeats }}</span>
-          </div>
-          <div>
-            {{ type.price | currency }}
-          </div>
-        </ng-template>
-        @for (item of carList[type.typeName]; track $index) {
-          <app-train-car
-            (selectedEmit)="selectedEmit($event, type.price)"
-            [allOccupiedSeats]="allOccupiedSeats"
-            [carriageSeatsData]="item"
-            [carriageData]="dataCarriageSeats | findCarriageType: type.typeName"
-          ></app-train-car>
-        }
-      </p-tabPanel>
-    }
-  </p-tabView>
-</div>
+<p-tabView class="custom-tabview">
+  @for (type of carriageTypeData; track $index) {
+    <p-tabPanel>
+      <ng-template pTemplate="header">
+        <div>
+          {{ type.typeName }}
+          {{ type.price | currency }}
+        </div>
+      </ng-template>
+      @for (item of carList[type.typeName]; track $index) {
+        <app-train-car
+          (selectedEmit)="selectedEmit($event, type.price)"
+          [allOccupiedSeats]="allOccupiedSeats"
+          [carriageSeatsData]="item"
+          [carriageData]="dataCarriageSeats | findCarriageType: type.typeName"
+        ></app-train-car>
+      }
+    </p-tabPanel>
+  }
+</p-tabView>

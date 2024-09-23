@@ -2,11 +2,12 @@
   <span class="train-station-city">City{{ rideData?.firstCity }}</span>
   <span class="train-station-city"> <i class="pi pi-arrow-right"></i></span>
   <span class="train-station-city">City{{ rideData?.secondCity }}</span>
+  <br />
   <span>
-    Departure time: {{ rideData?.startDate | date: 'MMMM d, HH:mm' }}
+    {{ rideData?.startDate | date: 'MMMM d, HH:mm' }}
   </span>
   <span class="train-station-city"> <i class="pi pi-arrow-right"></i></span>
-  <span> Arrival time: {{ rideData?.endDate | date: 'MMMM d, HH:mm' }} </span>
+  <span> {{ rideData?.endDate | date: 'MMMM d, HH:mm' }} </span>
   <div class="train-station-indelicate">
     Ride {{ rideData?.rideId }}
     <div

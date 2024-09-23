@@ -1,18 +1,17 @@
 <div class="train-car-wrapper">
   <div class="trip-car-header">
     <div>Car {{ carriageSeatsData.numberCar }}</div>
-    <div class="train-seats-available-wrapper">
-      {{ carriageSeatsData.occupiedSeats }} seats
-    </div>
+    <div class="train-seats-available-wrapper">{{ carriageSeatsData.occupiedSeats }} seats</div>
   </div>
   <div class="train-seats-wrapper">
     <div class="train-seats-wrapper-items">
       @for (itemGroup of rightSeatsGroup; track $index) {
-        <div>
+        <div class="group">
           @for (item of itemGroup; track $index) {
             <app-train-car-items
               [allOccupiedSeats]="allOccupiedSeats"
               [itemNumber]="item"
+              [seatIndexRelativeToCar]="item - startCarriageIndex + 1"
               (selectedSeatEmit)="getSelectedSeat($event)"
             ></app-train-car-items>
           }
@@ -26,6 +25,7 @@
             <app-train-car-items
               [allOccupiedSeats]="allOccupiedSeats"
               [itemNumber]="item"
+              [seatIndexRelativeToCar]="item - startCarriageIndex + 1"
               (selectedSeatEmit)="getSelectedSeat($event)"
             ></app-train-car-items>
           }

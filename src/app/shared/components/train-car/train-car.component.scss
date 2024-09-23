@@ -1,13 +1,13 @@
 .train-car-wrapper {
-  background-color: var(--color-secondary-a10);
-  border-radius: 5px;
+  //background-color: var(--color-secondary-a10);
+  border-radius: 5%;
+  border: 1px solid var(--color-secondary-a30);
   font-size: 16px;
-  margin: 15px 0;
-  overflow: auto;
-  width: 1270px;
+  margin: 1rem 0;
+  width: 100%;
 
   .trip-car-header {
-    padding: 15px;
+    padding: 2rem;
     display: flex;
   }
   .train-seats-available-wrapper {
@@ -18,10 +18,42 @@
     border: 1px solid var(--color-secondary-a30);
   }
   .train-seats-wrapper {
-    padding: 15px;
+    padding: 1rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
   }
   .train-seats-wrapper-items {
     display: flex;
-    padding: 10px 0;
+    padding: 0.8rem 0;
+  }
+}
+
+@media (max-width: 800px) {
+  .train-car-wrapper {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .train-seats-wrapper {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    white-space: nowrap;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 1rem;
+  }
+
+  .train-seats-wrapper-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   }
 }

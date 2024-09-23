@@ -9,11 +9,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import {
-  ICarListItem,
-  ICarModalData,
-  IRideCarriageData,
-} from '@features/search-trip/models';
+import { ICarListItem, ICarModalData, IRideCarriageData } from '@features/search-trip/models';
 import { TrainCarItemsComponent } from '@shared/components';
 import { CarService } from '@shared/services';
 
@@ -44,6 +40,8 @@ export class TrainCarComponent implements OnInit {
 
   public rightSeatsGroup: number[][] = [];
 
+  protected startCarriageIndex = 1;
+
   ngOnInit(): void {
     const currentIndexLeft = this.carriageData.leftSeats;
     const currentIndexRight = this.carriageData.rightSeats;
@@ -68,15 +66,13 @@ export class TrainCarComponent implements OnInit {
     });
 
     for (let i = 0; i < this.leftSeats.length; i += currentIndexLeft) {
-      this.leftSeatsGroup.push(
-        this.leftSeats.slice(i, i + currentIndexLeft).reverse(),
-      );
+      this.leftSeatsGroup.push(this.leftSeats.slice(i, i + currentIndexLeft).reverse());
     }
     for (let i = 0; i < this.rightSeats.length; i += currentIndexRight) {
-      this.rightSeatsGroup.push(
-        this.rightSeats.slice(i, i + currentIndexRight).reverse(),
-      );
+      this.rightSeatsGroup.push(this.rightSeats.slice(i, i + currentIndexRight).reverse());
     }
+    // eslint-disable-next-line prefer-destructuring
+    this.startCarriageIndex = this.leftSeatsGroup[0][this.leftSeatsGroup[0].length - 1];
   }
 
   getSelectedSeat(seat: number) {

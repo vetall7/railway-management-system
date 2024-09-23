@@ -9,7 +9,11 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { Order, OrderResponse, Status } from '@features/my-orders/models';
-import { AuthenticationService, FetchCarriagesService, FetchStationsService } from '@shared/services';
+import {
+  AuthenticationService,
+  FetchCarriagesService,
+  FetchStationsService,
+} from '@shared/services';
 import { lastValueFrom } from 'rxjs';
 
 import { FetchDataService } from './fetch-data.service';
@@ -51,20 +55,23 @@ export class FetchOrdersService {
     const orderResponse = this.orderResponse();
 
     if (orderResponse.length > 0) {
-      const orders = orderResponse.map((order) => new Order({
-        userName: this.getUserEmail(order),
-        id: order.id,
-        startTripStation: this.getStartAndEndStations(order)[0],
-        startTripTime: this.getStartTimeAndEndTime(order)[0],
-        endTripStation: this.getStartAndEndStations(order)[1],
-        endTripTime: this.getStartTimeAndEndTime(order)[1],
-        tripDuration: this.getTripDuration(order),
-        carriageType: this.getCarriageType(order),
-        seatNumber: this.getSeatNumber(order),
-        carNumber: this.getCarNumber(order),
-        price: this.getPrice(order),
-        status: order.status,
-      }));
+      const orders = orderResponse.map(
+        (order) =>
+          new Order({
+            userName: this.getUserEmail(order),
+            id: order.id,
+            startTripStation: this.getStartAndEndStations(order)[0],
+            startTripTime: this.getStartTimeAndEndTime(order)[0],
+            endTripStation: this.getStartAndEndStations(order)[1],
+            endTripTime: this.getStartTimeAndEndTime(order)[1],
+            tripDuration: this.getTripDuration(order),
+            carriageType: this.getCarriageType(order),
+            seatNumber: this.getSeatNumber(order),
+            carNumber: this.getCarNumber(order),
+            price: this.getPrice(order),
+            status: order.status,
+          }),
+      );
 
       orders.sort((a, b) => {
         const timeA = new Date(a.startTripTime).getTime();
@@ -87,7 +94,9 @@ export class FetchOrdersService {
   }
 
   private getStartAndEndStations(order: OrderResponse): [string, string] {
-    const startStation = this.fetchStationsService.getCityById(order.stationStart);
+    const startStation = this.fetchStationsService.getCityById(
+      order.stationStart,
+    );
     const endStation = this.fetchStationsService.getCityById(order.stationEnd);
     if (!startStation || !endStation) {
       throw new Error('City not found');
@@ -95,7 +104,10 @@ export class FetchOrdersService {
     return [startStation.city, endStation.city];
   }
 
-  private getCityIndexInPathArray(cityId: number, order: OrderResponse): number {
+  private getCityIndexInPathArray(
+    cityId: number,
+    order: OrderResponse,
+  ): number {
     return order.path.findIndex((pathCityId) => pathCityId === cityId);
   }
 

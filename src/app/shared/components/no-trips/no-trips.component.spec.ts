@@ -9,8 +9,7 @@ describe('NoTripsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [NoTripsComponent],
-    })
-      .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(NoTripsComponent);
     component = fixture.componentInstance;

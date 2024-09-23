@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { ICarModalDataInfo } from '@features/search-trip/models';
 
 @Component({
@@ -18,20 +12,16 @@ export class BookSeatComponent {
 
   @Output() public clearSelectedEmit = new EventEmitter<void>();
 
-  @Output() public createOrderEmit = new EventEmitter<ICarModalDataInfo>();
+  @Output() public isConfirmedEmit = new EventEmitter<boolean>();
 
-  public clearSelected() {
-    this.clearSelectedEmit.emit();
-    this.modalData = {} as ICarModalDataInfo;
-  }
+  protected isConfirmed = false;
 
   public get isDisable(): boolean {
     return !!this.modalData?.numberSeat;
   }
 
-  public createOrder(): void {
-    this.createOrderEmit.emit({
-      ...this.modalData,
-    });
+  public confirm(): void {
+    this.isConfirmed = !this.isConfirmed;
+    this.isConfirmedEmit.emit(this.isConfirmed);
   }
 }

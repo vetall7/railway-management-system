@@ -9,8 +9,7 @@ describe('CarriageViewComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CarriageViewComponent],
-    })
-      .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CarriageViewComponent);
     component = fixture.componentInstance;

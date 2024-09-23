@@ -7,9 +7,10 @@ import {
   OnInit,
   Signal,
   signal,
+  ViewChild,
   WritableSignal,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import {
   ICarListItem,
@@ -24,6 +25,7 @@ import { IRideCarriageData } from '@features/search-trip/models/ride-carriage-in
 import { SearchTripDetailService } from '@features/search-trip/services/search-trip-detail.service';
 import { CarService } from '@shared/services';
 import { MessageService } from 'primeng/api';
+import { Stepper } from 'primeng/stepper';
 
 import { TripDetailFacade } from '../../../../store/trip-detail/facades';
 
@@ -35,6 +37,8 @@ import { TripDetailFacade } from '../../../../store/trip-detail/facades';
 })
 export class TripDetailsComponent implements OnInit {
   private readonly tokeId: string = 'id';
+
+  @ViewChild('customStepper') customStepper!: Stepper;
 
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
@@ -48,11 +52,23 @@ export class TripDetailsComponent implements OnInit {
 
   public isLoading: WritableSignal<boolean> = signal(false);
 
-  public readonly carriageData: WritableSignal<IRideCarriageData[]> = signal(
-    [],
-  );
+  public readonly carriageData: WritableSignal<IRideCarriageData[]> = signal([]);
 
-  private readonly car = inject(CarService);
+  private readonly isSeatBookingVisible = signal(false);
+
+  protected readonly car = inject(CarService);
+
+  protected isSeatSelected = toSignal(this.car.selected$);
+
+  protected isConfirmed = false;
+
+  protected get isSeatBookingVisibleSig(): Signal<boolean> {
+    return this.isSeatBookingVisible;
+  }
+
+  protected set isSeatBookingVisibleSig(value: boolean) {
+    this.isSeatBookingVisible.set(value);
+  }
 
   public calculateCarriageSeats: Signal<IRideSeatsInfo[]> = computed(() => {
     return this.carriageData().map((carriage: IRideCarriageData) => {
@@ -63,23 +79,18 @@ export class TripDetailsComponent implements OnInit {
     });
   });
 
-  public getCalculateCarList: Signal<Record<string, ICarListItem[]>> = computed(
-    () => {
-      return this.searchTrip.calculateCarList(
-        this.rideData(),
-        this.calculateCarriageSeats(),
-        this.getAllOccupiedSeats(),
-      );
-    },
-  );
+  public getCalculateCarList: Signal<Record<string, ICarListItem[]>> = computed(() => {
+    return this.searchTrip.calculateCarList(
+      this.rideData(),
+      this.calculateCarriageSeats(),
+      this.getAllOccupiedSeats(),
+    );
+  });
 
   public orderSelected: WritableSignal<number | null> = signal(null);
 
   public getAllOccupiedSeats: Signal<number[]> = computed(() => {
-    return this.searchTrip.getAllOccupiedSeats(
-      this.rideData(),
-      this.orderSelected() ?? 0,
-    );
+    return this.searchTrip.getAllOccupiedSeats(this.rideData(), this.orderSelected() ?? 0);
   });
 
   private readonly searchTrip = inject(SearchTripDetailService);
@@ -91,11 +102,7 @@ export class TripDetailsComponent implements OnInit {
   public modalData!: ICarModalDataInfo;
 
   public rideData: Signal<IRideInformation | null> = computed(() => {
-    return this.searchTrip.setTrainDates(
-      this.tripDetailFacade.rideData(),
-      this.from(),
-      this.to(),
-    );
+    return this.searchTrip.setTrainDates(this.tripDetailFacade.rideData(), this.from(), this.to());
   });
 
   public isErrorParam: Signal<boolean> = computed(
@@ -143,6 +150,8 @@ export class TripDetailsComponent implements OnInit {
     this.car.selected = null;
   }
 
+  protected isSuccess = signal(false);
+
   public createOrder(modalData: ICarModalDataInfo): void {
     // eslint-disable-next-line no-undef
     if (localStorage.getItem('token')?.length) {
@@ -164,6 +173,9 @@ export class TripDetailsComponent implements OnInit {
                 detail: 'Order created success!',
               });
               this.orderId.set(value.id);
+              // this.router.navigate(['/']);
+              this.isSuccess.set(true);
+              this.nextStep(2);
             }
           },
           (error) => {
@@ -177,5 +189,13 @@ export class TripDetailsComponent implements OnInit {
     } else {
       this.router.navigate(['/auth/signin']);
     }
+  }
+
+  protected nextStep(index: number): void {
+    this.customStepper.activeStep = index + 1;
+  }
+
+  protected backStep(index: number): void {
+    this.customStepper.activeStep = index - 1;
   }
 }

@@ -9,8 +9,7 @@ describe('FormRouterComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FormRouterComponent],
-    })
-      .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(FormRouterComponent);
     component = fixture.componentInstance;

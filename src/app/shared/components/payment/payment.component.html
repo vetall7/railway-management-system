@@ -1,0 +1,78 @@
+<app-auth-form class="form">
+  <form id="payment-form" [formGroup]="paymentForm" (ngSubmit)="onPayment()">
+    <h1>Payment</h1>
+
+    <p-tabView (onChange)="onTabChange($event)">
+      <p-tabPanel header="Card">
+        <div class="field padding-bottom--24">
+          <label for="cardNumber">Card Number</label>
+          <input
+            id="cardNumber"
+            class="input"
+            pInputText
+            formControlName="cardNumber"
+            type="text"
+            placeholder="1234 5678 9123 4567"
+          />
+          @let cardNumber = paymentForm.get('cardNumber');
+          @if (cardNumber?.invalid && isShowingErrors) {
+            <small class="p-error">Card number is required</small>
+          }
+        </div>
+
+        <div class="field padding-bottom--24">
+          <label for="expiryDate">Expiry Date</label>
+          <input
+            id="expiryDate"
+            class="input"
+            pInputText
+            formControlName="expiryDate"
+            type="text"
+            placeholder="MM/YY"
+          />
+          @let expiryDate = paymentForm.get('expiryDate');
+          @if (expiryDate?.invalid && isShowingErrors) {
+            <small class="p-error">Expiry date is required</small>
+          }
+        </div>
+
+        <div class="field padding-bottom--24">
+          <label for="cvv">CVV</label>
+          <input
+            id="cvv"
+            class="input"
+            pInputText
+            formControlName="cvv"
+            type="text"
+            placeholder="123"
+          />
+          @let cvv = paymentForm.get('cvv');
+          @if (cvv?.invalid && isShowingErrors) {
+            <small class="p-error">CVV is required</small>
+          }
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="PayPal">
+        <div class="field padding-bottom--24">
+          <label for="paypalEmail">PayPal Email</label>
+          <input
+            id="paypalEmail"
+            class="input"
+            pInputText
+            formControlName="paypalEmail"
+            type="email"
+            placeholder="email@paypal.com"
+          />
+          @let paypalEmail = paymentForm.get('paypalEmail');
+          @if (paypalEmail?.invalid && isShowingErrors) {
+            <small class="p-error">PayPal email is required</small>
+          }
+        </div>
+      </p-tabPanel>
+    </p-tabView>
+
+    <div class="field padding-bottom--24">
+      <p-button label="Pay Now" [disabled]="paymentForm.invalid" (click)="createOrder()" />
+    </div>
+  </form>
+</app-auth-form>
