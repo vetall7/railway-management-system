@@ -17,6 +17,7 @@ import { SearchTripRoutingModule } from '@features/search-trip/search-trip-routi
 import { FetchTripsService } from '@features/search-trip/services';
 import { SearchTripDetailService } from '@features/search-trip/services/search-trip-detail.service';
 import { NoTripsComponent, PaymentComponent, TrainCarComponent } from '@shared/components';
+import { SuccessComponent } from '@shared/components/success/success.component';
 import { FetchApiDataService, FetchCarriagesService, FetchStationsService } from '@shared/services';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -58,6 +59,7 @@ import { TabViewModule } from 'primeng/tabview';
     NoTripsComponent,
     StepperModule,
     PaymentComponent,
+    SuccessComponent,
   ],
   exports: [SearchTripsComponent],
   providers: [

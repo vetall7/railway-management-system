@@ -1,4 +1,4 @@
-<app-auth-form>
+<app-auth-form class="form">
   <form id="payment-form" [formGroup]="paymentForm" (ngSubmit)="onPayment()">
     <h1>Payment</h1>
 
@@ -72,7 +72,7 @@
     </p-tabView>
 
     <div class="field padding-bottom--24">
-      <p-button type="submit" label="Pay Now" [disabled]="paymentForm.invalid" />
+      <p-button label="Pay Now" [disabled]="paymentForm.invalid" (click)="createOrder()" />
     </div>
   </form>
 </app-auth-form>

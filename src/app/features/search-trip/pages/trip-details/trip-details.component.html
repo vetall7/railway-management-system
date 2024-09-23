@@ -17,7 +17,17 @@
               [dataCarriageSeats]="carriageData()"
               [carriageTypeData]="carriageTypeInfo()"
             />
-            <button pButton type="button" label="Next" (click)="nextStep(index)"></button>
+            @if (isSeatSelected()) {
+              <button
+                pButton
+                type="button"
+                [rounded]="true"
+                [raised]="true"
+                icon="pi pi-arrow-right"
+                class="next-step-button"
+                (click)="nextStep(index)"
+              ></button>
+            }
           </ng-template>
         </p-stepperPanel>
 
@@ -26,27 +36,51 @@
             <app-book-seat
               [modalData]="modalData"
               class="trip-detail-book"
-              (clearSelectedEmit)="clearSelected()"
-              (createOrderEmit)="createOrder($event)"
+              (isConfirmedEmit)="isConfirmed = $event"
             ></app-book-seat>
+            <button
+              pButton
+              type="button"
+              [rounded]="true"
+              [raised]="true"
+              icon="pi pi-arrow-left"
+              class="back-step-button"
+              (click)="backStep(index)"
+            ></button>
+            <button
+              pButton
+              type="button"
+              [rounded]="true"
+              [disabled]="!isConfirmed"
+              [raised]="true"
+              icon="pi pi-arrow-right"
+              class="next-step-button"
+              (click)="nextStep(index)"
+            ></button>
           </ng-template>
         </p-stepperPanel>
 
         <p-stepperPanel header="Payment">
           <ng-template pTemplate="content" let-index="index">
-            <app-payment></app-payment>
+            <app-payment
+              [modalData]="modalData"
+              (createOrderEmit)="createOrder($event)"
+            ></app-payment>
+            <button
+              pButton
+              type="button"
+              [rounded]="true"
+              [raised]="true"
+              icon="pi pi-arrow-left"
+              class="back-step-button"
+              (click)="backStep(index)"
+            ></button>
           </ng-template>
         </p-stepperPanel>
 
         <p-stepperPanel header="Success">
           <ng-template pTemplate="content" let-index="index">
-            <!-- <app-success
-                [orderData]="orderData()"
-                [paymentData]="paymentData()"
-                (paymentSuccess)="paymentSuccess($event)"
-                (paymentError)="paymentError($event)"
-              ></app-success> -->
-            success
+            <app-success></app-success>
           </ng-template>
         </p-stepperPanel>
       </p-stepper>

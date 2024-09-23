@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   computed,
   DestroyRef,
@@ -10,7 +11,7 @@ import {
   ViewChild,
   WritableSignal,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import {
   ICarListItem,
@@ -56,7 +57,11 @@ export class TripDetailsComponent implements OnInit {
 
   private readonly isSeatBookingVisible = signal(false);
 
-  private readonly car = inject(CarService);
+  protected readonly car = inject(CarService);
+
+  protected isSeatSelected = toSignal(this.car.selected$);
+
+  protected isConfirmed = false;
 
   protected get isSeatBookingVisibleSig(): Signal<boolean> {
     return this.isSeatBookingVisible;
@@ -146,6 +151,8 @@ export class TripDetailsComponent implements OnInit {
     this.car.selected = null;
   }
 
+  private cdr = inject(ChangeDetectorRef);
+
   public createOrder(modalData: ICarModalDataInfo): void {
     // eslint-disable-next-line no-undef
     if (localStorage.getItem('token')?.length) {
@@ -167,6 +174,8 @@ export class TripDetailsComponent implements OnInit {
                 detail: 'Order created success!',
               });
               this.orderId.set(value.id);
+              // this.router.navigate(['/']);
+              this.nextStep(2);
             }
           },
           (error) => {
@@ -184,5 +193,9 @@ export class TripDetailsComponent implements OnInit {
 
   protected nextStep(index: number): void {
     this.customStepper.activeStep = index + 1;
+  }
+
+  protected backStep(index: number): void {
+    this.customStepper.activeStep = index - 1;
   }
 }

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ICarModalDataInfo } from '@features/search-trip/models';
 import { Button } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { TabViewChangeEvent, TabViewModule } from 'primeng/tabview';
@@ -35,8 +36,18 @@ export class PaymentComponent {
       Validators.pattern('^(0[1-9]|1[0-2])\\/?([0-9]{4}|[0-9]{2})$'),
     ]),
     cvv: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{3}$')]),
-    paypalEmail: new FormControl('', [Validators.email, Validators.required]),
+    paypalEmail: new FormControl(''),
   });
+
+  @Output() public createOrderEmit = new EventEmitter<ICarModalDataInfo>();
+
+  @Input() public modalData!: ICarModalDataInfo;
+
+  public createOrder(): void {
+    this.createOrderEmit.emit({
+      ...this.modalData,
+    });
+  }
 
   protected onTabChange(event: TabViewChangeEvent): void {
     const tabIndex = event.index;
