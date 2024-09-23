@@ -10,7 +10,7 @@
         <p-stepperPanel header="Select Seat">
           <ng-template pTemplate="content" let-index="index">
             <app-carriage-type-tabs
-              class="carriage-selector"
+              class="dates-board"
               (modalDataEmit)="modalData = $event"
               [allOccupiedSeats]="getAllOccupiedSeats()"
               [carList]="getCalculateCarList()"
