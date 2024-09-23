@@ -74,8 +74,14 @@
   --secondary-sm-font: var(--primary-sm-font-weight) var(--primary-sm-font-size) /
     var(--primary-sm-font-height) var(--secondary-font-family);
 
-  --secondary-font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-    Helvetica Neue, Ubuntu, sans-serif;
+  --secondary-md-font: var(--primary-md-font-weight) var(--primary-md-font-size) /
+    var(--primary-md-font-height) var(--secondary-font-family);
+
+  --secondary-lg-font: var(--primary-lg-font-weight) var(--primary-lg-font-size) /
+    var(--primary-lg-font-height) var(--secondary-font-family);
+
+  --secondary-font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue,
+    Ubuntu, sans-serif;
 
   --thirdly-sm-font: var(--primary-sm-font-weight) var(--primary-sm-font-size) /
     var(--primary-sm-font-height) var(--secondary-font-family);

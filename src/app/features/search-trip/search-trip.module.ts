@@ -16,7 +16,7 @@ import { FindCarriageTypePipe } from '@features/search-trip/pipes';
 import { SearchTripRoutingModule } from '@features/search-trip/search-trip-routing.module';
 import { FetchTripsService } from '@features/search-trip/services';
 import { SearchTripDetailService } from '@features/search-trip/services/search-trip-detail.service';
-import { NoTripsComponent, TrainCarComponent } from '@shared/components';
+import { NoTripsComponent, PaymentComponent, TrainCarComponent } from '@shared/components';
 import { FetchApiDataService, FetchCarriagesService, FetchStationsService } from '@shared/services';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -57,6 +57,7 @@ import { TabViewModule } from 'primeng/tabview';
     Button,
     NoTripsComponent,
     StepperModule,
+    PaymentComponent,
   ],
   exports: [SearchTripsComponent],
   providers: [

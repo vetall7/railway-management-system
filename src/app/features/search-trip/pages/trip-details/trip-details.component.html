@@ -6,9 +6,9 @@
         <app-train-stations [rideData]="rideData()" />
       </div>
 
-      <p-stepper class="stepper">
+      <p-stepper class="stepper" [linear]="true" #customStepper>
         <p-stepperPanel header="Select Seat">
-          <ng-template pTemplate="content">
+          <ng-template pTemplate="content" let-index="index">
             <app-carriage-type-tabs
               class="carriage-selector"
               (modalDataEmit)="modalData = $event"
@@ -17,11 +17,12 @@
               [dataCarriageSeats]="carriageData()"
               [carriageTypeData]="carriageTypeInfo()"
             />
+            <button pButton type="button" label="Next" (click)="nextStep(index)"></button>
           </ng-template>
         </p-stepperPanel>
 
         <p-stepperPanel header="Book Seat">
-          <ng-template pTemplate="content">
+          <ng-template pTemplate="content" let-index="index">
             <app-book-seat
               [modalData]="modalData"
               class="trip-detail-book"
@@ -32,19 +33,13 @@
         </p-stepperPanel>
 
         <p-stepperPanel header="Payment">
-          <ng-template pTemplate="content">
-            <!-- <app-payment
-                [orderData]="orderData()"
-                [paymentData]="paymentData()"
-                (paymentSuccess)="paymentSuccess($event)"
-                (paymentError)="paymentError($event)"
-              ></app-payment> -->
-            pay
+          <ng-template pTemplate="content" let-index="index">
+            <app-payment></app-payment>
           </ng-template>
         </p-stepperPanel>
 
         <p-stepperPanel header="Success">
-          <ng-template pTemplate="content">
+          <ng-template pTemplate="content" let-index="index">
             <!-- <app-success
                 [orderData]="orderData()"
                 [paymentData]="paymentData()"

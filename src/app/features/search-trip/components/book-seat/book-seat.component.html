@@ -1,4 +1,4 @@
-<div class="book-seat-wrapper">
+<!-- <div class="book-seat-wrapper">
   <div class="book-seat-header">
     @if (modalData) {
       <div>Car{{ modalData.car }}, seat {{ modalData.numberSeat }}</div>
@@ -21,4 +21,26 @@
     >
     </p-button>
   </div>
+</div> -->
+
+<div class="wrapper">
+  @if (modalData) {
+    <div class="content">
+      <h2>You selected:</h2>
+      <h4>Car number: {{ modalData.car }}</h4>
+      <h4>Seat number: {{ modalData.numberSeat }}</h4>
+      <h4>Price: {{ modalData.price | currency }}</h4>
+      <h4>In the nex step you will be asked for payment</h4>
+
+      <!-- <div>Car{{ modalData.car }}, seat {{ modalData.numberSeat }}</div>
+    <div class="price">
+      {{ modalData.price | currency }}
+      <button class="btn" (click)="clearSelected()">
+        <i class="pi pi-times"></i>
+      </button>
+    </div> -->
+    </div>
+  } @else {
+    <div>There is no selected seats</div>
+  }
 </div>

@@ -1,44 +1,31 @@
-.book-seat-wrapper {
-  width: 250px;
-  height: 300px;
-  border-radius: 30px;
-  background-color: var(--color-secondary-a20);
+.wrapper {
+  font: var(--secondary-lg-font);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-
-  .book-seat-button {
-    display: flex;
-    padding: 20px;
-    margin: 0 auto;
-  }
-
-  .book-seat-header {
-    padding: 20px 15px;
-    color: var(--color-secondary-a0);
-    font-weight: 700;
-    font-size: 13px;
-    height: 80px;
-    border-bottom: 2px solid var(--color-primary-b30);
-    display: flex;
-    gap: 10px;
-    justify-content: space-between;
-  }
-  .price {
-    //display: flex;
-  }
-  .btn {
-    background-color: var(--color-secondary-a20);
-    border: none;
-  }
+  border: 1px solid var(--color-secondary-a30);
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
 }
 
-:host ::ng-deep {
-  p-button {
-    text-align: center;
-    button {
-      width: 180px;
-      height: 40px;
-    }
-  }
+.content {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: -2rem;
+}
+
+h2 {
+  font-weight: 800;
+}
+
+h4 {
+  font-weight: 500;
+  margin-top: -1rem;
 }

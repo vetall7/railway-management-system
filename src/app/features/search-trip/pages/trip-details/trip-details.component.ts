@@ -7,6 +7,7 @@ import {
   OnInit,
   Signal,
   signal,
+  ViewChild,
   WritableSignal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -24,6 +25,7 @@ import { IRideCarriageData } from '@features/search-trip/models/ride-carriage-in
 import { SearchTripDetailService } from '@features/search-trip/services/search-trip-detail.service';
 import { CarService } from '@shared/services';
 import { MessageService } from 'primeng/api';
+import { Stepper } from 'primeng/stepper';
 
 import { TripDetailFacade } from '../../../../store/trip-detail/facades';
 
@@ -35,6 +37,8 @@ import { TripDetailFacade } from '../../../../store/trip-detail/facades';
 })
 export class TripDetailsComponent implements OnInit {
   private readonly tokeId: string = 'id';
+
+  @ViewChild('customStepper') customStepper!: Stepper;
 
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
@@ -176,5 +180,9 @@ export class TripDetailsComponent implements OnInit {
     } else {
       this.router.navigate(['/auth/signin']);
     }
+  }
+
+  protected nextStep(index: number): void {
+    this.customStepper.activeStep = index + 1;
   }
 }
