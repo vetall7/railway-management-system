@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   computed,
   DestroyRef,
@@ -151,7 +150,7 @@ export class TripDetailsComponent implements OnInit {
     this.car.selected = null;
   }
 
-  private cdr = inject(ChangeDetectorRef);
+  protected isSuccess = signal(false);
 
   public createOrder(modalData: ICarModalDataInfo): void {
     // eslint-disable-next-line no-undef
@@ -175,6 +174,7 @@ export class TripDetailsComponent implements OnInit {
               });
               this.orderId.set(value.id);
               // this.router.navigate(['/']);
+              this.isSuccess.set(true);
               this.nextStep(2);
             }
           },

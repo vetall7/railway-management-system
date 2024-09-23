@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,6 +13,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./success.component.scss'],
   standalone: true,
   imports: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SuccessComponent implements OnInit {
   countdown = 10;
