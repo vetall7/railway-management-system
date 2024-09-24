@@ -1,7 +1,9 @@
 import { CommonModule, JsonPipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthFormComponent } from '@shared/components';
 import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 
@@ -18,6 +20,8 @@ import { ProfileRoutingModule } from './profile-routing.module';
     PasswordModule,
     ReactiveFormsModule,
     JsonPipe,
+    AuthFormComponent,
+    DialogModule,
   ],
 })
 export class ProfileModule {}

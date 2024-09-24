@@ -1,15 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiError } from '@features/auth/models/auth.model';
 import { Store } from '@ngrx/store';
+import { passwordMatchValidator } from '@shared/validators';
 import { MessageService } from 'primeng/api';
 import { combineLatest, Observable } from 'rxjs';
 
@@ -22,23 +16,17 @@ import * as AuthSelectors from '../../store/auth.selector';
   styleUrl: './signup.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SignupComponent implements OnInit {
-  isShowingErrors = false;
+export class SignupComponent {
+  private readonly store = inject(Store);
 
-  registerForm: FormGroup;
+  private readonly router = inject(Router);
 
-  authError$: Observable<ApiError | null>;
+  private readonly messageService = inject(MessageService);
 
-  authLoading$: Observable<boolean>;
+  protected isShowingErrors = false;
 
-  authResponse$: Observable<unknown>;
-
-  constructor(
-    private store: Store,
-    private router: Router,
-    private messageService: MessageService,
-  ) {
-    this.registerForm = new FormGroup({
+  registerForm: FormGroup = new FormGroup(
+    {
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [
         Validators.required,
@@ -50,30 +38,17 @@ export class SignupComponent implements OnInit {
         Validators.minLength(8),
         Validators.maxLength(30),
       ]),
-    });
+    },
+    { validators: passwordMatchValidator('password', 'repeatPassword') },
+  );
 
+  private authError$: Observable<ApiError | null>;
+
+  private authResponse$: Observable<unknown>;
+
+  constructor() {
     this.authError$ = this.store.select(AuthSelectors.selectAuthError);
-    this.authLoading$ = this.store.select(AuthSelectors.selectAuthLoading);
     this.authResponse$ = this.store.select(AuthSelectors.selectAuthResponse);
-  }
-
-  ngOnInit(): void {
-    this.registerForm
-      .get('repeatPassword')
-      ?.addValidators(this.passwordMatchValidator());
-  }
-
-  passwordMatchValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const password = this.registerForm.get('password')?.value;
-      const repeatPassword = control.value;
-
-      if (password && repeatPassword && password !== repeatPassword) {
-        return { mismatch: true };
-      }
-
-      return null;
-    };
   }
 
   onRegister() {
@@ -85,27 +60,25 @@ export class SignupComponent implements OnInit {
     const { email, password } = this.registerForm.value;
     this.store.dispatch(AuthActions.signUp({ payload: { email, password } }));
 
-    combineLatest([this.authError$, this.authResponse$]).subscribe(
-      ([error, response]) => {
-        if (error?.error.message) {
-          this.messageService.clear();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: error.error.message,
-          });
-        } else if (response !== null) {
-          this.messageService.clear();
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'You can now sign in',
-          });
+    combineLatest([this.authError$, this.authResponse$]).subscribe(([error, response]) => {
+      if (error?.error.message) {
+        this.messageService.clear();
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: error.error.message,
+        });
+      } else if (response !== null) {
+        this.messageService.clear();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'You can now sign in',
+        });
 
-          this.router.navigate(['/auth/signin']);
-        }
-      },
-    );
+        this.router.navigate(['/auth/signin']);
+      }
+    });
   }
 
   protected isPasswordMatch(pattern: string): boolean {
