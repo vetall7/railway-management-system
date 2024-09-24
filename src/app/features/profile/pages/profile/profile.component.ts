@@ -73,15 +73,15 @@ export class ProfileComponent implements OnInit {
 
     effect((): void => {
       if (!this.isNameEditableSig) {
-        this.profileForm.controls.name.disable();
+        this.profileForm.get('name')?.disable();
       } else {
-        this.profileForm.controls.name.enable();
+        this.profileForm.get('name')?.enable();
       }
 
       if (!this.isEmailEditableSig) {
-        this.profileForm.controls.email.disable();
+        this.profileForm.get('email')?.disable();
       } else {
-        this.profileForm.controls.email.enable();
+        this.profileForm.get('email')?.enable();
       }
     });
   }
