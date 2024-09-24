@@ -53,7 +53,11 @@ export class SingleOrderComponent implements OnInit {
       // eslint-disable-next-line no-alert, no-undef, no-restricted-globals
       if (confirm('Are you sure you want to cancel this order?')) {
         this.fetchOrdersService.cancelOrder(order.id);
-        this.changeStatus('canceled');
+        if (this.getIsManager()) {
+          this.changeStatus('rejected');
+        } else {
+          this.changeStatus('canceled');
+        }
         this.isDeletable = false;
       }
     }

@@ -8,6 +8,9 @@
   justify-content: space-between;
   width: 100%;
   max-width: 1440px;
+  background-color: var(--primary-card-background-color);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .router_content {
@@ -19,12 +22,12 @@
 }
 
 .button {
-  width: 30%;
+  width: 5rem;
   cursor: pointer;
-  height: 30px;
+  height: 2.5rem;
   border: none;
   border-radius: 5px;
-  font-size: 12px;
+  font: var(--primary-md-font);
   background-color: var(--primary-button-color);
   color: var(--primary-button-text-color);
   margin-bottom: 10px;

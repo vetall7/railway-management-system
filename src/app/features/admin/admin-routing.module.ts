@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
-  AdminComponent,
   CarriagesComponent,
   RidesComponent,
   RoutesComponent,
@@ -11,7 +10,8 @@ import {
 const routes: Routes = [
   {
     path: '',
-    component: AdminComponent,
+    redirectTo: 'stations',
+    pathMatch: 'full',
   },
   {
     path: 'stations',

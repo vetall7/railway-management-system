@@ -18,7 +18,6 @@ import {
   StationInfoComponent,
 } from '@features/admin/components';
 import {
-  AdminComponent,
   CarriagesComponent,
   RidesComponent,
   RoutesComponent,
@@ -26,6 +25,8 @@ import {
 } from '@features/admin/pages';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { Button } from 'primeng/button';
+import { SidebarModule } from 'primeng/sidebar';
 
 import { AdminEffects } from './store/effects/admin.effects';
 import { adminReducer } from './store/reducers/admin.reducer';
@@ -34,7 +35,6 @@ import { AdminRoutingModule } from './admin-routing.module';
 @NgModule({
   declarations: [
     NavigationComponent,
-    AdminComponent,
     CarriagesComponent,
     RoutesComponent,
     StationsComponent,
@@ -59,6 +59,8 @@ import { AdminRoutingModule } from './admin-routing.module';
     ReactiveFormsModule,
     StoreModule.forFeature('admin', adminReducer),
     EffectsModule.forFeature([AdminEffects]),
+    SidebarModule,
+    Button,
   ],
   exports: [],
   providers: [],

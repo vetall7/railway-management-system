@@ -3,18 +3,21 @@
 }
 
 @if (alert$ | async) {
-  <app-message
-    [error]="true"
-    [text]="'Cannot delete carriage with active rides'"
-  />
+  <app-message [error]="true" [text]="'Cannot delete carriage with active rides'" />
 }
 
 <div class="wrapper">
   <app-navigation />
   <div class="carries">
-    <button type="button" class="button" (click)="handleClickCreate()">
-      {{ !show() ? 'Create' : 'Cancel' }}
-    </button>
+    <div class="button">
+      <p-button
+        [label]="!show() ? 'Create' : 'Cancel'"
+        size="small"
+        type="button"
+        [rounded]="true"
+        (click)="handleClickCreate()"
+      />
+    </div>
     @if (show()) {
       <form [formGroup]="form" class="form" (submit)="handleSubmit()">
         <div class="form__line">
@@ -66,14 +69,14 @@
         <div class="view">
           <app-carriage-view [data]="viewCreate" />
         </div>
-        <button
+        <p-button
           type="button"
           class="button"
           (click)="handleSubmit()"
           [ngClass]="{ disabled: !form.valid }"
-        >
-          {{ this.updateCarriage() ? 'Update' : 'Save' }}
-        </button>
+          [rounded]="true"
+          [label]="this.updateCarriage() ? 'Update' : 'Save'"
+        />
       </form>
     }
     @for (val of data$ | async; track val.code) {
