@@ -1,5 +1,12 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, effect, inject, OnInit, signal } from '@angular/core';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { UserData } from '@features/profile/models/user-data.model';
 import { ProfileService } from '@features/profile/services/profile.service';
 import { MessageService } from 'primeng/api';
@@ -10,18 +17,50 @@ import { MessageService } from 'primeng/api';
   styleUrl: './profile.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   private readonly profileService = inject(ProfileService);
 
   private readonly messageService = inject(MessageService);
 
   private readonly userData = signal({ email: '', name: '', role: '' });
 
+  private readonly isEmailEditable = signal(false);
+
+  private readonly isNameEditable = signal(false);
+
+  protected readonly isPasswordEditable = signal(false);
+
   protected readonly profileForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.email]),
     name: new FormControl(''),
-    password: new FormControl(''),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+      Validators.maxLength(30),
+    ]),
+    repeatPassword: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+      Validators.maxLength(30),
+    ]),
   });
+
+  ngOnInit(): void {
+    this.profileForm.get('repeatPassword')?.addValidators(this.passwordMatchValidator());
+  }
+
+  passwordMatchValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const password = this.profileForm.get('password')?.value;
+      const repeatPassword = control.value;
+
+      if (password && repeatPassword && password !== repeatPassword) {
+        return { mismatch: true };
+      }
+
+      return null;
+    };
+  }
 
   constructor() {
     this.profileService.getProfileData().subscribe((data) => {
@@ -31,11 +70,36 @@ export class ProfileComponent {
         name: this.userData()?.name,
       });
     });
+
+    effect((): void => {
+      if (!this.isNameEditableSig) {
+        this.profileForm.controls.name.disable();
+      } else {
+        this.profileForm.controls.name.enable();
+      }
+
+      if (!this.isEmailEditableSig) {
+        this.profileForm.controls.email.disable();
+      } else {
+        this.profileForm.controls.email.enable();
+      }
+    });
   }
 
   protected onEmailChange(): void {
+    const email = this.profileForm.get('email')?.value;
+
+    if (email === this.userData()?.email) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Email cannot be the same',
+      });
+      return;
+    }
+
     const payload = {
-      email: this.profileForm.get('email')?.value as string,
+      email,
       name: this.userData()?.name,
     };
 
@@ -43,14 +107,25 @@ export class ProfileComponent {
       this.messageService.add({
         severity: 'success',
         summary: 'Success',
-        detail: `Email changed successfully to: ${payload.name}`,
+        detail: `Email changed successfully to: ${payload.email}`,
       });
       this.userData.set(data as UserData);
     });
+    this.onEmailEditable();
   }
 
   protected onNameChange(): void {
-    const name = this.profileForm.get('name')?.value as string;
+    const name = this.profileForm.get('name')?.value;
+
+    if (name === this.userData()?.name) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Name cannot be the same',
+      });
+      return;
+    }
+
     const payload = {
       email: this.userData()?.email,
       name,
@@ -64,6 +139,7 @@ export class ProfileComponent {
       });
       this.userData.set(data as UserData);
     });
+    this.onNameEditable();
   }
 
   protected onPasswordChange(): void {
@@ -71,15 +147,47 @@ export class ProfileComponent {
     const payload = {
       password,
     };
+    this.onPasswordEditable();
 
-    this.profileService.updatePassword(payload).subscribe((res) => {
-      if (res === '') {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Password changed successfully',
-        });
-      }
+    this.profileService.updatePassword(payload).subscribe(() => {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Password changed successfully',
+      });
     });
+  }
+
+  protected get isEmailEditableSig(): boolean {
+    return this.isEmailEditable();
+  }
+
+  protected get isNameEditableSig(): boolean {
+    return this.isNameEditable();
+  }
+
+  protected get isPasswordEditableSig(): boolean {
+    return this.isPasswordEditable();
+  }
+
+  protected onPasswordEditable(): void {
+    this.isPasswordEditable.update((value) => !value);
+    if (!this.isPasswordEditable) {
+      this.profileForm.controls.password.reset('');
+      this.profileForm.controls.repeatPassword.reset('');
+    }
+  }
+
+  protected onEmailEditable(): void {
+    this.isEmailEditable.update((value) => !value);
+  }
+
+  protected onNameEditable(): void {
+    this.isNameEditable.update((value) => !value);
+  }
+
+  protected isPasswordMatch(pattern: string): boolean {
+    const regex = new RegExp(pattern);
+    return regex.test(this.profileForm.get('password')?.value || '');
   }
 }
