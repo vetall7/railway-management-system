@@ -4,45 +4,47 @@
   </div>
   <nav role="navigation">
     <div id="menuToggle">
-      <input type="checkbox" />
+      <input type="checkbox" #menuCheckbox />
       <span></span>
       <span></span>
       <span></span>
       <ul id="menu">
         @if (isLoggedIn()) {
           <li>
-            <a routerLink="/profile" class="link">
+            <a routerLink="/profile" class="link" (click)="closeMenu()">
               <i class="pi pi-user"></i> Profile
             </a>
           </li>
           <li>
-            <a routerLink="/orders" class="link">
+            <a routerLink="/orders" class="link" (click)="closeMenu()">
               <i class="pi pi-shopping-cart"></i> Orders
             </a>
           </li>
         }
         @if (!isLoggedIn()) {
           <li>
-            <a routerLink="/auth/signin" class="link">
+            <a routerLink="/auth/signin" class="link" (click)="closeMenu()">
               <i class="pi pi-sign-in"></i> Sign In</a
             >
           </li>
           <li>
-            <a routerLink="/auth/signup" class="link"
+            <a routerLink="/auth/signup" class="link" (click)="closeMenu()"
               ><i class="pi pi-user-plus"></i> Sign Up
             </a>
           </li>
         }
         @if (admin()) {
           <li>
-            <a routerLink="/admin" class="link"
+            <a routerLink="/admin" class="link" (click)="closeMenu()"
               ><i class="pi pi-verified"></i> Admin</a
             >
           </li>
         }
         @if (!isHomeRoute()) {
           <li>
-            <a routerLink="/" class="link"><i class="pi pi-home"></i> Home </a>
+            <a routerLink="/" class="link" (click)="closeMenu()"
+              ><i class="pi pi-home"></i> Home
+            </a>
           </li>
         }
         @if (isLoggedIn()) {

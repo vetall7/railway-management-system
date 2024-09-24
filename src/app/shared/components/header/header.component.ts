@@ -4,10 +4,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  ElementRef,
   inject,
   OnDestroy,
   OnInit,
   signal,
+  ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
@@ -26,23 +28,31 @@ import { ProfileService } from '../../../features/profile/services/profile.servi
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  isLoggedIn = signal(false);
+  @ViewChild('menuCheckbox', { static: false }) menuCheckbox!: ElementRef;
 
-  subscription: Subscription | undefined;
+  protected readonly isLoggedIn = signal(false);
 
-  admin = signal(false);
+  private subscription: Subscription | undefined;
 
-  isHomeRoute = signal(false);
+  protected readonly admin = signal(false);
 
-  destroyRef = inject(DestroyRef);
+  protected readonly isHomeRoute = signal(false);
 
-  constructor(
-    private authService: AuthService,
-    private profileService: ProfileService,
-    private router: Router,
-  ) {}
+  private readonly destroyRef = inject(DestroyRef);
 
-  ngOnInit(): void {
+  private readonly authService = inject(AuthService);
+
+  private readonly profileService = inject(ProfileService);
+
+  private readonly router = inject(Router);
+
+  protected closeMenu(): void {
+    if (this.menuCheckbox.nativeElement.checked) {
+      this.menuCheckbox.nativeElement.checked = false;
+    }
+  }
+
+  public ngOnInit(): void {
     this.subscription = this.authService.isLoggedIn$.subscribe((status) => {
       this.isLoggedIn.set(status);
       if (localStorage.getItem('login') === 'admin@admin.com') {
@@ -60,13 +70,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
   }
 
-  logout() {
+  protected logout(): void {
     this.profileService.logout();
     this.authService.logout();
     this.admin.set(false);
+    this.closeMenu();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }
 }

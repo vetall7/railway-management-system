@@ -23,7 +23,7 @@ export class SignupComponent {
 
   private readonly messageService = inject(MessageService);
 
-  isShowingErrors = false;
+  protected isShowingErrors = false;
 
   registerForm: FormGroup = new FormGroup(
     {
@@ -42,15 +42,12 @@ export class SignupComponent {
     { validators: passwordMatchValidator('password', 'repeatPassword') },
   );
 
-  authError$: Observable<ApiError | null>;
+  private authError$: Observable<ApiError | null>;
 
-  authLoading$: Observable<boolean>;
-
-  authResponse$: Observable<unknown>;
+  private authResponse$: Observable<unknown>;
 
   constructor() {
     this.authError$ = this.store.select(AuthSelectors.selectAuthError);
-    this.authLoading$ = this.store.select(AuthSelectors.selectAuthLoading);
     this.authResponse$ = this.store.select(AuthSelectors.selectAuthResponse);
   }
 
