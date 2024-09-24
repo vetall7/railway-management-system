@@ -106,6 +106,15 @@ export class ProfileComponent {
       return;
     }
 
+    if (name === '') {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Name cannot be empty',
+      });
+      return;
+    }
+
     const payload = {
       email: this.userData()?.email,
       name,

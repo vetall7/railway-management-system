@@ -4,7 +4,7 @@
   </div>
   <nav role="navigation">
     <div id="menuToggle">
-      <input type="checkbox" #menuCheckbox />
+      <input type="checkbox" #menuCheckbox (change)="toggleOverlay()" />
       <span></span>
       <span></span>
       <span></span>
@@ -58,3 +58,6 @@
     </div>
   </nav>
 </header>
+@if (isMenuOpenSig) {
+  <div class="overlay" (click)="closeMenu()"></div>
+}

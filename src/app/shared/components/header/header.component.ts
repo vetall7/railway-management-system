@@ -46,9 +46,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private readonly router = inject(Router);
 
+  private readonly isMenuOpen = signal(false);
+
+  protected get isMenuOpenSig(): boolean {
+    return this.isMenuOpen();
+  }
+
+  protected toggleOverlay(): void {
+    this.isMenuOpen.set(!this.isMenuOpen());
+  }
+
   protected closeMenu(): void {
     if (this.menuCheckbox.nativeElement.checked) {
       this.menuCheckbox.nativeElement.checked = false;
+      this.toggleOverlay();
     }
   }
 
