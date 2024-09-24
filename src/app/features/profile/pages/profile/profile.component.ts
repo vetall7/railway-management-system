@@ -1,14 +1,8 @@
-import { ChangeDetectionStrategy, Component, effect, inject, OnInit, signal } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserData } from '@features/profile/models/user-data.model';
 import { ProfileService } from '@features/profile/services/profile.service';
+import { passwordMatchValidator } from '@shared/validators';
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -17,7 +11,7 @@ import { MessageService } from 'primeng/api';
   styleUrl: './profile.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
   private readonly profileService = inject(ProfileService);
 
   private readonly messageService = inject(MessageService);
@@ -30,37 +24,23 @@ export class ProfileComponent implements OnInit {
 
   protected readonly isPasswordEditable = signal(false);
 
-  protected readonly profileForm: FormGroup = new FormGroup({
-    email: new FormControl('', [Validators.email]),
-    name: new FormControl(''),
-    password: new FormControl('', [
-      Validators.required,
-      Validators.minLength(8),
-      Validators.maxLength(30),
-    ]),
-    repeatPassword: new FormControl('', [
-      Validators.required,
-      Validators.minLength(8),
-      Validators.maxLength(30),
-    ]),
-  });
-
-  ngOnInit(): void {
-    this.profileForm.get('repeatPassword')?.addValidators(this.passwordMatchValidator());
-  }
-
-  passwordMatchValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const password = this.profileForm.get('password')?.value;
-      const repeatPassword = control.value;
-
-      if (password && repeatPassword && password !== repeatPassword) {
-        return { mismatch: true };
-      }
-
-      return null;
-    };
-  }
+  protected readonly profileForm: FormGroup = new FormGroup(
+    {
+      email: new FormControl('', [Validators.email]),
+      name: new FormControl(''),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(30),
+      ]),
+      repeatPassword: new FormControl('', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(30),
+      ]),
+    },
+    { validators: passwordMatchValidator('password', 'repeatPassword') },
+  );
 
   constructor() {
     this.profileService.getProfileData().subscribe((data) => {
