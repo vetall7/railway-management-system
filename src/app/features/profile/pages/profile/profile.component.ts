@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserData } from '@features/profile/models/user-data.model';
 import { ProfileService } from '@features/profile/services/profile.service';
 import { MessageService } from 'primeng/api';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -12,29 +11,32 @@ import { BehaviorSubject } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileComponent {
-  userData = new BehaviorSubject<UserData>({ email: '', name: '', role: '' });
+  private readonly profileService = inject(ProfileService);
 
-  profileForm: FormGroup;
+  private readonly messageService = inject(MessageService);
 
-  constructor(
-    private profileService: ProfileService,
-    private messageService: MessageService,
-  ) {
-    this.profileService
-      .getProfileData()
-      .subscribe((data) => this.userData.next(data as UserData));
+  private readonly userData = signal({ email: '', name: '', role: '' });
 
-    this.profileForm = new FormGroup({
-      email: new FormControl(this.userData?.value.email, [Validators.email]),
-      name: new FormControl(this.userData?.value.name),
-      password: new FormControl(''),
+  protected readonly profileForm: FormGroup = new FormGroup({
+    email: new FormControl('', [Validators.email]),
+    name: new FormControl(''),
+    password: new FormControl(''),
+  });
+
+  constructor() {
+    this.profileService.getProfileData().subscribe((data) => {
+      this.userData.set(data as UserData);
+      this.profileForm.patchValue({
+        email: this.userData()?.email,
+        name: this.userData()?.name,
+      });
     });
   }
 
-  onEmailChange() {
+  protected onEmailChange(): void {
     const payload = {
       email: this.profileForm.get('email')?.value as string,
-      name: this.userData?.value.name,
+      name: this.userData()?.name,
     };
 
     this.profileService.updateUser(payload).subscribe((data) => {
@@ -43,14 +45,14 @@ export class ProfileComponent {
         summary: 'Success',
         detail: `Email changed successfully to: ${payload.name}`,
       });
-      this.userData.next(data as UserData);
+      this.userData.set(data as UserData);
     });
   }
 
-  onNameChange() {
+  protected onNameChange(): void {
     const name = this.profileForm.get('name')?.value as string;
     const payload = {
-      email: this.userData?.value.email,
+      email: this.userData()?.email,
       name,
     };
 
@@ -60,11 +62,11 @@ export class ProfileComponent {
         summary: 'Success',
         detail: `Name changed successfully to: ${name}`,
       });
-      this.userData.next(data as UserData);
+      this.userData.set(data as UserData);
     });
   }
 
-  onPasswordChange() {
+  protected onPasswordChange(): void {
     const password = this.profileForm.get('password')?.value as string;
     const payload = {
       password,
