@@ -173,8 +173,8 @@ export class ProfileComponent implements OnInit {
   protected onPasswordEditable(): void {
     this.isPasswordEditable.update((value) => !value);
     if (!this.isPasswordEditable) {
-      this.profileForm.controls.password.reset('');
-      this.profileForm.controls.repeatPassword.reset('');
+      this.profileForm.get('password')?.reset('');
+      this.profileForm.get('repeatPassword')?.reset('');
     }
   }
 
