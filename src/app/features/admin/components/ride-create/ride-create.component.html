@@ -7,13 +7,7 @@
           [name]="(stationName$ | async)?.[$index]"
           [create]="true"
           [segment]="(segment$ | async)?.price"
-          [pos]="
-            $index === 0
-              ? 'start'
-              : data.path.length - 2 === $index
-                ? 'finish'
-                : ''
-          "
+          [pos]="$index === 0 ? 'start' : data.path.length - 2 === $index ? 'finish' : ''"
           (changedCreate)="onChangeData($event)"
         />
       }
@@ -22,9 +16,8 @@
   <div class="error">
     @if (checkTime()) {
       <p class="message">
-        At each station, the departure time must be greater than the arrival
-        time, and the arrival time at each station must be greater than the
-        departure time from the previous station.
+        At each station, the departure time must be greater than the arrival time, and the arrival
+        time at each station must be greater than the departure time from the previous station.
       </p>
     }
     @if (checkPrice()) {
@@ -32,16 +25,13 @@
     }
   </div>
   <div class="button_content">
-    <button
+    <p-button
       type="button"
-      class="button"
-      [ngClass]="{ disabled: disabled() }"
+      [rounded]="true"
+      label="Create"
+      [disabled]="disabled()"
       (click)="handleClickCreate()"
-    >
-      Create
-    </button>
-    <button type="button" class="button" (click)="handleClickCancel()">
-      Cancel
-    </button>
+    />
+    <p-button label="Cancel" type="button" [rounded]="true" (click)="handleClickCancel()" />
   </div>
 </div>

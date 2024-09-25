@@ -8,9 +8,6 @@
       formControlName="cityName"
       (input)="changeCityName()"
     />
-    @if (form.controls['cityName'].value?.length === 0) {
-      <div class="start">Please enter a city name</div>
-    }
     @if (form.controls['cityName'].errors?.['uniqNameValid']) {
       <div class="alert">The name should be unique</div>
     }
@@ -26,9 +23,6 @@
       [value]="userMarkInput.lat"
       (input)="changeLatitude(latitude.value)"
     />
-    @if (form.controls['latitude'].value?.length === 0) {
-      <div class="start">Please enter a latitude</div>
-    }
     @if (form.controls['latitude'].errors?.['latitudeNumberValidator']) {
       <div class="alert">Enter a number between -90 and 90</div>
     }
@@ -47,9 +41,6 @@
       [value]="userMarkInput.lng"
       (input)="changeLongitude(longitude.value)"
     />
-    @if (form.controls['longitude'].value?.length === 0) {
-      <div class="start">Please enter a longitude</div>
-    }
     @if (form.controls['longitude'].errors?.['longitudeNumberValidator']) {
       <div class="alert">Enter a number between -180 and 180</div>
     }
@@ -76,19 +67,8 @@
             }
           </select>
         </div>
-        @if (form.controls.connected.controls[0].value?.length === 0) {
-          <div class="start">Please enter a connect</div>
-        }
       }
     </div>
   </div>
-  <button
-    type="submit"
-    class="button"
-    [ngClass]="{
-      disabled: form.invalid,
-    }"
-  >
-    Save
-  </button>
+  <p-button type="submit" disabled="form.invalid" [rounded]="true" label="Save" />
 </form>

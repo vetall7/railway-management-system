@@ -26,6 +26,8 @@ import {
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { Button } from 'primeng/button';
+import { CalendarModule } from 'primeng/calendar';
+import { InputTextModule } from 'primeng/inputtext';
 import { SidebarModule } from 'primeng/sidebar';
 
 import { AdminEffects } from './store/effects/admin.effects';
@@ -61,6 +63,8 @@ import { AdminRoutingModule } from './admin-routing.module';
     EffectsModule.forFeature([AdminEffects]),
     SidebarModule,
     Button,
+    InputTextModule,
+    CalendarModule,
   ],
   exports: [],
   providers: [],

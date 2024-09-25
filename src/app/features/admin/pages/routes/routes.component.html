@@ -8,9 +8,9 @@
   <app-navigation />
   <div class="router_content">
     @if (!showCreate$()) {
-      <button type="button" (click)="handleClickCreate()" class="button">
-        Create
-      </button>
+      <div class="button">
+        <p-button icon="pi pi-plus" type="button" (click)="handleClickCreate()" />
+      </div>
     } @else {
       <app-form-router [data]="edit$()" (changed)="onCancelEdit($event)" />
     }

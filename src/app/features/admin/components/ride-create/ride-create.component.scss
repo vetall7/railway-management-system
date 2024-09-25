@@ -4,15 +4,15 @@
 }
 
 .wrapper {
-  margin-bottom: 20px;
-  border-radius: 10px;
+  margin-bottom: 2rem;
+  border-radius: 1rem;
   overflow: hidden;
-  padding-right: 10px;
+  padding-right: 1rem;
   background-color: #f1f5f9;
 }
 
 .content {
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
   border-bottom: 1px solid var(--color-primary-a10);
 }
 
@@ -20,41 +20,19 @@
   width: 100%;
   display: flex;
   justify-content: space-around;
-  margin-bottom: 10px;
-}
-
-.button {
-  width: 50px;
-  cursor: pointer;
-  height: 30px;
-  border-radius: 5px;
-  font-size: 12px;
-  border: none;
-  background-color: var(--primary-button-color);
-  color: var(--primary-button-text-color);
-  transition: all 0.3s ease-out;
-
-  &:hover {
-    background-color: var(--primary-button-hover-color);
-  }
-
-  &.disabled {
-    background-color: var(--primary-button-hover-color);
-    opacity: 0.33;
-    cursor: default;
-  }
+  margin-bottom: 1rem;
 }
 
 .error {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 1rem;
+  padding-right: 1rem;
   align-items: center;
 
   .message {
-    margin-bottom: 5px;
+    margin-bottom: 0.5rem;
     text-align: center;
   }
 }

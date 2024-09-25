@@ -26,27 +26,6 @@
   justify-content: space-around;
 }
 
-.button {
-  width: 30%;
-  cursor: pointer;
-  height: 30px;
-  border: none;
-  border-radius: 5px;
-  font-size: 12px;
-  background-color: var(--primary-button-color);
-  color: var(--primary-button-text-color);
-
-  &:hover {
-    background-color: var(--primary-button-hover-color);
-  }
-
-  &.disabled {
-    background-color: var(--primary-button-hover-color);
-    opacity: 0.33;
-    cursor: default;
-  }
-}
-
 .alert {
   align-self: center;
 }
@@ -76,23 +55,25 @@
   margin-right: 10px;
 }
 
-.button_delete {
-  width: 22px;
-  cursor: pointer;
-  height: 22px;
-  border: none;
-  border-radius: 5px;
-  font-size: 12px;
-  background-color: var(--primary-button-color);
-  color: var(--primary-button-text-color);
-
-  &:hover {
-    background-color: var(--primary-button-hover-color);
+.delete {
+  ::ng-deep .p-button {
+    width: 100%;
+    margin-left: 2%;
+    margin-top: auto;
+    background-color: rgb(255, 255, 255);
+    border: none;
+    padding: 0;
   }
+  ::ng-deep .pi {
+    color: var(--primary-button-color);
+  }
+}
 
-  &.disabled {
-    background-color: var(--primary-button-hover-color);
-    opacity: 0.33;
-    cursor: default;
+:host {
+  ::ng-deep .p-button:focus,
+  ::ng-deep .p-button:enabled:focus {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
   }
 }

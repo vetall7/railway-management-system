@@ -38,10 +38,6 @@
   }
 }
 
-.start {
-  font-size: 12px;
-}
-
 .alert {
   font-size: 12px;
   color: var(--primary-error-color);
@@ -61,24 +57,4 @@ select.ng-touched.ng-invalid {
 
 select.ng-touched.ng-valid {
   border: 1px solid var(--primary-success-border-color);
-}
-
-.button {
-  width: 100%;
-  cursor: pointer;
-  height: 30px;
-  border-radius: 5px;
-  font-size: 12px;
-  background-color: var(--primary-button-color);
-  color: var(--primary-button-text-color);
-
-  &:hover {
-    background-color: var(--primary-button-hover-color);
-  }
-
-  &.disabled {
-    background-color: var(--primary-button-hover-color);
-    opacity: 0.33;
-    cursor: default;
-  }
 }

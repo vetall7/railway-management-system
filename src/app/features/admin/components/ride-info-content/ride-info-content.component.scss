@@ -6,7 +6,7 @@
 .wrapper {
   display: grid;
   width: 100%;
-  grid-template-columns: 100px auto auto;
+  grid-template-columns: 10% 45% 45%;
   border-top: 1px solid var(--primary-background-color);
 }
 
@@ -36,8 +36,6 @@
   position: absolute;
   top: 5px;
   right: 15px;
-  width: 20px;
-  height: 20px;
   cursor: pointer;
   transition: all 0.3s ease-out;
 
@@ -46,20 +44,26 @@
   }
 }
 
-.save {
-  position: absolute;
-  top: 5px;
-  right: 15px;
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  transition: all 0.3s ease-out;
-
-  &:hover {
-    transform: scale(1.2);
+.wrapper {
+  ::ng-deep .p-button {
+    background-color: rgb(255, 255, 255);
+    border: none;
+    padding: 0;
+  }
+  ::ng-deep .pi {
+    color: var(--primary-button-color);
   }
 }
 
 .price {
   width: 100%;
+}
+
+:host {
+  ::ng-deep .p-button:focus,
+  ::ng-deep .p-button:enabled:focus {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+  }
 }
