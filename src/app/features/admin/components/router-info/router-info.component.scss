@@ -25,7 +25,16 @@
     top: 15px;
     right: 15px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+    ::ng-deep .p-button {
+      background-color: rgb(255, 255, 255);
+      border: none;
+      padding: 0;
+    }
+    ::ng-deep .pi {
+      font-size: large;
+      color: var(--primary-button-color);
+    }
   }
 
   .icon {

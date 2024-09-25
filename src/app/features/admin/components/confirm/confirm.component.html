@@ -1,13 +1,6 @@
-<div class="wrapper confirm">
-  <div class="content">
-    @if (ride) {
-      <p class="text">Delete Ride {{ data }}?</p>
-    } @else {
-      <p class="text">Delete Route {{ data }}?</p>
-    }
-    <div class="buttons_content">
-      <button class="button success" (click)="handleClickYes()">Yes</button>
-      <button class="button failure" (click)="handleClickNo()">No</button>
-    </div>
-  </div>
-</div>
+@let message = ride ? 'Delete Ride {{ data }}?' : 'Delete Route {{ data }}?';
+
+<p-dialog [header]="message" [modal]="true" [visible]="true" [style]="{ width: '25rem' }">
+  <button class="button success" (click)="handleClickYes()">Yes</button>
+  <button class="button failure" (click)="handleClickNo()">No</button>
+</p-dialog>

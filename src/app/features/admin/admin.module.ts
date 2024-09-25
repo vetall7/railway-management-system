@@ -27,6 +27,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { Button } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
+import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { SidebarModule } from 'primeng/sidebar';
 
@@ -65,6 +66,7 @@ import { AdminRoutingModule } from './admin-routing.module';
     Button,
     InputTextModule,
     CalendarModule,
+    DialogModule,
   ],
   exports: [],
   providers: [],
