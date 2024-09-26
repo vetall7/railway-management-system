@@ -35,17 +35,17 @@ export class CarriageInfoComponent implements OnInit, DoCheck {
 
   @Output() changedDelete = new EventEmitter<boolean>();
 
-  private messageService = inject(MessageService);
+  private readonly messageService = inject(MessageService);
 
-  private store = inject(Store);
+  private readonly store = inject(Store);
 
-  private dataView: IDataView = {
+  protected dataView: IDataView = {
     rightSeats: 0,
     leftSeats: 0,
     rows: 0,
   };
 
-  private active$ = new Observable<boolean | undefined>();
+  protected active$ = new Observable<boolean | undefined>();
 
   public ngOnInit(): void {
     this.dataView = {

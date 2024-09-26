@@ -62,15 +62,15 @@ export class FormRouterComponent implements OnInit, AfterViewChecked {
 
   private readonly dataUpdate$ = new Observable<IRoutesData | undefined>();
 
-  private readonly fillData$ = signal<IRoutesData>({
+  protected readonly fillData$ = signal<IRoutesData>({
     id: -1,
     path: [],
     carriages: [],
   });
 
-  private readonly dataCarriages$ = this.store.select(AdminSelectors.selectGetCarriagesData);
+  protected readonly dataCarriages$ = this.store.select(AdminSelectors.selectGetCarriagesData);
 
-  private readonly showData$ = this.store.select(AdminSelectors.selectGetShowData);
+  protected readonly showData$ = this.store.select(AdminSelectors.selectGetShowData);
 
   protected getFormsControlsStation(): FormArray {
     return this.form.controls.stations as FormArray;
