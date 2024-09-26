@@ -11,6 +11,8 @@ export class MyOrdersComponent implements OnInit {
 
   protected readonly orders = this.fetchOrdersService.getOrders;
 
+  protected readonly isLoading = this.fetchOrdersService.isLoadingSig;
+
   public ngOnInit(): void {
     this.fetchOrdersService.fetchOrders();
   }

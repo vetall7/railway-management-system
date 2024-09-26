@@ -50,9 +50,9 @@ export class TripDetailsComponent implements OnInit {
 
   private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 
-  public isLoading: WritableSignal<boolean> = signal(false);
+  protected readonly isLoading: WritableSignal<boolean> = signal(false);
 
-  public readonly carriageData: WritableSignal<IRideCarriageData[]> = signal([]);
+  protected readonly carriageData: WritableSignal<IRideCarriageData[]> = signal([]);
 
   private readonly isSeatBookingVisible = signal(false);
 
@@ -87,7 +87,7 @@ export class TripDetailsComponent implements OnInit {
     );
   });
 
-  public orderSelected: WritableSignal<number | null> = signal(null);
+  protected readonly orderSelected: WritableSignal<number | null> = signal(null);
 
   public getAllOccupiedSeats: Signal<number[]> = computed(() => {
     return this.searchTrip.getAllOccupiedSeats(this.rideData(), this.orderSelected() ?? 0);
@@ -95,38 +95,39 @@ export class TripDetailsComponent implements OnInit {
 
   private readonly searchTrip = inject(SearchTripDetailService);
 
-  public from: WritableSignal<number | null> = signal(null);
+  protected readonly from: WritableSignal<number | null> = signal(null);
 
-  public to: WritableSignal<number | null> = signal(null);
+  protected readonly to: WritableSignal<number | null> = signal(null);
 
-  public modalData!: ICarModalDataInfo;
+  protected modalData!: ICarModalDataInfo;
 
-  public rideData: Signal<IRideInformation | null> = computed(() => {
+  protected readonly rideData: Signal<IRideInformation | null> = computed(() => {
     return this.searchTrip.setTrainDates(this.tripDetailFacade.rideData(), this.from(), this.to());
   });
 
-  public isErrorParam: Signal<boolean> = computed(
+  protected readonly isErrorParam: Signal<boolean> = computed(
     () =>
       /* eslint-disable operator-linebreak */
       !!this.rideData()?.path.includes(this.from() ?? 0) &&
       !!this.rideData()?.path.includes(this.to() ?? 0),
   );
 
-  public carriageTypeInfo: Signal<IRideCarriage[] | null> = computed(() => {
+  protected readonly carriageTypeInfo: Signal<IRideCarriage[] | null> = computed(() => {
     return this.searchTrip.getCarriageData(
       this.tripDetailFacade.rideData(),
       this.getCalculateCarList(),
     );
   });
 
-  public rideError: Signal<IRideError> = this.tripDetailFacade.rideError;
+  protected readonly rideError: Signal<IRideError> = this.tripDetailFacade.rideError;
 
-  public orderId: WritableSignal<string | null> = signal(null);
+  protected readonly orderId: WritableSignal<string | null> = signal(null);
 
   public ngOnInit(): void {
+    this.isLoading.set(true);
     this.searchTrip.getCarriage().subscribe((value) => {
       this.carriageData.set(value);
-      this.isLoading.set(true);
+      this.isLoading.set(false);
     });
     this.getParam();
     this.loadRide();
@@ -147,13 +148,13 @@ export class TripDetailsComponent implements OnInit {
     this.tripDetailFacade.loadRide(id ?? '');
   }
 
-  public clearSelected() {
+  protected clearSelected() {
     this.car.selected = null;
   }
 
   protected isSuccess = signal(false);
 
-  public createOrder(modalData: ICarModalDataInfo): void {
+  protected createOrder(modalData: ICarModalDataInfo): void {
     // eslint-disable-next-line no-undef
     if (localStorage.getItem('token')?.length) {
       this.searchTrip

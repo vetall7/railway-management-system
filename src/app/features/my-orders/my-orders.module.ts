@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MyOrdersComponent } from '@features/my-orders/pages';
-import { NoTripsComponent } from '@shared/components';
+import { LoaderComponent, NoTripsComponent } from '@shared/components';
 import {
   AuthenticationService,
   FetchCarriagesService,
@@ -33,6 +33,7 @@ import { MyOrdersRoutingModule } from './my-orders-routing.module';
     ConfirmPopupModule,
     TagModule,
     NoTripsComponent,
+    LoaderComponent,
   ],
   providers: [
     FetchDataService,

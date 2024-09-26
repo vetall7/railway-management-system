@@ -37,18 +37,26 @@ export class FetchOrdersService {
 
   private readonly error = signal('');
 
+  private readonly isLoading = signal(false);
+
   public async fetchOrders(): Promise<void> {
     try {
+      this.isLoading.set(true);
       await this.fetchStationsService.fetchStations();
       await this.fetchCarriagesService.fetchCarriages();
       await this.fetchUsersService.fetchUsers();
       const orders = await lastValueFrom(
         this.fetchDataService.fetchAllOrders(),
       );
+      this.isLoading.set(false);
       this.orderResponse.set(orders);
     } catch (error) {
       console.error('Error fetching orders:', error);
     }
+  }
+
+  public get isLoadingSig(): Signal<boolean> {
+    return this.isLoading;
   }
 
   public readonly getOrders: Signal<Order[]> = computed(() => {

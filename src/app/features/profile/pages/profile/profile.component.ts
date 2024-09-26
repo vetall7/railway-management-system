@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserData } from '@features/profile/models/user-data.model';
 import { ProfileService } from '@features/profile/services/profile.service';
@@ -11,7 +11,7 @@ import { MessageService } from 'primeng/api';
   styleUrl: './profile.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   private readonly profileService = inject(ProfileService);
 
   private readonly messageService = inject(MessageService);
@@ -23,6 +23,8 @@ export class ProfileComponent {
   private readonly isNameEditable = signal(false);
 
   protected readonly isPasswordEditable = signal(false);
+
+  protected readonly isLoading = signal(false);
 
   protected readonly profileForm: FormGroup = new FormGroup(
     {
@@ -42,15 +44,19 @@ export class ProfileComponent {
     { validators: passwordMatchValidator('password', 'repeatPassword') },
   );
 
-  constructor() {
+  public ngOnInit(): void {
+    this.isLoading.set(true);
     this.profileService.getProfileData().subscribe((data) => {
       this.userData.set(data as UserData);
+      this.isLoading.set(false);
       this.profileForm.patchValue({
         email: this.userData()?.email,
         name: this.userData()?.name,
       });
     });
+  }
 
+  constructor() {
     effect((): void => {
       if (!this.isNameEditableSig) {
         this.profileForm.get('name')?.disable();
