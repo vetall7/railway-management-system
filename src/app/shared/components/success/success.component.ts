@@ -16,13 +16,13 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SuccessComponent implements OnInit {
-  countdown = 10;
+  protected countdown = 10;
 
   private readonly router = inject(Router);
 
   private readonly cdr = inject(ChangeDetectorRef);
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const interval = setInterval(() => {
       this.countdown -= 1;
       this.cdr.detectChanges();

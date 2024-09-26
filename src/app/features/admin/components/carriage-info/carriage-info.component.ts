@@ -37,17 +37,17 @@ export class CarriageInfoComponent implements OnInit, DoCheck {
 
   private messageService = inject(MessageService);
 
-  dataView: IDataView = {
+  private store = inject(Store);
+
+  private dataView: IDataView = {
     rightSeats: 0,
     leftSeats: 0,
     rows: 0,
   };
 
-  active$ = new Observable<boolean | undefined>();
+  private active$ = new Observable<boolean | undefined>();
 
-  constructor(private store: Store) {}
-
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.dataView = {
       rightSeats: this.data.rightSeats,
       leftSeats: this.data.leftSeats,
@@ -57,11 +57,11 @@ export class CarriageInfoComponent implements OnInit, DoCheck {
     this.active$ = this.store.select(AdminSelectors.selectCheckCarriages(this.data!.name));
   }
 
-  change() {
+  protected change(): void {
     this.changed.emit(this.data.code);
   }
 
-  ngDoCheck(): void {
+  public ngDoCheck(): void {
     this.dataView = {
       rightSeats: this.data.rightSeats,
       leftSeats: this.data.leftSeats,
@@ -69,7 +69,7 @@ export class CarriageInfoComponent implements OnInit, DoCheck {
     };
   }
 
-  handleClickDelete() {
+  protected handleClickDelete(): void {
     this.active$.pipe(take(1)).subscribe((res) => {
       if (res) {
         this.messageService.add({

@@ -49,42 +49,38 @@ export class RideInfoContentComponent implements OnInit, DoCheck, OnDestroy {
 
   @Output() openEditPrice = new EventEmitter<boolean>();
 
-  private renderer = inject(Renderer2);
+  private readonly renderer = inject(Renderer2);
 
   private bodyClickListener?: () => void;
 
-  price = signal<[string, number][]>([]);
+  protected readonly price = signal<[string, number][]>([]);
 
-  editPrice = signal(false);
+  protected readonly editPrice = signal(false);
 
-  editTime = signal(false);
+  protected readonly editTime = signal(false);
 
-  timeSend = signal<string[]>([]);
+  protected readonly timeSend = signal<string[]>([]);
 
-  priceSend = signal<[string, number][]>([]);
+  protected readonly priceSend = signal<[string, number][]>([]);
 
-  check = signal<boolean>(false);
+  protected readonly check = signal<boolean>(false);
 
-  alert = signal<boolean>(false);
+  protected readonly alert = signal<boolean>(false);
 
-  alertPrice = signal<boolean>(false);
+  protected readonly alertPrice = signal<boolean>(false);
 
-  alertText = signal<string>('');
+  protected readonly alertText = signal<string>('');
 
-  alertTextPrice = signal<string>('');
+  protected readonly alertTextPrice = signal<string>('');
 
-  checkPrevTime = signal<boolean>(true);
+  protected readonly checkPrevTime = signal<boolean>(true);
 
-  checkNextTime = signal<boolean>(true);
+  protected readonly checkNextTime = signal<boolean>(true);
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     if (this.create) {
-      this.price.set(
-        Object.entries(this.segment || {}).map(([key]) => [key, -1]),
-      );
-      this.priceSend.set(
-        Object.entries(this.segment || {}).map(([key]) => [key, -1]),
-      );
+      this.price.set(Object.entries(this.segment || {}).map(([key]) => [key, -1]));
+      this.priceSend.set(Object.entries(this.segment || {}).map(([key]) => [key, -1]));
       this.timeSend.set(['', '']);
     } else {
       this.price.set(Object.entries(this.segment?.price || {}));
@@ -97,23 +93,17 @@ export class RideInfoContentComponent implements OnInit, DoCheck, OnDestroy {
       document.body,
       'click',
       (event) => {
-        if (
-          !event.target.closest('.edit_time') &&
-          !event.target.closest('.save_time')
-        ) {
+        if (!event.target.closest('.edit_time') && !event.target.closest('.save_time')) {
           this.alert.set(false);
         }
-        if (
-          !event.target.closest('.edit_price') &&
-          !event.target.closest('.save_price')
-        ) {
+        if (!event.target.closest('.edit_price') && !event.target.closest('.save_price')) {
           this.alertPrice.set(false);
         }
       },
     );
   }
 
-  handleClickEditTime() {
+  protected handleClickEditTime(): void {
     if (!this.openEditTimeForm) {
       this.editTime.set(true);
       this.openEditTime.emit(true);
@@ -123,7 +113,7 @@ export class RideInfoContentComponent implements OnInit, DoCheck, OnDestroy {
     }
   }
 
-  handleClickEditPrice() {
+  protected handleClickEditPrice(): void {
     if (!this.openEditPriceForm) {
       this.editPrice.set(true);
       this.openEditPrice.emit(true);
@@ -133,11 +123,9 @@ export class RideInfoContentComponent implements OnInit, DoCheck, OnDestroy {
     }
   }
 
-  handleClickSaveTime() {
+  protected handleClickSaveTime(): void {
     if (this.segmentPrev) {
-      const a = [...this.segmentPrev.time, ...this.timeSend()].map((el) =>
-        new Date(el).getTime(),
-      );
+      const a = [...this.segmentPrev.time, ...this.timeSend()].map((el) => new Date(el).getTime());
       const b = a
         .slice(1)
         .map((el, i) => el - a[i])
@@ -145,9 +133,7 @@ export class RideInfoContentComponent implements OnInit, DoCheck, OnDestroy {
       this.checkPrevTime.set(b);
     }
     if (this.segmentNext) {
-      const a = [...this.timeSend(), ...this.segmentNext.time].map((el) =>
-        new Date(el).getTime(),
-      );
+      const a = [...this.timeSend(), ...this.segmentNext.time].map((el) => new Date(el).getTime());
       const b = a
         .slice(1)
         .map((el, i) => el - a[i])
@@ -171,7 +157,7 @@ export class RideInfoContentComponent implements OnInit, DoCheck, OnDestroy {
     }
   }
 
-  handleClickSavePrice() {
+  protected handleClickSavePrice(): void {
     const a = this.priceSend()
       .flat()
       .filter((el) => typeof el === 'number')
@@ -190,32 +176,20 @@ export class RideInfoContentComponent implements OnInit, DoCheck, OnDestroy {
     }
   }
 
-  handleChangeTime(event: Event) {
+  protected handleChangeTime(event: Event): void {
     const target = event.target as HTMLInputElement;
     if (target.name === 'arrival') {
-      this.timeSend.update(() => [
-        `${target.value}:29.906Z`,
-        `${target.value}:30.906Z`,
-      ]);
+      this.timeSend.update(() => [`${target.value}:29.906Z`, `${target.value}:30.906Z`]);
     }
     if (target.name === 'departure') {
-      this.timeSend.update(() => [
-        `${target.value}:28.906Z`,
-        `${target.value}:29.906Z`,
-      ]);
+      this.timeSend.update(() => [`${target.value}:28.906Z`, `${target.value}:29.906Z`]);
     }
     if (this.create) {
       if (this.pos === 'start') {
-        this.timeSend.set([
-          `${target.value}:28.906Z`,
-          `${target.value}:29.906Z`,
-        ]);
+        this.timeSend.set([`${target.value}:28.906Z`, `${target.value}:29.906Z`]);
       }
       if (this.pos === 'finish') {
-        this.timeSend.set([
-          `${target.value}:29.906Z`,
-          `${target.value}:30.906Z`,
-        ]);
+        this.timeSend.set([`${target.value}:29.906Z`, `${target.value}:30.906Z`]);
       }
       const data = {
         index: this.index!,
@@ -227,7 +201,7 @@ export class RideInfoContentComponent implements OnInit, DoCheck, OnDestroy {
     }
   }
 
-  handleChangePrice(event: Event, index: number) {
+  protected handleChangePrice(event: Event, index: number): void {
     const target = event.target as HTMLInputElement;
     this.priceSend.update((el) => [
       ...el.slice(0, index),
@@ -246,7 +220,7 @@ export class RideInfoContentComponent implements OnInit, DoCheck, OnDestroy {
     }
   }
 
-  ngDoCheck(): void {
+  public ngDoCheck(): void {
     if (
       // eslint-disable-next-line operator-linebreak
       Object.values(this.segment?.price || {}).join('') !==
@@ -261,7 +235,7 @@ export class RideInfoContentComponent implements OnInit, DoCheck, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy(): void {
     if (this.bodyClickListener) {
       this.bodyClickListener();
     }

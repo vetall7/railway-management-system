@@ -25,7 +25,7 @@ export class SignupComponent {
 
   protected isShowingErrors = false;
 
-  registerForm: FormGroup = new FormGroup(
+  protected readonly registerForm: FormGroup = new FormGroup(
     {
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [
@@ -51,7 +51,7 @@ export class SignupComponent {
     this.authResponse$ = this.store.select(AuthSelectors.selectAuthResponse);
   }
 
-  onRegister() {
+  protected onRegister(): void {
     this.isShowingErrors = true;
     if (this.registerForm.invalid) {
       return;

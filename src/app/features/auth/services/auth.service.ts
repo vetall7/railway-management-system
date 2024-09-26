@@ -1,8 +1,8 @@
 /* global window */
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { AuthPayload, AuthRes } from '../models/auth.model';
 
@@ -10,26 +10,23 @@ import { AuthPayload, AuthRes } from '../models/auth.model';
   providedIn: 'root',
 })
 export class AuthService {
-  isLoggedIn = new BehaviorSubject(
-    window.localStorage.getItem('isAuthenticated') === '1',
-  );
+  public isLoggedIn = new BehaviorSubject(window.localStorage.getItem('isAuthenticated') === '1');
 
-  isLoggedIn$ = this.isLoggedIn.asObservable();
+  public isLoggedIn$ = this.isLoggedIn.asObservable();
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-  ) {}
+  private readonly router = inject(Router);
 
-  signup(data: AuthPayload) {
+  private readonly http = inject(HttpClient);
+
+  public signup(data: AuthPayload): Observable<AuthRes> {
     return this.http.post<AuthRes>('/api/signup', data);
   }
 
-  signin(data: AuthPayload) {
+  public signin(data: AuthPayload): Observable<AuthRes> {
     return this.http.post<AuthRes>('/api/signin', data);
   }
 
-  logout() {
+  public logout(): void {
     this.isLoggedIn.next(false);
     window.localStorage.removeItem('isAuthenticated');
     window.localStorage.removeItem('token');
@@ -37,7 +34,7 @@ export class AuthService {
     this.router.navigate(['/']);
   }
 
-  getProfileData() {
+  public getProfileData(): Observable<unknown> {
     return this.http.get('/api/profile');
   }
 }

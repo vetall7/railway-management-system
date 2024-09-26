@@ -22,15 +22,15 @@ export class StationInfoComponent implements OnInit {
     longitude: 0,
   };
 
-  connects$ = new Observable<string | undefined>();
+  protected connects$ = new Observable<string | undefined>();
 
-  active$ = new Observable<boolean | undefined>();
+  protected active$ = new Observable<boolean | undefined>();
 
   private readonly messageService = inject(MessageService);
 
-  constructor(private store: Store) {}
+  private readonly store = inject(Store);
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const id = this.data?.connectedTo.map((el) => el.id);
     if (id) {
       this.connects$ = this.store.select(AdminSelectors.selectGetStationName(id));
@@ -38,7 +38,7 @@ export class StationInfoComponent implements OnInit {
     }
   }
 
-  handleClickDelete() {
+  protected handleClickDelete(): void {
     this.active$.pipe(take(1)).subscribe((res) => {
       if (res) {
         this.messageService.add({

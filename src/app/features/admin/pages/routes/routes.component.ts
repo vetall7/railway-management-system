@@ -20,27 +20,27 @@ import * as AdminSelectors from '../../store/selectors/admin.selector';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoutesComponent implements OnInit, OnDestroy {
-  private store = inject(Store);
+  private readonly store = inject(Store);
 
-  private renderer = inject(Renderer2);
+  private readonly renderer = inject(Renderer2);
 
   private bodyClickListener?: () => void;
 
-  showCreate$ = signal<boolean>(false);
+  protected readonly showCreate$ = signal<boolean>(false);
 
-  showAlert$ = signal<boolean>(false);
+  protected readonly showAlert$ = signal<boolean>(false);
 
-  edit$ = signal<IDataFormRouter>({
+  protected readonly edit$ = signal<IDataFormRouter>({
     data: { id: -1, carriages: [], path: [] },
     update: false,
     checkUpdate: false,
   });
 
-  routes$ = this.store.select(AdminSelectors.selectGetRoutes);
+  protected readonly routes$ = this.store.select(AdminSelectors.selectGetRoutes);
 
-  loading$ = this.store.select(AdminSelectors.selectGetIsLoading);
+  protected readonly loading$ = this.store.select(AdminSelectors.selectGetIsLoading);
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.store.dispatch(AdminActions.getStations());
     this.bodyClickListener = this.renderer.listen(
       // eslint-disable-next-line no-undef
@@ -54,11 +54,11 @@ export class RoutesComponent implements OnInit, OnDestroy {
     );
   }
 
-  handleClickCreate() {
+  protected handleClickCreate(): void {
     this.showCreate$.set(true);
   }
 
-  onClickEdit(data: IRoutesData) {
+  protected onClickEdit(data: IRoutesData): void {
     if (this.showCreate$()) {
       this.showAlert$.set(true);
     } else {
@@ -71,15 +71,15 @@ export class RoutesComponent implements OnInit, OnDestroy {
     }
   }
 
-  onClickDelete(el: boolean) {
+  protected onClickDelete(el: boolean): void {
     this.showCreate$.set(!el);
   }
 
-  onCancelEdit(show: boolean) {
+  protected onCancelEdit(show: boolean): void {
     this.showCreate$.set(show);
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy(): void {
     if (this.bodyClickListener) {
       this.bodyClickListener();
     }
