@@ -1,10 +1,5 @@
 /* eslint-disable no-console */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, WritableSignal } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FetchTripsService } from '@features/search-trip/services';
 import { dateValidator } from '@features/search-trip/validators';
@@ -22,6 +17,12 @@ export class SearchTripsComponent implements OnInit {
   private readonly fetchStationsService = inject(FetchStationsService);
 
   protected readonly fetchTripsService = inject(FetchTripsService);
+
+  protected readonly isNotFound: WritableSignal<boolean> = this.fetchTripsService.isNotFoundSig;
+
+  protected readonly isLoading: WritableSignal<boolean> = this.fetchTripsService.isLoadingSig;
+
+  protected readonly isLoadingPage = this.fetchStationsService.isLoadingSig;
 
   protected readonly form = this.formBuilder.group({
     from: ['', Validators.required],
@@ -42,19 +43,10 @@ export class SearchTripsComponent implements OnInit {
       const cityFrom = this.fetchStationsService.getCityByName(from);
       const cityTo = this.fetchStationsService.getCityByName(to);
 
-      const mergedTime = date.setHours(
-        time?.getHours() ?? 0,
-        time?.getMinutes() ?? 0,
-        0,
-        0,
-      );
+      const mergedTime = date.setHours(time?.getHours() ?? 0, time?.getMinutes() ?? 0, 0, 0);
 
       if (cityFrom && cityTo) {
-        this.fetchTripsService.fetchTrips(
-          cityFrom,
-          cityTo,
-          (mergedTime / 1000).toString(),
-        );
+        this.fetchTripsService.fetchTrips(cityFrom, cityTo, (mergedTime / 1000).toString());
       }
     }
   }

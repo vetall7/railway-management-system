@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
@@ -18,37 +12,37 @@ import * as AdminSelectors from '../../store/selectors/admin.selector';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RidesComponent implements OnInit {
-  private store = inject(Store);
+  private readonly store = inject(Store);
 
-  private activeRouter = inject(ActivatedRoute);
+  private readonly activeRouter = inject(ActivatedRoute);
 
-  router = inject(Router);
+  protected readonly router = inject(Router);
 
-  id = signal<string>(this.activeRouter.snapshot.paramMap.get('id') as string);
+  protected readonly id = signal<string>(this.activeRouter.snapshot.paramMap.get('id') as string);
 
-  loading$ = this.store.select(AdminSelectors.selectGetIsLoading);
+  protected readonly loading$ = this.store.select(AdminSelectors.selectGetIsLoading);
 
-  data$ = this.store.select(AdminSelectors.selectGetRide);
+  protected readonly data$ = this.store.select(AdminSelectors.selectGetRide);
 
-  showCreate$ = signal<boolean>(false);
+  protected readonly showCreate$ = signal<boolean>(false);
 
-  handleClickBack() {
+  protected handleClickBack(): void {
     this.router.navigate(['admin', 'routes']);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.store.dispatch(AdminActions.getRide({ id: Number(this.id()) }));
   }
 
-  handleClickCreate() {
+  protected handleClickCreate(): void {
     this.showCreate$.set(true);
   }
 
-  onChangeCancel(el: boolean) {
+  protected onChangeCancel(el: boolean): void {
     this.showCreate$.set(el);
   }
 
-  onChangeCreate(el: boolean) {
+  protected onChangeCreate(el: boolean): void {
     this.showCreate$.set(el);
   }
 }

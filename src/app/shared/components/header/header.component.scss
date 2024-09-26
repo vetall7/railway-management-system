@@ -8,7 +8,7 @@ $mobile-breakpoint: 768px;
   justify-content: space-between;
   height: $header-height;
   padding: $header-padding;
-  background-color: #fff;
+  background-color: var(--primary-header-background-color);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
   .logo {
@@ -17,7 +17,7 @@ $mobile-breakpoint: 768px;
 
     a {
       text-decoration: none;
-      color: #333;
+      color: var(--primary-header-link-color);
     }
   }
 }
@@ -33,7 +33,7 @@ $mobile-breakpoint: 768px;
 }
 
 .link {
-  color: #232323;
+  color: var(--primary-header-link-color);
 }
 
 #menuToggle a {
@@ -42,7 +42,7 @@ $mobile-breakpoint: 768px;
 }
 
 #menuToggle a:hover {
-  color: tomato;
+  color: var(--primary-header-hover-color);
 }
 
 #menuToggle input {
@@ -99,7 +99,7 @@ $mobile-breakpoint: 768px;
 #menuToggle input:checked ~ span {
   opacity: 1;
   transform: rotate(45deg) translate(-2px, -1px);
-  background: #232323;
+  background: var(--primary-header-link-color);
 }
 
 /*
@@ -151,7 +151,7 @@ $mobile-breakpoint: 768px;
 }
 
 .log-out {
-  color: red;
+  color: var(--primary-error-color);
 }
 
 .overlay {

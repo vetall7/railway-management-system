@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { IResponseCreateStation, IRoutesData } from '@features/admin/models';
 import { catchError, Observable, of, retry } from 'rxjs';
 
@@ -8,16 +8,16 @@ import { catchError, Observable, of, retry } from 'rxjs';
   providedIn: 'root',
 })
 export class RouteService {
-  constructor(private http: HttpClient) {}
+  private readonly http = inject(HttpClient);
 
-  getRoutes(): Observable<IRoutesData[] | string> {
+  public getRoutes(): Observable<IRoutesData[] | string> {
     return this.http.get<IRoutesData[]>('/api/route').pipe(
       retry(2),
       catchError((e: HttpErrorResponse) => of(`Bad Promise: ${e}`)),
     );
   }
 
-  deleteRouter(id: number): Observable<IRoutesData | string> {
+  public deleteRouter(id: number): Observable<IRoutesData | string> {
     return this.http
       .delete<IRoutesData>(`/api/route/${id}`, {
         headers: {
@@ -30,7 +30,7 @@ export class RouteService {
       );
   }
 
-  createRouter(data: IRoutesData): Observable<IResponseCreateStation | string> {
+  public createRouter(data: IRoutesData): Observable<IResponseCreateStation | string> {
     return this.http
       .post<IResponseCreateStation>(
         '/api/route',
@@ -50,7 +50,7 @@ export class RouteService {
       );
   }
 
-  updateRouter(data: IRoutesData): Observable<IResponseCreateStation | string> {
+  public updateRouter(data: IRoutesData): Observable<IResponseCreateStation | string> {
     return this.http
       .put<IResponseCreateStation>(
         `/api/route/${data.id}`,

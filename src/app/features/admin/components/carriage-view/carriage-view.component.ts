@@ -20,32 +20,26 @@ export class CarriageViewComponent implements OnInit, DoCheck {
 
   @Output() changed = new EventEmitter<boolean>();
 
-  result1: number[] = [];
+  protected result1: number[] = [];
 
-  result2: number[] = [];
+  protected result2: number[] = [];
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.setData();
   }
 
-  setData() {
+  protected setData(): void {
     const first = this.data.rightSeats;
     const second = this.data.leftSeats;
     const raw = this.data.rows;
-    const start = new Array((first + second) * raw)
-      .fill(0)
-      .map((el, i) => i + 1);
+    const start = new Array((first + second) * raw).fill(0).map((el, i) => i + 1);
 
     const arrFirst = [];
     const arrSecond = [];
 
     for (let i = 0; i < start.length / 2 + 1; i += 1) {
-      arrSecond.push(
-        start.slice(i * first + i * second, i * first + i * second + second),
-      );
-      arrFirst.push(
-        start.slice(i * first + i * second - first, i * first + i * second),
-      );
+      arrSecond.push(start.slice(i * first + i * second, i * first + i * second + second));
+      arrFirst.push(start.slice(i * first + i * second - first, i * first + i * second));
     }
 
     this.result1 = this.updateArr(arrFirst, first);
@@ -54,7 +48,7 @@ export class CarriageViewComponent implements OnInit, DoCheck {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  updateArr(arr: number[][], num: number) {
+  protected updateArr(arr: number[][], num: number): number[] {
     const a = arr.filter((el) => el.length !== 0);
     const c = new Array(num).fill(null);
     // eslint-disable-next-line @typescript-eslint/prefer-for-of
@@ -67,7 +61,7 @@ export class CarriageViewComponent implements OnInit, DoCheck {
     return c.flat();
   }
 
-  ngDoCheck() {
+  public ngDoCheck(): void {
     this.setData();
   }
 }

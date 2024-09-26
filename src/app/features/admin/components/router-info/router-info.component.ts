@@ -32,45 +32,41 @@ export class RouterInfoComponent implements OnInit {
 
   @Output() changedDelete = new EventEmitter<boolean>();
 
-  store = inject(Store);
+  private readonly store = inject(Store);
 
-  router = inject(Router);
+  private readonly router = inject(Router);
 
-  cities$ = new Observable<string | undefined>();
+  protected cities$ = new Observable<string | undefined>();
 
-  carriages$ = new Observable<string | undefined>();
+  protected carriages$ = new Observable<string | undefined>();
 
-  showConfirm$ = signal<boolean>(false);
+  protected readonly showConfirm$ = signal<boolean>(false);
 
-  ngOnInit(): void {
-    this.cities$ = this.store.select(
-      AdminSelectors.selectGetStationNameForRoute(this.data!.id),
-    );
+  public ngOnInit(): void {
+    this.cities$ = this.store.select(AdminSelectors.selectGetStationNameForRoute(this.data!.id));
 
-    this.carriages$ = this.store.select(
-      AdminSelectors.selectGetCarriageForRoute(this.data!.id),
-    );
+    this.carriages$ = this.store.select(AdminSelectors.selectGetCarriageForRoute(this.data!.id));
   }
 
-  onDeleteNo(show: boolean) {
+  protected onDeleteNo(show: boolean): void {
     this.showConfirm$.set(show);
   }
 
-  onDeleteYes(show: boolean) {
+  protected onDeleteYes(show: boolean): void {
     this.changedDelete.emit(show);
   }
 
-  handleClickDelete() {
+  protected handleClickDelete(): void {
     this.showConfirm$.set(true);
   }
 
-  handleClickEdit() {
+  protected handleClickEdit(): void {
     if (this.data) {
       this.changed.emit(this.data);
     }
   }
 
-  handleClickRide() {
+  protected handleClickRide(): void {
     this.router.navigate(['admin', 'routes', this.data?.id]);
   }
 }

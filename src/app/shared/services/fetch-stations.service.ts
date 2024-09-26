@@ -11,16 +11,21 @@ export class FetchStationsService {
 
   private readonly fetchDataService = inject(FetchApiDataService);
 
+  private readonly isLoading = signal(false);
+
   public async fetchStations(): Promise<void> {
     try {
-      const stations = await lastValueFrom(
-        this.fetchDataService.fetchStations(),
-      );
+      this.isLoading.set(true);
+      const stations = await lastValueFrom(this.fetchDataService.fetchStations());
+      this.isLoading.set(false);
       this.stations.set(stations);
     } catch (error) {
-      // Handle errors if necessary
       console.error('Error fetching stations:', error);
     }
+  }
+
+  public get isLoadingSig(): WritableSignal<boolean> {
+    return this.isLoading;
   }
 
   public getCitiesNames(): string[] {

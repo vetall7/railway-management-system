@@ -1,17 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  Input,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  IDataRideChange,
-  IScheduleRide,
-  ISegmentsRide,
-} from '@features/admin/models';
+import { IDataRideChange, IScheduleRide, ISegmentsRide } from '@features/admin/models';
 import { Store } from '@ngrx/store';
 
 import * as AdminActions from '../../store/actions/admin.actions';
@@ -29,27 +18,27 @@ export class RideInfoComponent implements OnInit {
     segments: [],
   };
 
-  private store = inject(Store);
+  private readonly store = inject(Store);
 
-  private activeRouter = inject(ActivatedRoute);
+  private readonly activeRouter = inject(ActivatedRoute);
 
-  showConfirm = signal<boolean>(false);
+  protected readonly showConfirm = signal<boolean>(false);
 
-  id = signal<string>(this.activeRouter.snapshot.paramMap.get('id') as string);
+  protected readonly id = signal<string>(this.activeRouter.snapshot.paramMap.get('id') as string);
 
-  segments = signal<ISegmentsRide[]>([]);
+  protected readonly segments = signal<ISegmentsRide[]>([]);
 
-  stationName$ = this.store.select(AdminSelectors.selectGetRideStation);
+  protected readonly stationName$ = this.store.select(AdminSelectors.selectGetRideStation);
 
-  editTime = signal<boolean>(false);
+  protected readonly editTime = signal<boolean>(false);
 
-  editPrice = signal<boolean>(false);
+  protected readonly editPrice = signal<boolean>(false);
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.segments.set(this.data!.segments);
   }
 
-  onChangeData(data: IDataRideChange) {
+  protected onChangeData(data: IDataRideChange) {
     this.segments.update((el) => [
       ...el.slice(0, data.index),
       { time: data.time, price: data.price },
@@ -64,15 +53,15 @@ export class RideInfoComponent implements OnInit {
     );
   }
 
-  handleClickDelete() {
+  protected handleClickDelete(): void {
     this.showConfirm.set(true);
   }
 
-  onChangeDelete(el: boolean) {
+  protected onChangeDelete(el: boolean): void {
     this.showConfirm.set(el);
   }
 
-  onChangeYesDelete(el: boolean) {
+  protected onChangeYesDelete(el: boolean): void {
     if (el) {
       this.store.dispatch(
         AdminActions.deleteRide({
@@ -83,11 +72,11 @@ export class RideInfoComponent implements OnInit {
     }
   }
 
-  onEditTime(el: boolean) {
+  protected onEditTime(el: boolean): void {
     this.editTime.set(el);
   }
 
-  onEditPrice(el: boolean) {
+  protected onEditPrice(el: boolean): void {
     this.editPrice.set(el);
   }
 }

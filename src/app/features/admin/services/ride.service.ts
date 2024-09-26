@@ -1,20 +1,16 @@
 /* eslint-disable no-undef */
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import {
-  IDataRide,
-  IResponseCreateStation,
-  ISegmentsRide,
-} from '@features/admin/models';
+import { inject, Injectable } from '@angular/core';
+import { IDataRide, IResponseCreateStation, ISegmentsRide } from '@features/admin/models';
 import { catchError, Observable, of, retry } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RideService {
-  constructor(private http: HttpClient) {}
+  private readonly http = inject(HttpClient);
 
-  getRide(id: number): Observable<IDataRide | string> {
+  public getRide(id: number): Observable<IDataRide | string> {
     return this.http
       .get<IDataRide>(`/api/route/${id}`, {
         headers: {
@@ -27,7 +23,7 @@ export class RideService {
       );
   }
 
-  updateRide(
+  public updateRide(
     routeId: number,
     rideId: number,
     data: ISegmentsRide[],
@@ -50,7 +46,7 @@ export class RideService {
       );
   }
 
-  createRide(
+  public createRide(
     routeId: number,
     data: ISegmentsRide[],
   ): Observable<IResponseCreateStation | string> {
@@ -72,10 +68,7 @@ export class RideService {
       );
   }
 
-  deleteRide(
-    routeId: number,
-    rideId: number,
-  ): Observable<IResponseCreateStation | string> {
+  public deleteRide(routeId: number, rideId: number): Observable<IResponseCreateStation | string> {
     return this.http
       .delete<IResponseCreateStation>(`/api/route/${routeId}/ride/${rideId}`, {
         headers: {

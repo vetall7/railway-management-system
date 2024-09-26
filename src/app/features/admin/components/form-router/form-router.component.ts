@@ -10,12 +10,7 @@ import {
   Output,
   signal,
 } from '@angular/core';
-import {
-  AbstractControlOptions,
-  FormArray,
-  FormBuilder,
-  Validators,
-} from '@angular/forms';
+import { AbstractControlOptions, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { IDataFormRouter, IRoutesData } from '@features/admin/models';
 import { RouteFormValid } from '@features/admin/validators';
 import { Store } from '@ngrx/store';
@@ -39,13 +34,13 @@ export class FormRouterComponent implements OnInit, AfterViewChecked {
 
   @Output() changed = new EventEmitter<boolean>();
 
-  formBuilder = inject(FormBuilder);
+  private readonly formBuilder = inject(FormBuilder);
 
-  store = inject(Store);
+  private readonly store = inject(Store);
 
-  ref = inject(ChangeDetectorRef);
+  private readonly ref = inject(ChangeDetectorRef);
 
-  form = this.formBuilder.group(
+  protected readonly form = this.formBuilder.group(
     {
       stations: this.formBuilder.array([
         this.formBuilder.control('', {
@@ -63,29 +58,29 @@ export class FormRouterComponent implements OnInit, AfterViewChecked {
     { validators: RouteFormValid } as AbstractControlOptions,
   );
 
-  data$ = this.store.select(AdminSelectors.selectGetStations);
+  private readonly data$ = this.store.select(AdminSelectors.selectGetStations);
 
-  dataUpdate$ = new Observable<IRoutesData | undefined>();
+  private readonly dataUpdate$ = new Observable<IRoutesData | undefined>();
 
-  fillData$ = signal<IRoutesData>({
+  protected readonly fillData$ = signal<IRoutesData>({
     id: -1,
     path: [],
     carriages: [],
   });
 
-  dataCarriages$ = this.store.select(AdminSelectors.selectGetCarriagesData);
+  protected readonly dataCarriages$ = this.store.select(AdminSelectors.selectGetCarriagesData);
 
-  showData$ = this.store.select(AdminSelectors.selectGetShowData);
+  protected readonly showData$ = this.store.select(AdminSelectors.selectGetShowData);
 
-  getFormsControlsStation(): FormArray {
+  protected getFormsControlsStation(): FormArray {
     return this.form.controls.stations as FormArray;
   }
 
-  getFormsControlsCarriages(): FormArray {
+  protected getFormsControlsCarriages(): FormArray {
     return this.form.controls.carriages as FormArray;
   }
 
-  changeSelectCarriages() {
+  protected changeSelectCarriages(): void {
     if (!this.form.controls.carriages.value.includes('')) {
       (this.form.controls.carriages as FormArray).push(
         this.formBuilder.control('', {
@@ -95,7 +90,7 @@ export class FormRouterComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  changeSelectStation(index: number) {
+  protected changeSelectStation(index: number): void {
     if (!this.form.controls.stations.value.includes('')) {
       (this.form.controls.stations as FormArray).push(
         this.formBuilder.control('', {
@@ -105,10 +100,7 @@ export class FormRouterComponent implements OnInit, AfterViewChecked {
     }
     if (this.form.controls.stations.value.length - 2 !== index) {
       const station = this.form.value.stations;
-      const value = [
-        ...(this.form.value.stations?.slice(0, index + 1) as []),
-        '',
-      ];
+      const value = [...(this.form.value.stations?.slice(0, index + 1) as []), ''];
       this.form.controls.stations.reset(value);
       for (let i = 0; i < station!.length - value.length; i += 1) {
         this.form.controls.stations.removeAt(value.length);
@@ -123,31 +115,26 @@ export class FormRouterComponent implements OnInit, AfterViewChecked {
     );
   }
 
-  checkSelect(id: string) {
+  protected checkSelect(id: string): boolean {
     return this.form.controls.carriages.value.includes(String(id));
   }
 
-  checkSelectStation(id: number) {
+  protected checkSelectStation(id: number): boolean {
     return this.form.controls.stations.value.includes(String(id));
   }
 
-  changeDelete(id: number) {
-    const a = [
-      ...(this.form.value.carriages?.filter((el, i) => i !== id) as []),
-      '',
-    ];
+  protected changeDelete(id: number): void {
+    const a = [...(this.form.value.carriages?.filter((el, i) => i !== id) as []), ''];
     (this.form.controls.carriages as FormArray).reset(a);
     (this.form.controls.carriages as FormArray).removeAt(a.length - 1);
   }
 
-  handleSubmit() {
+  protected handleSubmit(): void {
     if (this.form.valid) {
       const data: IRoutesData = {
         id: this.data?.data.id as number,
         carriages: this.form.value.carriages?.slice(0, -1) as string[],
-        path: this.form.value.stations
-          ?.map((el) => Number(el))
-          ?.slice(0, -1) as number[],
+        path: this.form.value.stations?.map((el) => Number(el))?.slice(0, -1) as number[],
       };
       this.store.dispatch(AdminActions.createRouter({ data }));
 
@@ -155,14 +142,12 @@ export class FormRouterComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  handleUpdate() {
+  protected handleUpdate(): void {
     if (this.form.valid) {
       const data: IRoutesData = {
         id: this.data?.data.id as number,
         carriages: this.form.value.carriages?.slice(0, -1) as string[],
-        path: this.form.value.stations
-          ?.map((el) => Number(el))
-          ?.slice(0, -1) as number[],
+        path: this.form.value.stations?.map((el) => Number(el))?.slice(0, -1) as number[],
       };
       this.store.dispatch(AdminActions.updateRouter({ data }));
 
@@ -170,7 +155,7 @@ export class FormRouterComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  updateForm() {
+  protected updateForm(): void {
     const car = [...this.fillData$().carriages, ''];
     const st = [...this.fillData$().path.map((el) => String(el)), ''];
 
@@ -226,11 +211,11 @@ export class FormRouterComponent implements OnInit, AfterViewChecked {
     this.form.updateValueAndValidity();
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.store.dispatch(AdminActions.setShowData({ id: 0, valueForm: [] }));
   }
 
-  ngAfterViewChecked() {
+  public ngAfterViewChecked(): void {
     if (this.data?.checkUpdate && this.data.update) {
       this.fillData$.set(this.data.data);
       this.updateForm();
@@ -238,7 +223,7 @@ export class FormRouterComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  handleClickCancel() {
+  protected handleClickCancel(): void {
     this.changed.emit(false);
   }
 }

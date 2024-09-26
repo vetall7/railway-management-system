@@ -8,7 +8,6 @@ import {
   ConfirmComponent,
   FormRouterComponent,
   FormStationComponent,
-  LoaderComponent,
   MessageComponent,
   NavigationComponent,
   RideCreateComponent,
@@ -25,6 +24,7 @@ import {
 } from '@features/admin/pages';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { LoaderComponent } from '@shared/components';
 import { Button } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
@@ -43,7 +43,6 @@ import { AdminRoutingModule } from './admin-routing.module';
     StationsComponent,
     FormStationComponent,
     StationInfoComponent,
-    LoaderComponent,
     MessageComponent,
     FormRouterComponent,
     RouterInfoComponent,
@@ -67,6 +66,7 @@ import { AdminRoutingModule } from './admin-routing.module';
     InputTextModule,
     CalendarModule,
     DialogModule,
+    LoaderComponent,
   ],
   exports: [],
   providers: [],

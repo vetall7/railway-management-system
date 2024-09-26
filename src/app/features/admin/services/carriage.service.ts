@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { IDataCarriages, IDataReq } from '@features/admin/models';
 import { catchError, Observable, of, retry } from 'rxjs';
 
@@ -8,9 +8,9 @@ import { catchError, Observable, of, retry } from 'rxjs';
   providedIn: 'root',
 })
 export class CarriageService {
-  constructor(private http: HttpClient) {}
+  private readonly http = inject(HttpClient);
 
-  getCarriages(): Observable<IDataCarriages | string> {
+  public getCarriages(): Observable<IDataCarriages | string> {
     return this.http
       .get<IDataCarriages>('/api/carriage', {
         headers: {
@@ -23,10 +23,7 @@ export class CarriageService {
       );
   }
 
-  updateCarriage(
-    code: string,
-    data: IDataCarriages,
-  ): Observable<IDataReq | string> {
+  public updateCarriage(code: string, data: IDataCarriages): Observable<IDataReq | string> {
     return this.http
       .put<IDataReq>(`/api/carriage/${code}`, data, {
         headers: {
@@ -39,7 +36,7 @@ export class CarriageService {
       );
   }
 
-  createCarriage(data: IDataCarriages): Observable<IDataReq | string> {
+  public createCarriage(data: IDataCarriages): Observable<IDataReq | string> {
     return this.http
       .post<IDataReq>('/api/carriage', data, {
         headers: {
@@ -52,7 +49,7 @@ export class CarriageService {
       );
   }
 
-  deleteCarriage(code: string): Observable<IDataReq | string> {
+  public deleteCarriage(code: string): Observable<IDataReq | string> {
     return this.http
       .delete<IDataReq>(`/api/carriage/${code}`, {
         headers: {

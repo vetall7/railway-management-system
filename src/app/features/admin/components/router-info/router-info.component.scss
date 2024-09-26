@@ -5,32 +5,32 @@
 
 .wrapper {
   width: 100%;
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
   border: 1px solid var(--color-secondary-a10);
-  border-radius: 15px;
+  border-radius: 1rem;
   box-sizing: border-box;
-  padding: 15px;
+  padding: 1rem;
   position: relative;
 
   .title {
-    margin-bottom: 10px;
+    margin-bottom: 0.5rem;
   }
 
   .first_connect {
-    margin-bottom: 10px;
+    margin-bottom: 0.5rem;
   }
 
   .actions {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 1rem;
+    right: 1rem;
     display: flex;
     justify-content: space-around;
   }
 
   .icon {
     &:hover {
-      transform: scale(1.2);
+      transform: var(--primary-icon-transform);
     }
   }
 }

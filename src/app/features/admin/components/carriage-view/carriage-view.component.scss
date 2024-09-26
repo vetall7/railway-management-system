@@ -5,28 +5,28 @@
 
 .wrapper {
   width: 100%;
-  border-radius: 10px;
-  border: 1px solid #cbd5e1;
+  border-radius: 2%;
+  border: 1px solid var(--secondary-border-color);
   overflow: auto;
-  padding: 10px;
+  padding: 0.8rem;
 }
 
 .table {
   display: grid;
-  row-gap: 5px;
-  column-gap: 5px;
+  row-gap: 0.3rem;
+  column-gap: 0.2rem;
   justify-items: center;
 }
 
 .table_top {
-  margin-bottom: 30px;
+  margin-bottom: 3rem;
 }
 
 .seat {
-  width: 35px;
-  height: 35px;
-  background-color: #cbd5e1;
-  border-radius: 10px;
+  width: 3rem;
+  height: 3rem;
+  background-color: var(--secondary-border-color);
+  border-radius: 20%;
   display: flex;
   justify-content: center;
   align-items: center;

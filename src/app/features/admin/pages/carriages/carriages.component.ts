@@ -7,12 +7,7 @@ import {
   Renderer2,
   signal,
 } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { IDataCarriages } from '@features/admin/models';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs';
@@ -27,23 +22,23 @@ import * as AdminSelectors from '../../store/selectors/admin.selector';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CarriagesComponent implements OnInit, OnDestroy {
-  private store = inject(Store);
+  private readonly store = inject(Store);
 
-  private formBuilder = inject(FormBuilder);
+  private readonly formBuilder = inject(FormBuilder);
 
-  data$ = this.store.select(AdminSelectors.selectGetCarriagesData);
+  protected readonly data$ = this.store.select(AdminSelectors.selectGetCarriagesData);
 
-  loading$ = this.store.select(AdminSelectors.selectGetIsLoading);
+  protected readonly loading$ = this.store.select(AdminSelectors.selectGetIsLoading);
 
-  show = signal(false);
+  protected readonly show = signal(false);
 
-  code = signal('');
+  protected readonly code = signal('');
 
-  updateCarriage = signal(false);
+  protected readonly updateCarriage = signal(false);
 
-  update = false;
+  protected update = false;
 
-  form = this.formBuilder.group({
+  protected readonly form = this.formBuilder.group({
     name: [
       '',
       {
@@ -70,27 +65,27 @@ export class CarriagesComponent implements OnInit, OnDestroy {
     ],
   });
 
-  nameUser = '';
+  protected nameUser = '';
 
-  rowsUser = '';
+  protected rowsUser = '';
 
-  leftSeatsUser = '';
+  protected leftSeatsUser = '';
 
-  rightSeatsUser = '';
+  protected rightSeatsUser = '';
 
-  viewCreate = {
+  protected viewCreate = {
     rows: Number(this.rowsUser),
     leftSeats: Number(this.leftSeatsUser),
     rightSeats: Number(this.rightSeatsUser),
   };
 
-  alert$ = this.store.select(AdminSelectors.selectGetIsAlert);
+  protected alert$ = this.store.select(AdminSelectors.selectGetIsAlert);
 
-  private renderer = inject(Renderer2);
+  private readonly renderer = inject(Renderer2);
 
   private bodyClickListener?: () => void;
 
-  uniqNameValid(control: AbstractControl): ValidationErrors | null {
+  private uniqNameValid(control: AbstractControl): ValidationErrors | null {
     let check = false;
     this.store
       .select(AdminSelectors.selectCheckCarriagesName(control.value.trim()))
@@ -104,7 +99,7 @@ export class CarriagesComponent implements OnInit, OnDestroy {
     return { uniqNameValid: true };
   }
 
-  handleClickCreate() {
+  protected handleClickCreate(): void {
     if (this.show()) {
       this.clearForm();
     }
@@ -112,7 +107,7 @@ export class CarriagesComponent implements OnInit, OnDestroy {
     this.updateCarriage.set(false);
   }
 
-  clearForm() {
+  protected clearForm(): void {
     this.form.reset({
       name: '',
       leftSeats: '',
@@ -127,7 +122,7 @@ export class CarriagesComponent implements OnInit, OnDestroy {
     this.setViewCreate();
   }
 
-  setViewCreate() {
+  protected setViewCreate(): void {
     this.viewCreate = {
       rows: Number(this.form.value.rows),
       leftSeats: Number(this.form.value.leftSeats),
@@ -135,17 +130,17 @@ export class CarriagesComponent implements OnInit, OnDestroy {
     };
   }
 
-  setViewCreateUpdate() {
+  protected setViewCreateUpdate(): void {
     this.form.controls.rows.setValue(this.rowsUser);
     this.form.controls.leftSeats.setValue(this.leftSeatsUser);
     this.form.controls.rightSeats.setValue(this.rightSeatsUser);
   }
 
-  changeInput() {
+  protected changeInput(): void {
     this.setViewCreate();
   }
 
-  handleSubmit() {
+  protected handleSubmit(): void {
     if (this.form.valid) {
       const res: IDataCarriages = {
         leftSeats: Number(this.form.value.leftSeats),
@@ -167,7 +162,7 @@ export class CarriagesComponent implements OnInit, OnDestroy {
     }
   }
 
-  onChangedDelete(el: boolean) {
+  protected onChangedDelete(el: boolean): void {
     if (this.show()) {
       this.clearForm();
     }
@@ -175,7 +170,7 @@ export class CarriagesComponent implements OnInit, OnDestroy {
     this.updateCarriage.set(false);
   }
 
-  onChanged(code: string) {
+  protected onChanged(code: string): void {
     this.code.set(code);
     this.updateCarriage.set(true);
     this.show.set(true);
@@ -191,7 +186,7 @@ export class CarriagesComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.store.dispatch(AdminActions.getCarriages());
     this.bodyClickListener = this.renderer.listen(
       // eslint-disable-next-line no-undef
@@ -205,7 +200,7 @@ export class CarriagesComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy(): void {
     if (this.bodyClickListener) {
       this.bodyClickListener();
     }

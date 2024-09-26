@@ -1,9 +1,13 @@
-@let allOrders = orders();
-
-@if (allOrders.length > 0) {
-  @for (order of allOrders; track $index) {
-    <app-single-order [order]="order"></app-single-order>
-  }
+@if (isLoading()) {
+  <app-loader></app-loader>
 } @else {
-  <app-no-trips [message]="'You have no orders'"></app-no-trips>
+  @let allOrders = orders();
+
+  @if (allOrders.length > 0) {
+    @for (order of allOrders; track $index) {
+      <app-single-order [order]="order"></app-single-order>
+    }
+  } @else {
+    <app-no-trips [message]="'You have no orders'"></app-no-trips>
+  }
 }

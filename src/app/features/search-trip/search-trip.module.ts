@@ -16,7 +16,12 @@ import { FindCarriageTypePipe } from '@features/search-trip/pipes';
 import { SearchTripRoutingModule } from '@features/search-trip/search-trip-routing.module';
 import { FetchTripsService } from '@features/search-trip/services';
 import { SearchTripDetailService } from '@features/search-trip/services/search-trip-detail.service';
-import { NoTripsComponent, PaymentComponent, TrainCarComponent } from '@shared/components';
+import {
+  LoaderComponent,
+  NoTripsComponent,
+  PaymentComponent,
+  TrainCarComponent,
+} from '@shared/components';
 import { SuccessComponent } from '@shared/components/success/success.component';
 import { FetchApiDataService, FetchCarriagesService, FetchStationsService } from '@shared/services';
 import { AngularSvgIconModule } from 'angular-svg-icon';
@@ -60,6 +65,7 @@ import { TabViewModule } from 'primeng/tabview';
     StepperModule,
     PaymentComponent,
     SuccessComponent,
+    LoaderComponent,
   ],
   exports: [SearchTripsComponent],
   providers: [

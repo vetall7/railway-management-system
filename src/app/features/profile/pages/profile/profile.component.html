@@ -1,134 +1,139 @@
-<app-auth-form>
-  <div class="profile-settings">
-    <h1>Profile Settings</h1>
+@if (isLoading()) {
+  <app-loader></app-loader>
+} @else {
+  <app-auth-form>
+    <div class="profile-settings">
+      <h1>Profile Settings</h1>
 
-    <form [formGroup]="profileForm">
-      <div class="field">
-        <label for="name">Name:</label>
-        <div class="input-and-button">
-          <input pInputText id="name" type="text" formControlName="name" />
-          @if (!isNameEditableSig) {
-            <button
-              pButton
-              [text]="true"
-              type="button"
-              (click)="onNameEditable()"
-              icon="pi pi-pen-to-square"
-              class="save-button"
-            ></button>
-          } @else if (isNameEditableSig) {
-            <button
-              pButton
-              [text]="true"
-              type="button"
-              (click)="onNameChange()"
-              icon="pi pi-save"
-              class="save-button"
-              [disabled]="profileForm.get('name')?.invalid"
-            ></button>
-          }
-        </div>
-      </div>
-
-      <div class="field">
-        <label for="email">Email:</label>
-        <div class="input-and-button">
-          <input id="email" type="email" pInputText formControlName="email" />
-          @if (!isEmailEditableSig) {
-            <button
-              pButton
-              [text]="true"
-              type="button"
-              (click)="onEmailEditable()"
-              icon="pi pi-pen-to-square"
-              class="save-button"
-            ></button>
-          } @else if (isEmailEditableSig) {
-            <button
-              pButton
-              [text]="true"
-              type="button"
-              (click)="onEmailChange()"
-              icon="pi pi-save"
-              class="save-button"
-              [disabled]="profileForm.get('email')?.invalid"
-            ></button>
-          }
-        </div>
-      </div>
-
-      <div class="field padding-bottom--24 password">
-        <button
-          pButton
-          severity="danger"
-          [rounded]="true"
-          label="Change password"
-          (click)="onPasswordEditable()"
-        ></button>
-      </div>
-
-      <p-dialog
-        header="New password"
-        [modal]="true"
-        [(visible)]="isPasswordEditable"
-        [style]="{ width: '25rem' }"
-      >
-        <div class="field padding-bottom--24">
-          <label for="password">Password</label>
-          <p-password id="password" formControlName="password" [toggleMask]="true">
-            <ng-template pTemplate="footer">
-              <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
-                @let password = profileForm.get('password');
-                @if (password) {
-                  @let hasLowercase = isPasswordMatch('[a-z]');
-                  @let hasUppercase = isPasswordMatch('[A-Z]');
-                  @let hasNumeric = isPasswordMatch('[0-9]');
-                  @let hasLength = password.value.length >= 8 && password.value.length <= 30;
-
-                  <li [ngClass]="{ valid: hasLowercase, invalid: !hasLowercase }">
-                    At least one lowercase
-                  </li>
-                  <li [ngClass]="{ valid: hasUppercase, invalid: !hasUppercase }">
-                    At least one uppercase
-                  </li>
-                  <li [ngClass]="{ valid: hasNumeric, invalid: !hasNumeric }">
-                    At least one numeric
-                  </li>
-                  <li [ngClass]="{ valid: hasLength, invalid: !hasLength }">
-                    Number of characters 8-30
-                  </li>
-                }
-              </ul>
-            </ng-template>
-          </p-password>
+      <form [formGroup]="profileForm">
+        <div class="field">
+          <label for="name">Name:</label>
+          <div class="input-and-button">
+            <input pInputText id="name" type="text" formControlName="name" />
+            @if (!isNameEditableSig) {
+              <button
+                pButton
+                [text]="true"
+                type="button"
+                (click)="onNameEditable()"
+                icon="pi pi-pen-to-square"
+                class="save-button"
+              ></button>
+            } @else if (isNameEditableSig) {
+              <button
+                pButton
+                [text]="true"
+                type="button"
+                (click)="onNameChange()"
+                icon="pi pi-save"
+                class="save-button"
+                [disabled]="profileForm.get('name')?.invalid"
+              ></button>
+            }
+          </div>
         </div>
 
-        <div class="field padding-bottom--24">
-          <label for="repeatPassword">Repeat Password</label>
-          <p-password
-            id="password"
-            formControlName="repeatPassword"
-            [feedback]="false"
-            [toggleMask]="true"
-          />
-          @if (
-            profileForm.get('repeatPassword')?.invalid && profileForm.get('repeatPassword')?.touched
-          ) {
-            <small class="p-error">Passwords do not match</small>
-          }
+        <div class="field">
+          <label for="email">Email:</label>
+          <div class="input-and-button">
+            <input id="email" type="email" pInputText formControlName="email" />
+            @if (!isEmailEditableSig) {
+              <button
+                pButton
+                [text]="true"
+                type="button"
+                (click)="onEmailEditable()"
+                icon="pi pi-pen-to-square"
+                class="save-button"
+              ></button>
+            } @else if (isEmailEditableSig) {
+              <button
+                pButton
+                [text]="true"
+                type="button"
+                (click)="onEmailChange()"
+                icon="pi pi-save"
+                class="save-button"
+                [disabled]="profileForm.get('email')?.invalid"
+              ></button>
+            }
+          </div>
         </div>
 
-        <div class="dialog-buttons">
-          <p-button label="Cancel" severity="secondary" (onClick)="onPasswordEditable()" />
-          <p-button
-            label="Save"
-            (onClick)="onPasswordChange()"
-            [disabled]="
-              profileForm.get('password')?.invalid || profileForm.get('repeatPassword')?.invalid
-            "
-          />
+        <div class="field padding-bottom--24 password">
+          <button
+            pButton
+            severity="danger"
+            [rounded]="true"
+            label="Change password"
+            (click)="onPasswordEditable()"
+          ></button>
         </div>
-      </p-dialog>
-    </form>
-  </div>
-</app-auth-form>
+
+        <p-dialog
+          header="New password"
+          [modal]="true"
+          [(visible)]="isPasswordEditable"
+          [style]="{ width: '25rem' }"
+        >
+          <div class="field padding-bottom--24">
+            <label for="password">Password</label>
+            <p-password id="password" formControlName="password" [toggleMask]="true">
+              <ng-template pTemplate="footer">
+                <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                  @let password = profileForm.get('password');
+                  @if (password) {
+                    @let hasLowercase = isPasswordMatch('[a-z]');
+                    @let hasUppercase = isPasswordMatch('[A-Z]');
+                    @let hasNumeric = isPasswordMatch('[0-9]');
+                    @let hasLength = password.value.length >= 8 && password.value.length <= 30;
+
+                    <li [ngClass]="{ valid: hasLowercase, invalid: !hasLowercase }">
+                      At least one lowercase
+                    </li>
+                    <li [ngClass]="{ valid: hasUppercase, invalid: !hasUppercase }">
+                      At least one uppercase
+                    </li>
+                    <li [ngClass]="{ valid: hasNumeric, invalid: !hasNumeric }">
+                      At least one numeric
+                    </li>
+                    <li [ngClass]="{ valid: hasLength, invalid: !hasLength }">
+                      Number of characters 8-30
+                    </li>
+                  }
+                </ul>
+              </ng-template>
+            </p-password>
+          </div>
+
+          <div class="field padding-bottom--24">
+            <label for="repeatPassword">Repeat Password</label>
+            <p-password
+              id="password"
+              formControlName="repeatPassword"
+              [feedback]="false"
+              [toggleMask]="true"
+            />
+            @if (
+              profileForm.get('repeatPassword')?.invalid &&
+              profileForm.get('repeatPassword')?.touched
+            ) {
+              <small class="p-error">Passwords do not match</small>
+            }
+          </div>
+
+          <div class="dialog-buttons">
+            <p-button label="Cancel" severity="secondary" (onClick)="onPasswordEditable()" />
+            <p-button
+              label="Save"
+              (onClick)="onPasswordChange()"
+              [disabled]="
+                profileForm.get('password')?.invalid || profileForm.get('repeatPassword')?.invalid
+              "
+            />
+          </div>
+        </p-dialog>
+      </form>
+    </div>
+  </app-auth-form>
+}

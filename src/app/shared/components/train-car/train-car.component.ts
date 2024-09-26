@@ -42,7 +42,7 @@ export class TrainCarComponent implements OnInit {
 
   protected startCarriageIndex = 1;
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const currentIndexLeft = this.carriageData.leftSeats;
     const currentIndexRight = this.carriageData.rightSeats;
 
@@ -75,7 +75,7 @@ export class TrainCarComponent implements OnInit {
     this.startCarriageIndex = this.leftSeatsGroup[0][this.leftSeatsGroup[0].length - 1];
   }
 
-  getSelectedSeat(seat: number) {
+  protected getSelectedSeat(seat: number): void {
     this.car.selected = seat;
     this.selectedEmit.emit({
       car: this.carriageSeatsData.numberCar,

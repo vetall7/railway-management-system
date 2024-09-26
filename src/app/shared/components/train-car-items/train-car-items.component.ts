@@ -44,7 +44,7 @@ export class TrainCarItemsComponent implements OnInit {
 
   public isOccupied!: boolean;
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.isOccupied = this.allOccupiedSeats.includes(this.itemNumber);
     this.car.selected$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((selected) => {
       this.isSelected.set(selected);

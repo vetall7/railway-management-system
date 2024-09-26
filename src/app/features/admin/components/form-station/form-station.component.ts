@@ -1,13 +1,5 @@
 /* eslint-disable operator-linebreak */
-import {
-  Component,
-  DoCheck,
-  EventEmitter,
-  inject,
-  Input,
-  Output,
-  signal,
-} from '@angular/core';
+import { Component, DoCheck, EventEmitter, inject, Input, Output, signal } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -15,15 +7,8 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import {
-  IDataFormStation,
-  IDataPostStation,
-  IUserMark,
-} from '@features/admin/models';
-import {
-  latitudeNumberValidator,
-  longitudeNumberValidator,
-} from '@features/admin/validators';
+import { IDataFormStation, IDataPostStation, IUserMark } from '@features/admin/models';
+import { latitudeNumberValidator, longitudeNumberValidator } from '@features/admin/validators';
 import { Store } from '@ngrx/store';
 
 import * as AdminActions from '../../store/actions/admin.actions';
@@ -45,11 +30,11 @@ export class FormStationComponent implements DoCheck {
 
   @Output() changed = new EventEmitter<IUserMark>();
 
-  formBuilder = inject(FormBuilder);
+  private readonly formBuilder = inject(FormBuilder);
 
-  store = inject(Store);
+  private readonly store = inject(Store);
 
-  form = this.formBuilder.group({
+  protected readonly form = this.formBuilder.group({
     cityName: [
       '',
       {
@@ -60,22 +45,14 @@ export class FormStationComponent implements DoCheck {
     latitude: [
       '',
       {
-        validators: [
-          Validators.required,
-          latitudeNumberValidator,
-          this.uniqCordValid.bind(this),
-        ],
+        validators: [Validators.required, latitudeNumberValidator, this.uniqCordValid.bind(this)],
         updateOn: 'blur',
       },
     ],
     longitude: [
       '',
       {
-        validators: [
-          Validators.required,
-          longitudeNumberValidator,
-          this.uniqCordValid.bind(this),
-        ],
+        validators: [Validators.required, longitudeNumberValidator, this.uniqCordValid.bind(this)],
         updateOn: 'blur',
       },
     ],
@@ -87,30 +64,26 @@ export class FormStationComponent implements DoCheck {
     ]),
   });
 
-  userMark = signal<IUserMark>({
+  private readonly userMark = signal<IUserMark>({
     show: false,
     lat: NaN,
     lng: NaN,
     city: '',
   });
 
-  uniqNameValid(control: AbstractControl): ValidationErrors | null {
+  private uniqNameValid(control: AbstractControl): ValidationErrors | null {
     if (!this.dataInput?.map((el) => el.city).includes(control.value.trim())) {
       return null;
     }
     return { uniqNameValid: true };
   }
 
-  uniqCordValid(): ValidationErrors | null {
+  private uniqCordValid(): ValidationErrors | null {
     if (
       this.form &&
       !(
-        this.dataInput
-          ?.map((el) => el.lat)
-          .includes(Number(this.form.value.latitude)) &&
-        this.dataInput
-          ?.map((el) => el.lon)
-          .includes(Number(this.form.value.longitude))
+        this.dataInput?.map((el) => el.lat).includes(Number(this.form.value.latitude)) &&
+        this.dataInput?.map((el) => el.lon).includes(Number(this.form.value.longitude))
       )
     ) {
       return null;
@@ -118,11 +91,11 @@ export class FormStationComponent implements DoCheck {
     return { uniqCordValid: true };
   }
 
-  getFormsControls(): FormArray {
+  protected getFormsControls(): FormArray {
     return this.form.controls.connected as FormArray;
   }
 
-  changeSelect() {
+  protected changeSelect(): void {
     if (!this.form.controls.connected.value.includes('')) {
       (this.form.controls.connected as FormArray).push(
         this.formBuilder.control('', {
@@ -132,7 +105,7 @@ export class FormStationComponent implements DoCheck {
     }
   }
 
-  changeLatitude(text: string) {
+  protected changeLatitude(text: string): void {
     this.form.controls.latitude.setValue(text);
     this.userMark.update((val) => ({
       ...val,
@@ -141,7 +114,7 @@ export class FormStationComponent implements DoCheck {
     this.onChange(this.userMark());
   }
 
-  changeLongitude(text: string) {
+  protected changeLongitude(text: string): void {
     this.form.controls.longitude.setValue(text);
     this.userMark.update((val) => ({
       ...val,
@@ -150,30 +123,28 @@ export class FormStationComponent implements DoCheck {
     this.onChange(this.userMark());
   }
 
-  onChange(model: IUserMark) {
+  public onChange(model: IUserMark): void {
     this.changed.emit(model);
   }
 
-  checkSelect(id: number) {
+  protected checkSelect(id: number): boolean {
     return this.form.controls.connected.value.includes(String(id));
   }
 
-  changeCityName() {
+  protected changeCityName(): void {
     this.userMark.update((val) => ({
       ...val,
       city: this.form.value.cityName!,
     }));
   }
 
-  handleSubmit() {
+  protected handleSubmit(): void {
     if (this.form.valid) {
       const data: IDataPostStation = {
         city: String(this.form.value.cityName).trim(),
         latitude: Number(this.form.value.latitude),
         longitude: Number(this.form.value.longitude),
-        relations: this.form.value
-          .connected!.filter((el) => el !== '')
-          .map((el) => Number(el)),
+        relations: this.form.value.connected!.filter((el) => el !== '').map((el) => Number(el)),
       };
       this.store.dispatch(AdminActions.addStation({ station: data }));
     } else {
@@ -181,7 +152,7 @@ export class FormStationComponent implements DoCheck {
     }
   }
 
-  ngDoCheck() {
+  public ngDoCheck(): void {
     if (this.userMarkInput.show) {
       this.form.controls.latitude.setValue(String(this.userMarkInput.lat));
       this.form.controls.longitude.setValue(String(this.userMarkInput.lng));

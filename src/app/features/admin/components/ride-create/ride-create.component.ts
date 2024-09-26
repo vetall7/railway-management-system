@@ -9,11 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  IDataRide,
-  IDataRideChange,
-  ISegmentsRide,
-} from '@features/admin/models';
+import { IDataRide, IDataRideChange, ISegmentsRide } from '@features/admin/models';
 import { Store } from '@ngrx/store';
 
 import * as AdminActions from '../../store/actions/admin.actions';
@@ -37,27 +33,27 @@ export class RideCreateComponent implements OnInit {
 
   @Output() createRide = new EventEmitter<boolean>();
 
-  private store = inject(Store);
+  private readonly store = inject(Store);
 
-  private activeRouter = inject(ActivatedRoute);
+  private readonly activeRouter = inject(ActivatedRoute);
 
-  id = signal<string>(this.activeRouter.snapshot.paramMap.get('id') as string);
+  private readonly id = signal<string>(this.activeRouter.snapshot.paramMap.get('id') as string);
 
-  stationName$ = this.store.select(AdminSelectors.selectGetRideStation);
+  protected readonly stationName$ = this.store.select(AdminSelectors.selectGetRideStation);
 
-  carriagesName$ = this.store.select(AdminSelectors.selectGetRideCarriages);
+  private readonly carriagesName$ = this.store.select(AdminSelectors.selectGetRideCarriages);
 
-  segment$ = this.store.select(AdminSelectors.selectGetRideCarriages);
+  protected readonly segment$ = this.store.select(AdminSelectors.selectGetRideCarriages);
 
-  create = signal<ISegmentsRide[]>([]);
+  protected readonly create = signal<ISegmentsRide[]>([]);
 
-  disabled = signal<boolean>(true);
+  protected readonly disabled = signal<boolean>(true);
 
-  checkPrice = signal<boolean>(true);
+  protected readonly checkPrice = signal<boolean>(true);
 
-  checkTime = signal<boolean>(true);
+  protected readonly checkTime = signal<boolean>(true);
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.create.set(
       new Array(this.data!.path.length - 1).fill({
         time: ['', ''],
@@ -66,7 +62,7 @@ export class RideCreateComponent implements OnInit {
     );
   }
 
-  onChangeData(data: IDataRideChange) {
+  public onChangeData(data: IDataRideChange): void {
     this.create.update((el) => [
       ...el.slice(0, data.index),
       { time: data.time, price: data.price },
@@ -80,17 +76,14 @@ export class RideCreateComponent implements OnInit {
     }
   }
 
-  handleClickCancel() {
+  protected handleClickCancel(): void {
     this.changed.emit(false);
   }
 
-  checkData() {
+  protected checkData(): boolean {
     const a = this.create();
     const correctTime = a
-      .map((el) => [
-        new Date(el.time[0]).getTime(),
-        new Date(el.time[1]).getTime(),
-      ])
+      .map((el) => [new Date(el.time[0]).getTime(), new Date(el.time[1]).getTime()])
       .flat();
     const b = correctTime
       .slice(1)
@@ -111,7 +104,7 @@ export class RideCreateComponent implements OnInit {
     return times && price && b;
   }
 
-  handleClickCreate() {
+  protected handleClickCreate(): void {
     if (this.checkData()) {
       this.store.dispatch(
         AdminActions.createRide({

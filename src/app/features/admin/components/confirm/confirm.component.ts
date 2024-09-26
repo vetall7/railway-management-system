@@ -26,9 +26,9 @@ export class ConfirmComponent implements OnInit {
 
   @Output() yesDelete = new EventEmitter<boolean>();
 
-  private store = inject(Store);
+  private readonly store = inject(Store);
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // eslint-disable-next-line no-alert, no-undef, no-restricted-globals
     if (confirm('Are you sure you want to delete this item?')) {
       this.handleClickYes();
@@ -37,7 +37,7 @@ export class ConfirmComponent implements OnInit {
     }
   }
 
-  handleClickYes() {
+  protected handleClickYes(): void {
     if (this.ride) {
       this.yesDelete.emit(true);
       this.changed.emit(false);
@@ -48,7 +48,7 @@ export class ConfirmComponent implements OnInit {
     }
   }
 
-  handleClickNo() {
+  protected handleClickNo(): void {
     this.changed.emit(false);
   }
 }

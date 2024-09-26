@@ -2,19 +2,19 @@
   font: var(--primary-md-font);
 
   .train-station-city {
-    padding: 0 5px;
+    padding: 0 0.2rem;
   }
 
   .train-station-indelicate {
-    font-size: 16px;
-    padding-left: 6px;
+    font: var(--primary-sm-font);
+    padding-left: 0.3rem;
     display: flex;
     align-items: center;
-    gap: 50px;
+    gap: 4rem;
   }
 
   .train-station-tab-left {
-    padding-left: 10px;
+    padding-left: 0.7rem;
   }
 
   .rain-station-route {

@@ -1,28 +1,3 @@
-<!-- <div class="book-seat-wrapper">
-  <div class="book-seat-header">
-    @if (modalData) {
-      <div>Car{{ modalData.car }}, seat {{ modalData.numberSeat }}</div>
-      <div class="price">
-        {{ modalData.price | currency }}
-        <button class="btn" (click)="clearSelected()">
-          <i class="pi pi-times"></i>
-        </button>
-      </div>
-    } @else {
-      <div>There is no selected seats</div>
-    }
-  </div>
-  <div class="book-seat-button">
-    <p-button
-      class="button"
-      label="Book seat"
-      [disabled]="!isDisable"
-      (click)="createOrder()"
-    >
-    </p-button>
-  </div>
-</div> -->
-
 <div class="wrapper">
   @if (modalData) {
     <div class="content">
@@ -35,13 +10,6 @@
         <input type="checkbox" id="confirm" [(ngModel)]="isConfirmed" (click)="confirm()" />
         <label for="confirm">Confirm to proceed</label>
       </div>
-      <!-- <div>Car{{ modalData.car }}, seat {{ modalData.numberSeat }}</div>
-    <div class="price">
-      {{ modalData.price | currency }}
-      <button class="btn" (click)="clearSelected()">
-        <i class="pi pi-times"></i>
-      </button>
-    </div> -->
     </div>
   } @else {
     <div>There is no selected seats</div>

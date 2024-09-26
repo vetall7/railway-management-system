@@ -23,9 +23,9 @@ import { AuthFormComponent } from '../auth-form';
   ],
 })
 export class PaymentComponent {
-  isShowingErrors = false;
+  protected isShowingErrors = false;
 
-  paymentForm: FormGroup = new FormGroup({
+  protected readonly paymentForm: FormGroup = new FormGroup({
     paymentMethod: new FormControl('card', Validators.required),
     cardNumber: new FormControl('', [
       Validators.required,
