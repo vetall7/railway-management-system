@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, effect, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UpdateUserPayload } from '@features/profile/models/payloads.model';
 import { UserData } from '@features/profile/models/user-data.model';
 import { ProfileService } from '@features/profile/services/profile.service';
 import { passwordMatchValidator } from '@shared/validators';
@@ -16,7 +17,7 @@ export class ProfileComponent implements OnInit {
 
   private readonly messageService = inject(MessageService);
 
-  private readonly userData = signal({ email: '', name: '', role: '' });
+  private readonly userData = signal<UserData | null>(null);
 
   private readonly isEmailEditable = signal(false);
 
@@ -47,7 +48,7 @@ export class ProfileComponent implements OnInit {
   public ngOnInit(): void {
     this.isLoading.set(true);
     this.profileService.getProfileData().subscribe((data) => {
-      this.userData.set(data as UserData);
+      this.userData.set(data);
       this.isLoading.set(false);
       this.profileForm.patchValue({
         email: this.userData()?.email,
@@ -75,7 +76,11 @@ export class ProfileComponent implements OnInit {
   protected onEmailChange(): void {
     const email = this.profileForm.get('email')?.value;
 
-    if (email === this.userData()?.email) {
+    const userData = this.userData();
+    if (!userData) {
+      return;
+    }
+    if (email === userData.email) {
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
@@ -84,26 +89,35 @@ export class ProfileComponent implements OnInit {
       return;
     }
 
-    const payload = {
+    const payload: UpdateUserPayload = {
       email,
-      name: this.userData()?.name,
+      name: userData.name ? userData.name : null,
     };
 
     this.profileService.updateUser(payload).subscribe((data) => {
+      if (!data) {
+        return;
+      }
       this.messageService.add({
         severity: 'success',
         summary: 'Success',
         detail: `Email changed successfully to: ${payload.email}`,
       });
-      this.userData.set(data as UserData);
+      this.userData.set(data);
+      this.onEmailEditable();
     });
-    this.onEmailEditable();
   }
 
   protected onNameChange(): void {
     const name = this.profileForm.get('name')?.value;
 
-    if (name === this.userData()?.name) {
+    const userData = this.userData();
+
+    if (!userData) {
+      return;
+    }
+
+    if (name === userData.name) {
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
@@ -122,23 +136,26 @@ export class ProfileComponent implements OnInit {
     }
 
     const payload = {
-      email: this.userData()?.email,
+      email: userData.email,
       name,
     };
 
     this.profileService.updateUser(payload).subscribe((data) => {
+      if (!data) {
+        return;
+      }
       this.messageService.add({
         severity: 'success',
         summary: 'Success',
         detail: `Name changed successfully to: ${name}`,
       });
-      this.userData.set(data as UserData);
+      this.userData.set(data);
     });
     this.onNameEditable();
   }
 
   protected onPasswordChange(): void {
-    const password = this.profileForm.get('password')?.value as string;
+    const password = this.profileForm.get('password')?.value;
     const payload = {
       password,
     };
