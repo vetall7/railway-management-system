@@ -28,6 +28,8 @@ export class ConfirmComponent implements OnInit, OnDestroy {
 
   @Output() yesDelete = new EventEmitter<boolean>();
 
+  protected visible = true;
+
   private store = inject(Store);
 
   private renderer = inject(Renderer2);

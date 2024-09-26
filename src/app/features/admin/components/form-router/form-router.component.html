@@ -45,7 +45,12 @@
               $index !== getFormsControlsCarriages()['controls'].length - 1
             ) {
               <div class="delete">
-                <p-button icon="pi pi-times" type="button" (click)="changeDelete($index)" />
+                <p-button
+                  icon="pi pi-times"
+                  type="button"
+                  [text]="true"
+                  (click)="changeDelete($index)"
+                />
               </div>
             }
           </div>

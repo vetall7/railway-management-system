@@ -54,26 +54,3 @@
 .select_carriage {
   margin-right: 10px;
 }
-
-.delete {
-  ::ng-deep .p-button {
-    width: 100%;
-    margin-left: 2%;
-    margin-top: auto;
-    background-color: rgb(255, 255, 255);
-    border: none;
-    padding: 0;
-  }
-  ::ng-deep .pi {
-    color: var(--primary-button-color);
-  }
-}
-
-:host {
-  ::ng-deep .p-button:focus,
-  ::ng-deep .p-button:enabled:focus {
-    box-shadow: none;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-  }
-}

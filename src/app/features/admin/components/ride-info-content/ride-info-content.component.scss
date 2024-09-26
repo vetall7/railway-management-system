@@ -43,27 +43,25 @@
     transform: scale(1.2);
   }
 }
-
-.wrapper {
-  ::ng-deep .p-button {
-    background-color: rgb(255, 255, 255);
-    border: none;
-    padding: 0;
-  }
-  ::ng-deep .pi {
-    color: var(--primary-button-color);
-  }
-}
-
 .price {
   width: 100%;
 }
 
-:host {
-  ::ng-deep .p-button:focus,
-  ::ng-deep .p-button:enabled:focus {
-    box-shadow: none;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
+@media (max-width: 900px) {
+  .wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .name {
+    width: 100%;
+  }
+
+  .time {
+    padding: 1rem;
+  }
+
+  .price_content {
+    margin-top: 1rem;
+    padding: 1rem;
   }
 }

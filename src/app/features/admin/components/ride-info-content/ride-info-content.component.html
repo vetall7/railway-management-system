@@ -17,6 +17,8 @@
         [rounded]="true"
         icon="pi pi-save"
         (click)="handleClickSaveTime()"
+        [raised]="true"
+        [text]="true"
       />
     } @else {
       <p-button
@@ -25,6 +27,8 @@
         [rounded]="true"
         icon="pi pi-pencil"
         (click)="handleClickEditTime()"
+        [raised]="true"
+        [text]="true"
       />
     }
     @if (pos !== 'start') {
@@ -87,6 +91,8 @@
         [rounded]="true"
         icon="pi pi-save"
         (click)="handleClickSavePrice()"
+        [raised]="true"
+        [text]="true"
       />
     } @else {
       <p-button
@@ -95,6 +101,8 @@
         [rounded]="true"
         icon="pi pi-pencil"
         (click)="handleClickEditPrice()"
+        [raised]="true"
+        [text]="true"
       />
     }
     <p>Price</p>

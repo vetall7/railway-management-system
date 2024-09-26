@@ -22,12 +22,10 @@
 
   .delete {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 0.2rem;
+    right: 0.2rem;
     cursor: pointer;
     transition: all 0.3s ease-out;
-    width: 20px;
-    height: 20px;
 
     &:hover {
       transform: scale(1.2);

@@ -10,7 +10,13 @@
 <div class="wrapper">
   <h3 class="title">Ride {{ data?.rideId }}</h3>
   <div class="custom-button-wrapper">
-    <p-button class="icon" type="button" icon="pi pi-trash" (click)="handleClickDelete()" />
+    <p-button
+      class="icon"
+      [text]="true"
+      type="button"
+      icon="pi pi-trash"
+      (click)="handleClickDelete()"
+    />
   </div>
   <div>
     @for (item of data?.segments; track $index) {

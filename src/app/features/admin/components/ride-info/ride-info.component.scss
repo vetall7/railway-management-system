@@ -10,25 +10,12 @@
   position: relative;
 }
 
-.custom-button-wrapper {
-  ::ng-deep .p-button {
-    margin-left: 2%;
-    background-color: var(--secondary-card-background-color);
-    border: none;
-    padding: 0;
-  }
-
-  ::ng-deep .pi {
-    color: var(--primary-button-color);
-  }
-}
-
 .title {
   padding: 10px;
 }
 
 .icon {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 0px;
+  right: 0px;
 }

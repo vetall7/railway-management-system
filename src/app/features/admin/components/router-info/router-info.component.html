@@ -5,9 +5,27 @@
   <p class="title_connects">Carriage Types:</p>
   <p class="connects">{{ carriages$ | async }}</p>
   <div class="actions">
-    <p-button class="icon" type="button" icon="pi pi-pencil" (click)="handleClickEdit()" />
-    <p-button class="icon" type="button" icon="pi pi-truck" (click)="handleClickRide()" />
-    <p-button class="icon" type="button" icon="pi pi-trash" (click)="handleClickDelete()" />
+    <p-button
+      class="icon"
+      type="button"
+      [text]="true"
+      icon="pi pi-pencil"
+      (click)="handleClickEdit()"
+    />
+    <p-button
+      class="icon"
+      type="button"
+      [text]="true"
+      icon="pi pi-truck"
+      (click)="handleClickRide()"
+    />
+    <p-button
+      class="icon"
+      type="button"
+      [text]="true"
+      icon="pi pi-trash"
+      (click)="handleClickDelete()"
+    />
   </div>
   @if (showConfirm$()) {
     <app-confirm
