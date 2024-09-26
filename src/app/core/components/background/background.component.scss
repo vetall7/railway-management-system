@@ -4,7 +4,7 @@
   overflow: hidden;
 }
 .background {
-  min-height: 692px;
+  min-height: 60rem;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -33,8 +33,7 @@
 .background-gridContainer {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: [start] 1fr [left-gutter] (86.6px) [16] [left-gutter] 1fr
-    [end];
+  -ms-grid-columns: [start] 1fr [left-gutter] (86.6px) [16] [left-gutter] 1fr [end];
   grid-template-columns: [start] 1fr [left-gutter] repeat(16, 86.6px) [left-gutter] 1fr [end];
   -ms-grid-rows: [top] 1fr [top-gutter] (64px) [8] [bottom-gutter] 1fr [bottom];
   grid-template-rows: [top] 1fr [top-gutter] repeat(8, 64px) [bottom-gutter] 1fr [bottom];
@@ -43,22 +42,22 @@
   transform: rotate(-12deg) skew(-12deg);
 }
 .box-divider--light-all-2 {
-  box-shadow: inset 0 0 0 2px #e3e8ee;
+  box-shadow: var(--primary-background-box-shadow);
 }
 .box-background--blue {
-  background-color: #5469d4;
+  background-color: var(--first-rectangle-color);
 }
 .box-background--white {
-  background-color: #ffffff;
+  background-color: var(--fifth-rectangle-color);
 }
 .box-background--blue800 {
-  background-color: #212d63;
+  background-color: var(--second-rectangle-color);
 }
 .box-background--gray100 {
-  background-color: #e3e8ee;
+  background-color: var(--third-rectangle-color);
 }
 .box-background--cyan200 {
-  background-color: #7fd3ed;
+  background-color: var(--forth-rectangle-color);
 }
 .padding-top--64 {
   padding-top: 64px;

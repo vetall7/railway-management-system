@@ -10,16 +10,16 @@
 
   ::ng-deep .p-tabview-nav li {
     position: relative;
-    padding: 10px 20px;
+    padding: 1rem 2rem;
     border-right: var(--secondary-border);
   }
 
   ::ng-deep .p-tabview .p-tabview-nav li .p-tabview-nav-link {
     background: none;
-    color: rgb(0, 140, 255);
+    color: var(--primary-tab-text-color);
   }
 
   ::ng-deep .p-tabview .p-tabview-panels {
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: var(--primary-card-background-color);
   }
 }

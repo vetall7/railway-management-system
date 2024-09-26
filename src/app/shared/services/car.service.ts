@@ -12,4 +12,8 @@ export class CarService {
   public set selected(selected: number | null) {
     this.isSelected$.next(selected);
   }
+
+  public clearSelected() {
+    this.selected = null;
+  }
 }

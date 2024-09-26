@@ -7,7 +7,7 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  max-width: 1440px;
+  max-width: 100rem;
   background-color: var(--primary-card-background-color);
   margin-left: auto;
   margin-right: auto;
@@ -15,16 +15,28 @@
 
 .station_content {
   width: 100%;
-  padding: 15px;
+  padding: 1rem;
 }
 
 .map {
   width: 100%;
-  height: 400px;
-  margin-right: 15px;
+  height: 30rem;
+  margin-right: 1rem;
 }
 
 .add_station {
   display: flex;
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .add_station {
+    flex-direction: column;
+  }
+
+  .map {
+    width: 100%;
+    height: 20rem;
+    margin-right: 0;
+  }
 }

@@ -130,6 +130,7 @@ export class TripDetailsComponent implements OnInit {
     });
     this.getParam();
     this.loadRide();
+    this.car.clearSelected();
   }
 
   private getParam(): void {

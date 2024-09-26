@@ -10,24 +10,24 @@
 .form__line {
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
   width: 100%;
-  max-width: 200px;
+  max-width: 20rem;
 }
 
 .line__label {
   font-weight: var(--primary-md-font-weight);
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
 }
 
 .line__input {
-  height: 25px;
+  height: 1.5rem;
   outline: none;
-  border-radius: 10px;
-  padding-left: 5px;
-  font-size: 15px;
+  border-radius: 1rem;
+  padding-left: 0.5rem;
+  font: var(--primary-sm-font);
   width: 100%;
-  margin-bottom: 5px;
+  margin-bottom: 0.5rem;
 
   &:hover {
     outline: 1px solid var(--primary-button-hover-color);

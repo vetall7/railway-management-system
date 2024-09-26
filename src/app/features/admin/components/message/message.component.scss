@@ -6,16 +6,16 @@
 .alert {
   width: 100%;
   position: fixed;
-  padding: 5px;
+  padding: 0.5rem;
   top: 0;
   left: 50%;
   transform: translate(-50%);
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
+  border-radius: 5%;
   color: var(--primary-button-text-color);
-  max-width: 1440px;
+  max-width: 100rem;
   z-index: 9999;
   text-align: center;
 }
