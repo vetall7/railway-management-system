@@ -65,6 +65,15 @@ form {
   border-radius: 15%;
 }
 
+:host {
+  ::ng-deep .p-button:focus,
+  ::ng-deep .p-button:enabled:focus {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+  }
+}
+
 .circle-icon {
   display: inline-flex;
   align-items: center;

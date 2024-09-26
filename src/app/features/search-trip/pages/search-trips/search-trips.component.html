@@ -13,16 +13,12 @@
           [placeholder]="'City from'"
           [forceSelection]="true"
         />
-        <span
-          class="circle-icon"
+        <p-button
+          icon="pi pi-arrow-right-arrow-left"
+          [rounded]="true"
+          [text]="true"
           (click)="swapCities()"
-          tabindex="0"
-          (keydown)="swapCities()"
-          role="button"
-          aria-label="Swap cities"
-        >
-          &#8644;
-        </span>
+        />
 
         <p-autoComplete
           class="input"
