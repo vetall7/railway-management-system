@@ -8,6 +8,9 @@
   justify-content: space-between;
   width: 100%;
   max-width: 1440px;
+  background-color: var(--primary-card-background-color);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .router_content {
@@ -19,23 +22,5 @@
 }
 
 .button {
-  width: 30%;
-  cursor: pointer;
-  height: 30px;
-  border: none;
-  border-radius: 5px;
-  font-size: 12px;
-  background-color: var(--primary-button-color);
-  color: var(--primary-button-text-color);
-  margin-bottom: 10px;
-
-  &:hover {
-    background-color: var(--primary-button-hover-color);
-  }
-
-  &.disabled {
-    background-color: var(--primary-button-hover-color);
-    opacity: 0.33;
-    cursor: default;
-  }
+  margin-bottom: 1rem;
 }

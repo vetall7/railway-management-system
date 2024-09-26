@@ -25,10 +25,7 @@
     <div class="form__line">
       <p class="line__label">Carriages</p>
       <div formArrayName="carriages">
-        @for (
-          connect of getFormsControlsCarriages()['controls'];
-          track $index
-        ) {
+        @for (connect of getFormsControlsCarriages()['controls']; track $index) {
           <div class="content_input">
             <select
               id="connected"
@@ -47,13 +44,14 @@
               (form.value.carriages || []).length > 2 &&
               $index !== getFormsControlsCarriages()['controls'].length - 1
             ) {
-              <button
-                type="button"
-                class="button_delete"
-                (click)="changeDelete($index)"
-              >
-                x
-              </button>
+              <div class="delete">
+                <p-button
+                  icon="pi pi-times"
+                  type="button"
+                  [text]="true"
+                  (click)="changeDelete($index)"
+                />
+              </div>
             }
           </div>
         }
@@ -65,26 +63,22 @@
   }
   <div class="buttons_content">
     @if (fillData$().id >= 0) {
-      <button
+      <p-button
         type="button"
-        class="button"
         (click)="handleUpdate()"
-        [ngClass]="{ disabled: !form.valid }"
-      >
-        Save
-      </button>
+        [rounded]="true"
+        [disabled]="form.invalid"
+        label="Update"
+      />
     } @else {
-      <button
+      <p-button
         type="button"
-        class="button"
         (click)="handleSubmit()"
-        [ngClass]="{ disabled: !form.valid }"
-      >
-        Save
-      </button>
+        [rounded]="true"
+        [disabled]="form.invalid"
+        label="Save"
+      />
     }
-    <button type="button" class="button" (click)="handleClickCancel()">
-      Cancel
-    </button>
+    <p-button label="Cancel" [rounded]="true" type="button" (click)="handleClickCancel()" />
   </div>
 </form>

@@ -6,7 +6,7 @@
 .wrapper {
   display: grid;
   width: 100%;
-  grid-template-columns: 100px auto auto;
+  grid-template-columns: 10% 45% 45%;
   border-top: 1px solid var(--primary-background-color);
 }
 
@@ -36,8 +36,6 @@
   position: absolute;
   top: 5px;
   right: 15px;
-  width: 20px;
-  height: 20px;
   cursor: pointer;
   transition: all 0.3s ease-out;
 
@@ -45,21 +43,25 @@
     transform: scale(1.2);
   }
 }
-
-.save {
-  position: absolute;
-  top: 5px;
-  right: 15px;
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  transition: all 0.3s ease-out;
-
-  &:hover {
-    transform: scale(1.2);
-  }
-}
-
 .price {
   width: 100%;
+}
+
+@media (max-width: 900px) {
+  .wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .name {
+    width: 100%;
+  }
+
+  .time {
+    padding: 1rem;
+  }
+
+  .price_content {
+    margin-top: 1rem;
+    padding: 1rem;
+  }
 }

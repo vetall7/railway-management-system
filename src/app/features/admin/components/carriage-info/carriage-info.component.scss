@@ -32,15 +32,9 @@
   .block_button {
     display: flex;
     justify-content: space-between;
-    width: 80px;
   }
 
   .icon {
-    cursor: pointer;
-    transition: all 0.3s ease-out;
-    width: 20px;
-    height: 20px;
-
     &:hover {
       transform: scale(1.2);
     }

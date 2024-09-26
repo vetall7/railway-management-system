@@ -9,6 +9,9 @@
   width: 100%;
   max-width: 1440px;
   overflow: hidden;
+  background-color: var(--primary-card-background-color);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .carries {
@@ -17,25 +20,7 @@
 }
 
 .button {
-  width: 100px;
-  cursor: pointer;
-  height: 22px;
-  border: none;
-  border-radius: 5px;
-  font-size: 12px;
-  background-color: var(--primary-button-color);
-  color: var(--primary-button-text-color);
-  margin-bottom: 10px;
-
-  &:hover {
-    background-color: var(--primary-button-hover-color);
-  }
-
-  &.disabled {
-    background-color: var(--primary-button-hover-color);
-    opacity: 0.33;
-    cursor: default;
-  }
+  margin-bottom: 0.5rem;
 }
 
 .form {

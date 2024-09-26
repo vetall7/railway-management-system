@@ -4,10 +4,8 @@ import {
   EventEmitter,
   inject,
   Input,
-  OnDestroy,
   OnInit,
   Output,
-  Renderer2,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 
@@ -19,7 +17,7 @@ import * as AdminActions from '../../store/actions/admin.actions';
   styleUrl: './confirm.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfirmComponent implements OnInit, OnDestroy {
+export class ConfirmComponent implements OnInit {
   @Input() data: number | null = -1;
 
   @Input() ride: boolean | null = false;
@@ -30,26 +28,12 @@ export class ConfirmComponent implements OnInit, OnDestroy {
 
   private store = inject(Store);
 
-  private renderer = inject(Renderer2);
-
-  private bodyClickListener?: () => void;
-
   ngOnInit(): void {
-    this.bodyClickListener = this.renderer.listen(
-      // eslint-disable-next-line no-undef
-      document.body,
-      'click',
-      (event) => {
-        if (event.target.classList.contains('confirm')) {
-          this.handleClickNo();
-        }
-      },
-    );
-  }
-
-  ngOnDestroy() {
-    if (this.bodyClickListener) {
-      this.bodyClickListener();
+    // eslint-disable-next-line no-alert, no-undef, no-restricted-globals
+    if (confirm('Are you sure you want to delete this item?')) {
+      this.handleClickYes();
+    } else {
+      this.handleClickNo();
     }
   }
 
