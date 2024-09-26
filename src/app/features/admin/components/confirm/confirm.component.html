@@ -1,6 +1,0 @@
-@let message = ride ? 'Delete Ride ${{ data }}?' : 'Delete Route ${{ data }}?';
-
-<p-dialog [header]="message" [modal]="true" [visible]="true" [style]="{ width: '25rem' }">
-  <p-button class="button success" (click)="handleClickYes()">Yes</p-button>
-  <p-button class="button failure" (click)="handleClickNo()">No</p-button>
-</p-dialog>
