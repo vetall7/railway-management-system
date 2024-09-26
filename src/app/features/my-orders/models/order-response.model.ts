@@ -5,7 +5,7 @@ const ScheduleSegmentSchema = z.object({
   segments: z.array(
     z.object({
       time: z.tuple([z.string().datetime(), z.string().datetime()]),
-      price: z.record(z.string(), z.number()), // Prices for each segment
+      price: z.record(z.string(), z.number()),
     }),
   ),
 });

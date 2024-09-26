@@ -1,3 +1,4 @@
+import * as AdminActions from '@admin/store/actions/admin.actions';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,8 +9,6 @@ import {
   Output,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-
-import * as AdminActions from '../../store/actions/admin.actions';
 
 @Component({
   selector: 'app-confirm',

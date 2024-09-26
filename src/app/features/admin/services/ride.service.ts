@@ -2,6 +2,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { IDataRide, IResponseCreateStation, ISegmentsRide } from '@features/admin/models';
+import { STORAGE } from '@shared/web-storage';
 import { catchError, Observable, of, retry } from 'rxjs';
 
 @Injectable({
@@ -10,11 +11,13 @@ import { catchError, Observable, of, retry } from 'rxjs';
 export class RideService {
   private readonly http = inject(HttpClient);
 
+  private readonly storage = inject<Storage>(STORAGE);
+
   public getRide(id: number): Observable<IDataRide | string> {
     return this.http
       .get<IDataRide>(`/api/route/${id}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')!}`,
+          Authorization: `Bearer ${this.storage.getItem('token')!}`,
         },
       })
       .pipe(
@@ -36,7 +39,7 @@ export class RideService {
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')!}`,
+            Authorization: `Bearer ${this.storage.getItem('token')!}`,
           },
         },
       )
@@ -58,7 +61,7 @@ export class RideService {
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')!}`,
+            Authorization: `Bearer ${this.storage.getItem('token')!}`,
           },
         },
       )
@@ -72,7 +75,7 @@ export class RideService {
     return this.http
       .delete<IResponseCreateStation>(`/api/route/${routeId}/ride/${rideId}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')!}`,
+          Authorization: `Bearer ${this.storage.getItem('token')!}`,
         },
       })
       .pipe(

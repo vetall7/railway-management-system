@@ -1,12 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import {
-  Carriage,
-  RoutesData,
-  Station,
-  StationArraySchema,
-  StationResponse,
-} from '@shared/models';
+import { Carriage, RoutesData, Station, StationArraySchema, StationResponse } from '@shared/models';
 import { catchError, map, Observable } from 'rxjs';
 import { ZodError } from 'zod';
 
@@ -74,8 +68,8 @@ export class FetchApiDataService {
       .set('toLongitude', stationTo.geolocation.longitude)
       .set('time', date); // should be date, but does not work with the current API
 
-    return this.httpClient.get(this.urls.search, { params }).pipe(
-      map((data) => new RoutesData(data as RoutesData)),
+    return this.httpClient.get<RoutesData>(this.urls.search, { params }).pipe(
+      map((data) => new RoutesData(data)),
       catchError((error) => {
         if (error instanceof ZodError) {
           console.error('Validation failed:', error.errors);

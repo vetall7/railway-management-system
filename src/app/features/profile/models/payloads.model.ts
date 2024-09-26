@@ -1,6 +1,6 @@
 export interface UpdateUserPayload {
   email: string;
-  name: string;
+  name: string | null;
 }
 
 export interface UpdatePasswordPayload {

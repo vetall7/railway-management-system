@@ -24,6 +24,7 @@ import {
 import { IRideCarriageData } from '@features/search-trip/models/ride-carriage-info.model';
 import { SearchTripDetailService } from '@features/search-trip/services/search-trip-detail.service';
 import { CarService } from '@shared/services';
+import { STORAGE } from '@shared/web-storage';
 import { MessageService } from 'primeng/api';
 import { Stepper } from 'primeng/stepper';
 
@@ -36,6 +37,8 @@ import { TripDetailFacade } from '../../../../store/trip-detail/facades';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TripDetailsComponent implements OnInit {
+  private readonly storage = inject<Storage>(STORAGE);
+
   private readonly tokeId: string = 'id';
 
   @ViewChild('customStepper') customStepper!: Stepper;
@@ -156,7 +159,7 @@ export class TripDetailsComponent implements OnInit {
 
   protected createOrder(modalData: ICarModalDataInfo): void {
     // eslint-disable-next-line no-undef
-    if (localStorage.getItem('token')?.length) {
+    if (this.storage.getItem('token')?.length) {
       this.searchTrip
         .createOrder({
           rideId: this.rideData()?.rideId ?? 0,

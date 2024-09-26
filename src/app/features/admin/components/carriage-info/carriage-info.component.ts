@@ -1,3 +1,5 @@
+import * as AdminActions from '@admin/store/actions/admin.actions';
+import * as AdminSelectors from '@admin/store/selectors/admin.selector';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,9 +14,6 @@ import { IDataCarriages, IDataView } from '@features/admin/models';
 import { Store } from '@ngrx/store';
 import { MessageService } from 'primeng/api';
 import { Observable, take } from 'rxjs';
-
-import * as AdminActions from '../../store/actions/admin.actions';
-import * as AdminSelectors from '../../store/selectors/admin.selector';
 
 @Component({
   selector: 'app-carriage-info',
