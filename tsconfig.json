@@ -29,7 +29,10 @@
       "@features/*": ["./src/app/features/*"],
       "@features": ["./src/app/features"],
       "@icons/*": ["./src/assets/icons/*"],
-      "@icons": ["./src/assets/icons"]
+      "@icons": ["./src/assets/icons"],
+      "@admin": ["./src/app/features/admin"],
+      "@admin/*": ["./src/app/features/admin/*"],
+      "@auth": ["./src/app/features/auth"]
     }
   },
   "angularCompilerOptions": {

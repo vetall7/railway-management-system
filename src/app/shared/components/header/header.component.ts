@@ -14,10 +14,11 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { AuthService } from '@features/auth/services/auth.service';
+import { STORAGE } from '@shared/web-storage';
 import { ButtonModule } from 'primeng/button';
 import { filter, Subscription } from 'rxjs';
 
-import { ProfileService } from '../../../features/profile/services/profile.service';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-header',
@@ -29,6 +30,8 @@ import { ProfileService } from '../../../features/profile/services/profile.servi
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('menuCheckbox', { static: false }) menuCheckbox!: ElementRef;
+
+  private readonly storage = inject<Storage>(STORAGE);
 
   protected readonly isLoggedIn = signal(false);
 
@@ -66,7 +69,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.subscription = this.authService.isLoggedIn$.subscribe((status) => {
       this.isLoggedIn.set(status);
-      if (localStorage.getItem('login') === 'admin@admin.com') {
+      if (this.storage.getItem('login') === 'admin@admin.com') {
         this.admin.set(true);
       }
     });

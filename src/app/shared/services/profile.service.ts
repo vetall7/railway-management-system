@@ -6,7 +6,10 @@ import { MessageService } from 'primeng/api';
 import { catchError, map, Observable, of } from 'rxjs';
 import { ZodError } from 'zod';
 
-import { UpdatePasswordPayload, UpdateUserPayload } from '../models/payloads.model';
+import {
+  UpdatePasswordPayload,
+  UpdateUserPayload,
+} from '../../features/profile/models/payloads.model';
 
 @Injectable({
   providedIn: 'root',

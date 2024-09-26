@@ -2,6 +2,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { IDataPostStation, IDataStation, IResponseCreateStation } from '@features/admin/models';
+import { STORAGE } from '@shared/web-storage';
 import { catchError, Observable, of, retry } from 'rxjs';
 
 @Injectable({
@@ -9,6 +10,8 @@ import { catchError, Observable, of, retry } from 'rxjs';
 })
 export class StationService {
   private readonly http = inject(HttpClient);
+
+  private readonly storage = inject<Storage>(STORAGE);
 
   public getStations(): Observable<IDataStation[] | string> {
     return this.http.get<IDataStation[]>('/api/station').pipe(
@@ -21,7 +24,7 @@ export class StationService {
     return this.http
       .delete<IDataStation[]>(`/api/station/${id}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')!}`,
+          Authorization: `Bearer ${this.storage.getItem('token')!}`,
         },
       })
       .pipe(
@@ -42,7 +45,7 @@ export class StationService {
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')!}`,
+            Authorization: `Bearer ${this.storage.getItem('token')!}`,
           },
         },
       )

@@ -12,12 +12,15 @@ import {
 import { IRideCarriageData } from '@features/search-trip/models/ride-carriage-info.model';
 import { EnvironmentService } from '@shared/services/environment.service';
 import { environmentToken } from '@shared/tokens';
+import { STORAGE } from '@shared/web-storage';
 import { Observable } from 'rxjs';
 
 import { Environment } from '../../../../environments/models';
 
 @Injectable()
 export class SearchTripDetailService {
+  private readonly storage = inject<Storage>(STORAGE);
+
   private readonly http = inject(HttpClient);
 
   private readonly environmentService = inject(EnvironmentService);
@@ -26,9 +29,7 @@ export class SearchTripDetailService {
 
   private endIndex!: number;
 
-  private apiUrl = this.environmentService.getValue(
-    environmentToken.apiUrl as keyof Environment,
-  );
+  private apiUrl = this.environmentService.getValue(environmentToken.apiUrl as keyof Environment);
 
   public getRideInformation(id: string): Observable<IRideInformation> {
     return this.http.get<IRideInformation>(`${this.apiUrl}/search/${id}`);
@@ -42,7 +43,7 @@ export class SearchTripDetailService {
     return this.http.post<IOrderResponse>(`${this.apiUrl}/order`, body, {
       headers: {
         // eslint-disable-next-line no-undef
-        Authorization: `Bearer ${localStorage.getItem('token')!}`,
+        Authorization: `Bearer ${this.storage.getItem('token')!}`,
       },
     });
   }
@@ -77,12 +78,9 @@ export class SearchTripDetailService {
         result.push({
           typeName: key,
           price: prices[key as keyof IPrice],
-          occupiedSeats: fullCarriageData[key].reduce(
-            (accumulator, currentObject) => {
-              return accumulator + (currentObject.occupiedSeats ?? 0);
-            },
-            0,
-          ),
+          occupiedSeats: fullCarriageData[key].reduce((accumulator, currentObject) => {
+            return accumulator + (currentObject.occupiedSeats ?? 0);
+          }, 0),
         });
       });
       return result;
@@ -106,10 +104,7 @@ export class SearchTripDetailService {
     return prices;
   }
 
-  public getAllOccupiedSeats(
-    rideData: IRideInformation | null,
-    selected: number,
-  ) {
+  public getAllOccupiedSeats(rideData: IRideInformation | null, selected: number) {
     if (rideData?.path?.length) {
       const allOccupiedSeats: number[] = [];
       rideData?.schedule.segments.forEach((segment, index) => {
@@ -135,14 +130,10 @@ export class SearchTripDetailService {
       });
       let startIndex = 0;
       rideData?.carriages.forEach((carriage: string, index) => {
-        const seats = carriageSeats.find(
-          (value) => value.type === carriage,
-        )?.seats;
+        const seats = carriageSeats.find((value) => value.type === carriage)?.seats;
         result[carriage].push({
           numberCar: index + 1,
-          seats: [
-            ...this.createRangeArray(startIndex + 1, (seats ?? 0) + startIndex),
-          ],
+          seats: [...this.createRangeArray(startIndex + 1, (seats ?? 0) + startIndex)],
           occupiedSeats: [
             ...this.createRangeArray(startIndex + 1, (seats ?? 0) + startIndex),
           ].filter((seat) => !allOccupiedSeats.includes(seat))?.length,

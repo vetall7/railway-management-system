@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, effect, inject, OnInit, signal } fr
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UpdateUserPayload } from '@features/profile/models/payloads.model';
 import { UserData } from '@features/profile/models/user-data.model';
-import { ProfileService } from '@features/profile/services/profile.service';
+import { ProfileService } from '@shared/services/profile.service';
 import { passwordMatchValidator } from '@shared/validators';
 import { MessageService } from 'primeng/api';
 

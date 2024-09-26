@@ -1,3 +1,5 @@
+import * as AdminActions from '@admin/store/actions/admin.actions';
+import * as AdminSelectors from '@admin/store/selectors/admin.selector';
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
@@ -15,9 +17,6 @@ import { IDataFormRouter, IRoutesData } from '@features/admin/models';
 import { RouteFormValid } from '@features/admin/validators';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-
-import * as AdminActions from '../../store/actions/admin.actions';
-import * as AdminSelectors from '../../store/selectors/admin.selector';
 
 @Component({
   selector: 'app-form-router',
