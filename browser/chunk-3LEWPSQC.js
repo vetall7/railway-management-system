@@ -1,0 +1,1 @@
+import{na as r,qa as i}from"./chunk-7JXHIXKM.js";var m=new i("STORAGE");var a=class e{getItem(t){return localStorage.getItem(t)}setItem(t,o){localStorage.setItem(t,o)}removeItem(t){localStorage.removeItem(t)}clear(){localStorage.clear()}static \u0275fac=function(o){return new(o||e)};static \u0275prov=r({token:e,factory:e.\u0275fac})};export{a,m as b};
