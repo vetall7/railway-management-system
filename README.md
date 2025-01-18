@@ -173,10 +173,6 @@ Vitalii Shapovalov - [@LinkedIn](https://www.linkedin.com/in/vitalii-shapovalov-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
